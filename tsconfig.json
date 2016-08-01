@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "dist",
-        "module": "umd",
+        "module": "commonjs",
         "moduleResolution": "node",
         "target": "es5",
         "jsx": "react",
@@ -9,7 +8,12 @@
     },
     "files": [
         "typings/index.d.ts",
-        "src/index.tsx"
+        "src/SimpleListItem.tsx",
+        "src/KeyboardKey.tsx",
+        "src/Keyboard.tsx",
+        "src/index.tsx",
+        "example/demo.tsx",
+        "example/index.tsx"
     ],
     "exclude": [
         "node_modules"

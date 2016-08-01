@@ -1,14 +1,21 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
-    entry: "./example/index.tsx",
+    entry: [
+        'webpack-hot-middleware/client',
+        "./example/index.tsx"
+    ],
 
     output: {
-        path: "./demo",
+        path: path.join(__dirname, "demo"),
         filename: "[name].js",
+        publicPath: ''
     },
 
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({ title: "React Material-Ui Keyboard" })
     ],
 
@@ -18,7 +25,10 @@ module.exports = {
 
     module: {
         loaders: [
-            { test: /\.tsx?$/, loader: "ts-loader" }
+            {
+                test: /\.tsx?$/,
+                loaders: ["ts-loader"]
+            }
         ],
     }
 };

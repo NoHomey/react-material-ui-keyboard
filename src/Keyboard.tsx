@@ -6,16 +6,16 @@ import { KeyboardKey, KeyboardKeyProps, KeyboardKeyHandller, KeyboardKeyContext 
 
 const { div } = React.DOM;
 
-const AlphaNumbericKeyboard: KeyboardLayout = [
+const AlphaNumericKeyboard: KeyboardLayout = [
     ['1',      '2',        '3', '4', '5', '6', '7', '8', '9',         '0'],
     ['q',      'w',        'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
     ['a',      's',        'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
     ['Escape', 'CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm',     'Enter']
 ];
 
-const CapsedAlphaNumbericKeyboard: KeyboardLayout = KyeboardCapsLock(AlphaNumbericKeyboard, true);
+const CapsedAlphaNumbericKeyboard: KeyboardLayout = KyeboardCapsLock(AlphaNumericKeyboard, true);
 
-const NumbericKeyboard: KeyboardLayout = [
+const NumericKeyboard: KeyboardLayout = [
     ['Escape', '', 'Backspace'],
     ['7',      '8',        '9'],
     ['4',      '5',        '6'],
@@ -23,7 +23,7 @@ const NumbericKeyboard: KeyboardLayout = [
     ['0',      '.',    'Enter']
 ];
 
-export { KeyboardKeyContext, AlphaNumbericKeyboard, CapsedAlphaNumbericKeyboard, NumbericKeyboard };
+export { KeyboardKeyContext, AlphaNumericKeyboard, CapsedAlphaNumbericKeyboard, NumericKeyboard };
 
 export type KeyboardLayout = Array<Array<string>>;
 
@@ -142,8 +142,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const maxKeyboardRowLength: number = Math.max(...keyboardRowLengths);
 
         const dialogWidth: number = (maxKeyboardRowLength * this.context.muiTheme.button.minWidth) + (2 * this.context.muiTheme.spacing.desktopGutter);
-
-        console.log(dialogWidth, maxKeyboardRowLength);
 
         return (
             <div>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import TextField from 'material-ui/TextField';
-import { Keyboard, RequestCloseHandler, InputHandler, AlphaNumbericKeyboard, NumbericKeyboard } from './../src/index';
+import { Keyboard, RequestCloseHandler, InputHandler, AlphaNumericKeyboard, NumericKeyboard } from './../src/index';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -78,7 +78,7 @@ export default class Demo extends React.Component<void, DemoState> {
                         open={this.state.open}
                         onRequestClose={this._onRequestClose}
                         onInput={this._onInput}
-                        layout={[NumbericKeyboard]}
+                        layout={[AlphaNumericKeyboard]}
                      />
                 </div>
             </MuiThemeProvider>

@@ -49,7 +49,7 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
         let keyboardKey: JSX.Element;
 
         if(!key) {
-            return <FlatButton disabled />;
+            return <FlatButton disabled label=" " />;
         }
 
         if(key.length === 1) {
