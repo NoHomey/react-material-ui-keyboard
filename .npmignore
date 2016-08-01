@@ -1,0 +1,14 @@
+demo
+example
+node_modules
+src
+typings
+.git
+.vscode
+index.html
+prepare_dts.js
+server.js
+tsconfig.json
+typings.json
+webpack.config.js
+*.ts

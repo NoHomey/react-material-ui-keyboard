@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "typings install",
+    "typings": "typings install",
     "start": "webpack && mv ./demo/index.html ./ && node server.js",
     "prepublish": "npm run prepublish:rm && npm run prepublish:tsc && npm run prepublish:sed && npm run prepublish:mv && npm run prepublish:node",
     "prepublish:rm": "rm -Rf ./d*",

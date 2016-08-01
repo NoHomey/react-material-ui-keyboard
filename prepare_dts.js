@@ -4,7 +4,7 @@ const mainModule = 'react-material-ui-keyboard';
 
 const git = `https://github.com/NoHomey`;
 
-const version = '1.0.0'
+const version = '1.0.1'
 
 const dependencies = [
     'react',
