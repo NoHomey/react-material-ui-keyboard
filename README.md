@@ -12,7 +12,7 @@ You have the freedom to choose on which of them to ```open``` the ```Keyboard```
 
 # Usage
 
-```tsx
+```js
 KeyboardProps {
     textField: React.ReactNode // TextField or Component inheriting the following TextField Props: id, value, onKeyDown, fullWidth, onFocus, onChange;
     open: boolean // show keyboard or provided textField;
@@ -124,7 +124,7 @@ const CapsedAlphaNumbericKeyboard = KyeboardCapsLock(AlphaNumericKeyboard, true)
 
 # Example
 
-```jsx
+```js
 import * as React from 'react';
 import TextField from 'material-ui/TextField';
 import { Keyboard, AlphaNumericKeyboard } from 'react-material-ui-keyboard';
