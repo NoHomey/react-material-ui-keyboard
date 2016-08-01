@@ -10,15 +10,15 @@ const { div, link } = React.DOM;
 export interface DemoState {
     open?: boolean;
     value?: string;
-}
+};
 
 export interface TextEnterTarget {
     value?: string;
-}
+};
 
 export interface TextEnterEvent {
     target: TextEnterTarget;
-}
+};
 
 export default class Demo extends React.Component<void, DemoState> {
     private _onFocus: React.FocusEventHandler;
@@ -84,4 +84,4 @@ export default class Demo extends React.Component<void, DemoState> {
             </MuiThemeProvider>
         );
     }
-}
+};

@@ -40,7 +40,6 @@ export type RequestCloseHandler = () => void;
 export type InputHandler = (input: string) => void;
 
 export interface KeyboardProps {
-    style?: React.CSSProperties;
     textField: React.ReactNode;
     open: boolean;
     onRequestClose: RequestCloseHandler;
@@ -147,7 +146,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         console.log(dialogWidth, maxKeyboardRowLength);
 
         return (
-            <div style={this.props.style}>
+            <div>
                 {this.props.textField}
                 <Dialog open={this.props.open} modal={true} contentStyle={{ width: dialogWidth, maxWidth: 'none' }}>
                     <List>

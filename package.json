@@ -2,11 +2,17 @@
   "name": "react-material-ui-keyboard",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "typings install",
-    "start": "webpack"
+    "start": "webpack",
+    "prepublish": "npm run prepublish:rm && npm run prepublish:tsc && npm run prepublish:sed && npm run prepublish:mv && npm run prepublish:node",
+    "prepublish:rm": "rm -Rf ./d*",
+    "prepublish:tsc": "tsc -d -m umd  --moduleResolution node -t es5 --jsx react --noImplicitAny --outDir ./dist ./src/index.tsx",
+    "prepublish:sed": "sed -i '/\\/\\/\\/ <reference path=\".\\/..\\/typings\\/index.d.ts\" \\/>/d' ./dist/index.js",
+    "prepublish:mv": "mkdir ./dts && mv ./dist/*.d.ts ./dts",
+    "prepublish:node": "node ./prepare_dts.js"
   },
   "keywords": [
     "react",
