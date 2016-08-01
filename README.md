@@ -182,4 +182,4 @@ class Demo extends React.Component {
 };
 ```
 
-# Typescript Ready
+# Written in Typescript and Typescript Ready!
