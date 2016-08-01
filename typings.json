@@ -1,0 +1,9 @@
+{
+  "globalDependencies": {
+    "node": "registry:dt/node",
+    "react": "registry:dt/react",
+    "react-dom": "registry:dt/react-dom",
+    "react-tap-event-plugin": "registry:dt/react-tap-event-plugin",
+    "material-ui": "registry:dt/material-ui"
+  }
+}
