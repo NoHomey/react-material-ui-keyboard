@@ -1,6 +1,8 @@
 # react-material-ui-keyboard
 
-Virtual keyboard for TextFeild when needed
+Virtual keyboard for TextFeild when needed.
+
+You controll when to open it which allows cros platform App optimizations and code reusability for diferent platoforms such as Electron Mobile Devices Touch Devices and all other Compatible JavaScript Enviroments.
 
 # Install
 
@@ -33,6 +35,29 @@ KeyboardProps {
   layout={[AlphaNumericKeyboard]}
 />        
 ```
+# Requirements
+
+- textField must be Controlled Element
+- textField must atleast have pointed Props
+- muiTheme must be passed down to the Context
+- textFiled must have id or name if it is an input
+
+# Implementation
+
+react-material-ui-keyboard is implemented using the followong Material-Ui Elements
+
+- Dialog
+- FlatButtton
+- SVG Icons
+- List
+- ListItem (as SimpleListItem)
+
+and uses ```React.cloneElement``` to clone ```textFiled``` to show keybaord input.
+
+The used ```Dialog``` is ```modal``` which guartes that only one keyboard can be opened which allows memory and performance optimizations. 
+
+Keyboard Compoment uses MuiTheme information to calculate it's width. 
+
 
 # Key Support (as of v1.0.2)
 
