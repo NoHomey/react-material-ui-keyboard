@@ -2,7 +2,9 @@
 
 Virtual keyboard for TextFeild when needed.
 
-You controll when to open it which allows cros platform App optimizations and code reusability for diferent platoforms such as Electron Mobile Devices Touch Devices and all other Compatible JavaScript Enviroments.
+You controll when to open it which allows cros platform App optimizations and code reusability for diferent platoforms such as Progressive Web Apps, Hybrid Apps, Electron Apps, Mobile Devices, Touch Devices, Desktops, and all other Compatible JavaScript Enviroments.
+
+You have the freedom to choose on which of them to ```open``` the ```Keyboard``` and on which to just use a ```TextField```!
 
 # Install
 
