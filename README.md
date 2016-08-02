@@ -63,7 +63,7 @@ and uses ```React.cloneElement``` to clone ```textFiled``` to show keybaord inpu
 
 The used ```Dialog``` is ```modal``` which guartes that only one keyboard can be opened which allows memory and performance optimizations. 
 
-Keyboard Compoment uses MuiTheme information to calculate it's width.  (as of version 1.0.5 keyboard key's size can be changed) 
+Keyboard Compoment uses MuiTheme information to calculate it's width.  (as of version 1.1.0 keyboard key's size can be changed) 
 
 
 # Key Support (as of v1.0.2)
