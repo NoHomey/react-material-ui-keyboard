@@ -19,10 +19,12 @@ KeyboardProps {
     onRequestClose: RequestCloseHandler // function(): void;
     onInput: InputHandler // function(input: string): void;
     layout: Array<KeyboardLayout>; // Array<Array<Array<string>>>;
+    keyboardKeyWidth?: number; // Optinal Keyboard Key Width
+    keyboardKeyHeight?: number; // Optinal Keyboard Key Height
+    keyboardKeySymbolSize?: number; // Optinal Keyboard Key Symbol Size (fontSize for single char Symbols and svg Size as of size x size for Special Keys
 };
 
 // ...
-
 <Keyboard
   textField={
     <TextField
@@ -35,6 +37,9 @@ KeyboardProps {
   onRequestClose={this._onRequestClose}
   onInput={this._onInput}
   layout={[AlphaNumericKeyboard]}
+  keyboardKeyHeight={50}
+  keyboardKeyWidth={100}
+  keyboardKeySymbolSize={36}
 />        
 ```
 # Requirements
@@ -58,7 +63,7 @@ and uses ```React.cloneElement``` to clone ```textFiled``` to show keybaord inpu
 
 The used ```Dialog``` is ```modal``` which guartes that only one keyboard can be opened which allows memory and performance optimizations. 
 
-Keyboard Compoment uses MuiTheme information to calculate it's width. 
+Keyboard Compoment uses MuiTheme information to calculate it's width.  (as of version 1.0.5 keyboard key's size can be changed) 
 
 
 # Key Support (as of v1.0.2)
