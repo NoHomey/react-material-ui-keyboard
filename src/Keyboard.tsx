@@ -2,7 +2,10 @@ import * as React from 'react';
 import Dialog from 'material-ui/Dialog';
 import List from 'material-ui/List';
 import SimpleListItem from './SimpleListItem';
-import { KeyboardKey, KeyboardKeyProps, KeyboardKeyHandller, KeyboardKeyContext } from './KeyboardKey';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { KeyboardKey, KeyboardKeyProps } from './KeyboardKey';
+import { MuiTheme } from 'material-ui/styles';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const { div } = React.DOM;
 
@@ -23,7 +26,7 @@ const NumericKeyboard: KeyboardLayout = [
     ['0',      '.',    'Enter']
 ];
 
-export { KeyboardKeyContext, AlphaNumericKeyboard, CapsedAlphaNumbericKeyboard, NumericKeyboard };
+export { AlphaNumericKeyboard, CapsedAlphaNumbericKeyboard, NumericKeyboard };
 
 export type KeyboardLayout = Array<Array<string>>;
 
@@ -45,6 +48,9 @@ export interface KeyboardProps {
     onRequestClose: RequestCloseHandler;
     onInput: InputHandler;
     layout: Array<KeyboardLayout>;
+    keyboardKeyWidth?: number;
+    keyboardKeyHeight?: number;
+    keyboardKeySymbolSize?: number;
 };
 
 export interface KeyboardState {
@@ -53,9 +59,13 @@ export interface KeyboardState {
     capsLock?: boolean;
 };
 
+export interface KeyboardContext {
+    muiTheme?: MuiTheme;
+};
+
 export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
-    public static contextTypes = KeyboardKey.contextTypes;
-    public context: KeyboardKeyContext;
+    public static contextTypes = { muiTheme: React.PropTypes.object };
+    public context: KeyboardContext;
     private _onKeyboard: (key: string) => void;
     private _onKeyDown: React.KeyboardEventHandler;
 
@@ -92,7 +102,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         this._handleKeyboard(event.key);
     }
 
-    public constructor(props: KeyboardProps, context: KeyboardKeyContext) {
+    public constructor(props: KeyboardProps, context: KeyboardContext) {
         super(props, context);
         this.state = {
             value: '',
@@ -105,15 +115,10 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     public shouldComponentUpdate(props: KeyboardProps, state: KeyboardState): boolean {
-        const propsChange: boolean = (this.props.open !== props.open);
+        const propsChange: boolean = (this.props.open !== props.open) || (this.props.keyboardKeyWidth !== props.keyboardKeyWidth)
+            || (this.props.keyboardKeyHeight !== props.keyboardKeyHeight) || (this.props.keyboardKeySymbolSize !== props.keyboardKeySymbolSize);
         const stateChange: boolean = (this.state.value !== state.value) || (this.state.layout !== state.layout) || (this.state.capsLock !== state.capsLock);
         return propsChange || stateChange;
-    }
-
-    public componentDidUpdate(props: KeyboardProps, state: KeyboardState): void {
-        if(this.props.open) {
-            KeyboardKeyHandller.onKeyPress = this._onKeyboard;
-        }
     }
 
     public render(): JSX.Element {
@@ -127,38 +132,50 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         });
 
         const keyboardLayout: KeyboardLayout = KyeboardCapsLock(this.props.layout[this.state.layout], this.state.capsLock);
+        let keyboardRowLengths: Array<number> = [];
 
         const keyboardRows: Array<React.ReactElement<void>> = keyboardLayout.map((row: Array<string>, rowIndex: number): React.ReactElement<void> => {
             const keyboardRowKeys: Array<React.ReactElement<KeyboardKeyProps>> = row.map((key: string, keyIndex: number): React.ReactElement<KeyboardKeyProps> => {
-                return <KeyboardKey keyboardKey={key} key={Number(`${rowIndex}.${keyIndex}`)} />;
+                return <KeyboardKey keyboardKey={key} key={Number(`${rowIndex}.${keyIndex}`)} onKeyPress={this._onKeyboard} />;
             });
+            keyboardRowLengths.push(row.length);
             return <SimpleListItem key={rowIndex}>{keyboardRowKeys}</SimpleListItem>;
-        });
-
-        const keyboardRowLengths: Array<number> = keyboardLayout.map((row: Array<string>): number => {
-            return row.length;
         });
 
         const maxKeyboardRowLength: number = Math.max(...keyboardRowLengths);
 
-        const dialogWidth: number = (maxKeyboardRowLength * this.context.muiTheme.button.minWidth) + (2 * this.context.muiTheme.spacing.desktopGutter);
+        let theme: MuiTheme = this.context.muiTheme ? Object.assign({}, this.context.muiTheme) : getMuiTheme();
+
+        if(this.props.keyboardKeyHeight) {
+            theme.button.height = this.props.keyboardKeyHeight;
+        }
+        if(this.props.keyboardKeyWidth) {
+            theme.button.minWidth = this.props.keyboardKeyWidth;
+        }
+        if(this.props.keyboardKeySymbolSize) {
+            theme.flatButton.fontSize = this.props.keyboardKeySymbolSize;
+        }
+
+        const dialogWidth: number = (maxKeyboardRowLength * theme.button.minWidth) + (2 * theme.baseTheme.spacing.desktopGutter);
 
         return (
-            <div>
-                {this.props.textField}
-                <Dialog open={this.props.open} modal={true} contentStyle={{ width: dialogWidth, maxWidth: 'none' }}>
-                    <List>
-                        <SimpleListItem>
-                            {keyboardTextField}
-                        </SimpleListItem>
-                        <SimpleListItem>
-                            <List>
-                                {keyboardRows}
-                            </List>
-                        </SimpleListItem>
-                    </List>
-                </Dialog>
-            </div>
+            <MuiThemeProvider muiTheme={theme}>
+                <div>
+                    {this.props.textField}
+                    <Dialog open={this.props.open} modal={true} contentStyle={{ width: dialogWidth, maxWidth: 'none' }}>
+                        <List>
+                            <SimpleListItem>
+                                {keyboardTextField}
+                            </SimpleListItem>
+                            <SimpleListItem>
+                                <List>
+                                    {keyboardRows}
+                                </List>
+                            </SimpleListItem>
+                        </List>
+                    </Dialog>
+                </div>
+            </MuiThemeProvider>
         );
     } 
 };

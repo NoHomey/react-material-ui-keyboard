@@ -13,15 +13,13 @@ export type KeyboardKeyPressHandler = (key: string) => void;
 
 export interface KeyboardKeyProps {
     keyboardKey: string;
+    onKeyPress: KeyboardKeyPressHandler;
 };
 
 export interface KeyboardKeyContext {
     muiTheme: MuiTheme;
 };
 
-export class KeyboardKeyHandller {
-    static onKeyPress: KeyboardKeyPressHandler;
-}
 
 export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
     public static contextTypes: Object = {
@@ -31,7 +29,7 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
     private _onClick: React.MouseEventHandler;
 
     private _handleClick(event: React.MouseEvent): void {
-        KeyboardKeyHandller.onKeyPress(this.props.keyboardKey);
+        this.props.onKeyPress(this.props.keyboardKey);
     }
 
     public constructor(props: KeyboardKeyProps, context: KeyboardKeyContext) {
@@ -78,9 +76,9 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
                     break;
                 }
             }
-
-            const primaryColor: string = this.context.muiTheme.flatButton.primaryTextColor;
-            keyboardKey = <FlatButton icon={React.cloneElement(icon, { color: primaryColor })} />;
+            const size: number = this.context.muiTheme.flatButton.fontSize;
+            const style: React.CSSProperties =  {width: size, height: size};
+            keyboardKey = <FlatButton icon={React.cloneElement(icon, { style: style })} />;
         }
         
         return React.cloneElement(keyboardKey, {

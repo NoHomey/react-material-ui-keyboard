@@ -1,9 +1,9 @@
 import * as React from 'react';
 import TextField from 'material-ui/TextField';
 import { Keyboard, RequestCloseHandler, InputHandler, AlphaNumericKeyboard, NumericKeyboard } from './../src/index';
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { MuiTheme } from 'material-ui/styles';  
 
 const { div, link } = React.DOM;
 
@@ -70,7 +70,6 @@ export default class Demo extends React.Component<void, DemoState> {
         );
 
         return (
-            <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
                 <div>
                     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500" rel="stylesheet" type="text/css"/>
                     <Keyboard
@@ -79,9 +78,11 @@ export default class Demo extends React.Component<void, DemoState> {
                         onRequestClose={this._onRequestClose}
                         onInput={this._onInput}
                         layout={[AlphaNumericKeyboard]}
+                        keyboardKeyHeight={50}
+                        keyboardKeyWidth={100}
+                        keyboardKeySymbolSize={36}
                      />
                 </div>
-            </MuiThemeProvider>
         );
     }
 };
