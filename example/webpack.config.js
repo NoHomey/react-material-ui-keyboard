@@ -4,8 +4,7 @@ const path = require('path');
 
 module.exports = {
     entry: [
-        'webpack-hot-middleware/client',
-        "./Dev/index.tsx"
+        "./index.tsx"
     ],
 
     output: {
@@ -15,7 +14,6 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({ title: "React Material-Ui Keyboard" })
     ],
 

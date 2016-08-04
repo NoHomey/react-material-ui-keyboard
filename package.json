@@ -3,33 +3,44 @@
   "version": "1.1.0",
   "description": "",
   "main": "./dist/index.js",
+  "typings": "/dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "typings": "typings install",
     "start": "webpack && mv ./demo/index.html ./ && node server.js",
-    "prepublish": "npm run prepublish:rm && npm run prepublish:tsc && npm run prepublish:sed && npm run prepublish:mv && npm run prepublish:node",
+    "prepublish": "npm run prepublish:rm && npm run prepublish:tsc && npm run prepublish:sed && npm run prepublish:dts",
     "prepublish:rm": "rm -Rf ./d*",
     "prepublish:tsc": "tsc -d -m commonjs  --moduleResolution node -t es5 --jsx react --noImplicitAny --outDir ./dist ./src/index.tsx",
-    "prepublish:sed": "sed -i '/\\/\\/\\/ <reference path=\".\\/..\\/typings\\/index.d.ts\" \\/>/d' ./dist/index.js",
-    "prepublish:mv": "mkdir ./dts && mv ./dist/*.d.ts ./dts",
-    "prepublish:node": "node ./prepare_dts.js && rm -R ./dts"
+    "prepublish:sed": "npm run prepublish:sed:typings && npm run prepublish:sed:assign",
+    "prepublish:sed:typings": "sed -i '/\\/\\/\\/ <reference path=\".\\/..\\/typings\\/index.d.ts\" \\/>/d' ./dist/index.js",
+    "prepublish:sed:assign": "sed -i '/\\/\\/\\/ <reference path=\".\\/Object_assign.d.ts\" \\/>/d' ./dist/index.js",
+    "prepublish:dts": "echo  \"export * from './Keyboard';\" > ./dist/index.d.ts"
   },
   "keywords": [
     "react",
     "material-ui",
-    "keybaord",
-    "on-screen-keyaborad",
-    "virtual-keyaboard"
+    "keyboard",
+    "on-screen-keyboard",
+    "virtual-keyboard"
   ],
   "author": "Ivo Stratev",
   "license": "MIT",
-  "dependencies": {
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoHomey/react-material-ui-keyboard.git"
+  },
+  "peerDependencies": {
     "material-ui": "^0.15.2",
-    "react": "15.2.1",
-    "react-dom": "15.2.1",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
     "react-tap-event-plugin": "^1.0.0"
   },
   "devDependencies": {
+    "material-ui": "^0.15.2",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "react-tap-event-plugin": "^1.0.0",
+    "dts-generator": "^1.7.0",
     "express": "^4.14.0",
     "html-webpack-plugin": "^2.22.0",
     "react-hot-loader": "^1.3.0",

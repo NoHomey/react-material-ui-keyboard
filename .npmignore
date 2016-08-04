@@ -2,12 +2,12 @@ demo
 example
 node_modules
 src
+dev
 screenshots
 typings
 .git
 .vscode
 index.html
-prepare_dts.js
 server.js
 tsconfig.json
 typings.json

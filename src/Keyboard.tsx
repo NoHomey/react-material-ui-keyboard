@@ -9,14 +9,14 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const { div } = React.DOM;
 
-const AlphaNumericKeyboard: KeyboardLayout = [
+export const AlphaNumericKeyboard: KeyboardLayout = [
     ['1',      '2',        '3', '4', '5', '6', '7', '8', '9',         '0'],
     ['q',      'w',        'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
     ['a',      's',        'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
     ['Escape', 'CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm',     'Enter']
 ];
 
-const ExtendedKeyboard: KeyboardLayout = [
+export const ExtendedKeyboard: KeyboardLayout = [
     ['1',        '2', '3', '4', '5', '6', '7', '8', '9',         '0'],
     ['q',        'w', 'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
     ['a',        's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
@@ -24,15 +24,13 @@ const ExtendedKeyboard: KeyboardLayout = [
     ['Escape',   '@', '_',         '     ',         '.',     'Enter']
 ];
 
-const NumericKeyboard: KeyboardLayout = [
+export const NumericKeyboard: KeyboardLayout = [
     ['Escape', '', 'Backspace'],
     ['7',      '8',        '9'],
     ['4',      '5',        '6'],
     ['1',      '2',        '3'],
     ['0',      '.',    'Enter']
 ];
-
-export { AlphaNumericKeyboard, ExtendedKeyboard, NumericKeyboard };
 
 export type KeyboardLayout = Array<Array<string>>;
 

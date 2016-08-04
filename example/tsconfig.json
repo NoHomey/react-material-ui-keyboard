@@ -8,15 +8,10 @@
     },
     "files": [
         "typings/index.d.ts",
-        "src/Object_assign.d.ts",
-        "src/SimpleListItem.tsx",
-        "src/KeyboardKey.tsx",
-        "src/Keyboard.tsx",
-        "src/index.tsx",
-        "Dev/demo.tsx",
-        "Dev/index.tsx"
+        "index.tsx"
     ],
     "exclude": [
         "node_modules"
     ]
 }
+
