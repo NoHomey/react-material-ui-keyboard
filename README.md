@@ -6,6 +6,10 @@ You controll when to open it which allows cros platform App optimizations and co
 
 You have the freedom to choose on which of them to ```open``` the ```Keyboard``` and on which to just use a ```TextField```!
 
+![Screenshot](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/screenshots/textField.png)
+
+![Screenshot](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/screenshots/show.png)
+
 # Install
 
 ```npm install react-material-ui-keyboard```
