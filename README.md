@@ -126,6 +126,7 @@ const ExtendedKeyboard = [
     ['Escape',   '@', '_',         '     ',         '.',     'Enter']
 ];
 ```
+### Demonstrating Spacebar and keyboard key size feuters
 
 ![Screenshot](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/screenshots/extended.png)
 
@@ -206,3 +207,9 @@ class Demo extends React.Component {
 # Written in Typescript and Typescript Ready!
 
 # As of v1.2.0 d.ts File is included
+
+# As of v1.2.0 d.ts is possible to use react-material-ui-keyboard in none material-ui project.
+
+## Limitations
+
+If you need to change theme eg. gutter, spacing, colors or any other option you need to wrapp ```<Keyboard ... />``` in ```MuiThemeProvider``` or to manually provide a ```muiTheme``` to parent's ```context```.
