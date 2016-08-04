@@ -210,7 +210,7 @@ class Demo extends React.Component {
 
 # Written in Typescript and Typescript Ready! ([check example](https://github.com/NoHomey/react-material-ui-keyboard/blob/master/example/index.tsx))
 
-# As of v1.2.0 d.ts File is included
+# As of v1.2.1 d.ts File is included
 
 # As of v1.2.0 d.ts is possible to use react-material-ui-keyboard in none material-ui project.
 
