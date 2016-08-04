@@ -5,6 +5,7 @@ import Enter from 'material-ui/svg-icons/hardware/keyboard-return';
 import Escape from 'material-ui/svg-icons/action/exit-to-app';
 import Keyboard from 'material-ui/svg-icons/hardware/keyboard';
 import CapsLock from 'material-ui/svg-icons/hardware/keyboard-capslock';
+import Spacebar from 'material-ui/svg-icons/editor/space-bar';
 import { MuiTheme } from 'material-ui/styles';
 
 const { span } = React.DOM;
@@ -78,7 +79,12 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
             }
             const size: number = this.context.muiTheme.flatButton.fontSize;
             const style: React.CSSProperties =  {width: size, height: size};
-            keyboardKey = <FlatButton icon={React.cloneElement(icon, { style: style })} />;
+            if(!key.match(/^\ +$/)) {
+                keyboardKey = <FlatButton icon={React.cloneElement(icon, { style: style })} />;
+            } else {
+                const width: number = this.context.muiTheme.button.minWidth * key.length;
+                keyboardKey = <FlatButton icon={<Spacebar style={style} />} style={{width: width}} />;
+            }
         }
         
         return React.cloneElement(keyboardKey, {

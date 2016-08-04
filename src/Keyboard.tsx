@@ -16,7 +16,13 @@ const AlphaNumericKeyboard: KeyboardLayout = [
     ['Escape', 'CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm',     'Enter']
 ];
 
-const CapsedAlphaNumbericKeyboard: KeyboardLayout = KyeboardCapsLock(AlphaNumericKeyboard, true);
+const ExtendedKeyboard: KeyboardLayout = [
+    ['1',        '2', '3', '4', '5', '6', '7', '8', '9',         '0'],
+    ['q',        'w', 'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
+    ['a',        's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
+    ['CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '-',  'CapsLock'],
+    ['Escape',   '@', '_',         '     ',         '.',     'Enter']
+];
 
 const NumericKeyboard: KeyboardLayout = [
     ['Escape', '', 'Backspace'],
@@ -26,7 +32,7 @@ const NumericKeyboard: KeyboardLayout = [
     ['0',      '.',    'Enter']
 ];
 
-export { AlphaNumericKeyboard, CapsedAlphaNumbericKeyboard, NumericKeyboard };
+export { AlphaNumericKeyboard, ExtendedKeyboard, NumericKeyboard };
 
 export type KeyboardLayout = Array<Array<string>>;
 
@@ -93,6 +99,9 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                 this.setState({ layout: (layout === this.props.layout.length - 1) ? 0 : layout + 1 });
             }
             default: {
+                if(key.match(/^\ +$/)) {
+                    key = ' ';
+                }
                 this.setState({ value: this.state.value + key});
             }
         }
@@ -135,10 +144,14 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         let keyboardRowLengths: Array<number> = [];
 
         const keyboardRows: Array<React.ReactElement<void>> = keyboardLayout.map((row: Array<string>, rowIndex: number): React.ReactElement<void> => {
+            let spacebar: number = 1;
             const keyboardRowKeys: Array<React.ReactElement<KeyboardKeyProps>> = row.map((key: string, keyIndex: number): React.ReactElement<KeyboardKeyProps> => {
+                if(key.match(/^\ +$/)) {
+                    spacebar = key.length;
+                }
                 return <KeyboardKey keyboardKey={key} key={Number(`${rowIndex}.${keyIndex}`)} onKeyPress={this._onKeyboard} />;
             });
-            keyboardRowLengths.push(row.length);
+            keyboardRowLengths.push(row.length + spacebar - 1);
             return <SimpleListItem key={rowIndex}>{keyboardRowKeys}</SimpleListItem>;
         });
 

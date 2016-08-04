@@ -2,12 +2,13 @@
     "compilerOptions": {
         "module": "commonjs",
         "moduleResolution": "node",
-        "target": "es6",
+        "target": "es5",
         "jsx": "react",
         "noImplicitAny": true
     },
     "files": [
         "typings/index.d.ts",
+        "src/Object_assign.d.ts",
         "src/SimpleListItem.tsx",
         "src/KeyboardKey.tsx",
         "src/Keyboard.tsx",
