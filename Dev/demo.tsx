@@ -1,28 +1,26 @@
 import * as React from 'react';
 import TextField from 'material-ui/TextField';
-import { Keyboard, RequestCloseHandler, InputHandler, ExtendedKeyboard } from 'react-material-ui-keyboard';
+import { Keyboard, RequestCloseHandler, InputHandler, ExtendedKeyboard } from './../src/index';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { MuiTheme } from 'material-ui/styles';
-import { render as ReactDomRender } from 'react-dom';
-import * as injectTapEventPlugin from 'react-tap-event-plugin';
+import { MuiTheme } from 'material-ui/styles';  
 
 const { div, link } = React.DOM;
 
-interface DemoState {
+export interface DemoState {
     open?: boolean;
     value?: string;
 };
 
-interface TextEnterTarget {
+export interface TextEnterTarget {
     value?: string;
 };
 
-interface TextEnterEvent {
+export interface TextEnterEvent {
     target: TextEnterTarget;
 };
 
-class Demo extends React.Component<void, DemoState> {
+export default class Demo extends React.Component<void, DemoState> {
     private _onFocus: React.FocusEventHandler;
     private _onChange: React.FormEventHandler;
     private _onRequestClose: RequestCloseHandler;
@@ -89,8 +87,3 @@ class Demo extends React.Component<void, DemoState> {
         );
     }
 };
-
-injectTapEventPlugin();
-let bootstrapNode = document.createElement('div');
-ReactDomRender(<Demo />, bootstrapNode);
-document.body.appendChild(bootstrapNode);
