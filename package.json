@@ -30,13 +30,13 @@
     "url": "git+https://github.com/NoHomey/react-material-ui-keyboard.git"
   },
   "peerDependencies": {
-    "material-ui": "^0.15.2",
+    "material-ui": "^0.15.3",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-tap-event-plugin": "^1.0.0"
   },
   "devDependencies": {
-    "material-ui": "^0.15.2",
+    "material-ui": "^0.15.3",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-tap-event-plugin": "^1.0.0",

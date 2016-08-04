@@ -1,24 +1,14 @@
 {
-  "name": "test",
-  "version": "1.0.4",
-  "description": "",
-  "main": "./dist/index.js",
+  "main": "./demo/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "typings install",
     "start": "webpack"
   },
-  "keywords": [
-    "react",
-    "material-ui",
-    "keyboard",
-    "on-screen-keyboard",
-    "virtual-keyboard"
-  ],
   "author": "Ivo Stratev",
   "license": "MIT",
   "dependencies": {
-    "material-ui": "^0.15.2",
+    "material-ui": "^0.15.3",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-tap-event-plugin": "^1.0.0",
