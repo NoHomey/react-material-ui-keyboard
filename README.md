@@ -78,7 +78,7 @@ Keyboard Compoment uses MuiTheme information to calculate it's width.  (as of ve
 
 # Key Support (as of v1.2.0)
 
-- Spacebar (Spacebar width is setted based on number of sspaces used for the key see [Extended Keyboard](https://github.com/NoHomey/react-material-ui-keyboard#extended-keyboard))
+- Spacebar (Spacebar key width can be controlled by the number of spaces used for the key see [Extended Keyboard for an example](https://github.com/NoHomey/react-material-ui-keyboard#extended-keyboard))
 
 # Included Layouts (as of v1.0.2)
 
