@@ -76,6 +76,10 @@ Keyboard Compoment uses MuiTheme information to calculate it's width.  (as of ve
 - Any Single Char Key
 - Spacing (Blank spot)
 
+# Key Support (as of v1.2.0)
+
+- Spacebar (Spacebar width is setted based on number of sspaces used for the key see [Extended Keyboard](https://github.com/NoHomey/react-material-ui-keyboard#extended-keyboard))
+
 # Included Layouts (as of v1.0.2)
 
 ## Numeric Keyboard
@@ -83,10 +87,10 @@ Keyboard Compoment uses MuiTheme information to calculate it's width.  (as of ve
 ```js
 const NumericKeyboard = [
     ['Escape', '', 'Backspace'],
-    ['7', '8', '9'],
-    ['4', '5', '6'],
-    ['1', '2', '3'],
-    ['0', '.', 'Enter']
+    ['7',      '8',        '9'],
+    ['4',      '5',        '6'],
+    ['1',      '2',        '3'],
+    ['0',      '.',    'Enter']
 ];
 ```
 
@@ -96,22 +100,34 @@ const NumericKeyboard = [
 
 ```js
 const AlphaNumericKeyboard = [
-    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
-    ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-    ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
-    ['Escape', 'CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'Enter']
+    ['1',      '2',        '3', '4', '5', '6', '7', '8', '9',         '0'],
+    ['q',      'w',        'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
+    ['a',      's',        'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
+    ['Escape', 'CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm',     'Enter']
 ];
 ```
 
 ![Screenshot](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/screenshots/alphanumeric.png)
 
-## CapsedAlphaNumeric Keyboard
-
-```js
-const CapsedAlphaNumbericKeyboard = KyeboardCapsLock(AlphaNumericKeyboard, true);
-```
+### With CapsLock On
 
 ![Screenshot](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/screenshots/capsed.png)
+
+# Included Layouts (as of v1.2.0)
+
+## Extended Keyboard
+
+```js
+const ExtendedKeyboard = [
+    ['1',        '2', '3', '4', '5', '6', '7', '8', '9',         '0'],
+    ['q',        'w', 'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
+    ['a',        's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
+    ['CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '-',  'CapsLock'],
+    ['Escape',   '@', '_',         '     ',         '.',     'Enter']
+];
+```
+
+![Screenshot](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/screenshots/extended.png)
 
 # Creating Custom Keyboard Layout
 
@@ -188,3 +204,5 @@ class Demo extends React.Component {
 ```
 
 # Written in Typescript and Typescript Ready!
+
+# As of v1.2.0 d.ts File is included
