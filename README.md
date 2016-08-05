@@ -142,11 +142,11 @@ const ExtendedKeyboard = [
 
 ## The only requirement is to use KeyboardEvent.key names for all Special keys (https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)
 
-## All spacial keys (none Symbol will have an Icon and support at some point! 
+## All spacial keys (none Symbol will have an Icon and support at some point)
 
 ## Check supported keys!
 
-## If a key you wnat to use is not supported create an Issue.
+## If a key you want to use is not supported create an Issue.
 
 # Example
 
