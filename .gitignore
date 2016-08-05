@@ -43,6 +43,8 @@ typings
 dist
 demo
 
+# index.html
+index.html
 
 # vscode
 .vscode
