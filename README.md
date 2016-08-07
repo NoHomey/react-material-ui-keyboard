@@ -71,7 +71,7 @@ Keyboard Compoment uses MuiTheme information to calculate it's width.  (as of ve
 
 # Key Support
 
-For supported keys read [KEYSUPPORT](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/KEYSUPPORT.md)
+For supported keys read [KEYSUPPORT](https://github.com/NoHomey/react-material-ui-keyboard/blob/master/KEYSUPPORT.md)
 
 # Included Layouts (as of v1.0.2)
 
