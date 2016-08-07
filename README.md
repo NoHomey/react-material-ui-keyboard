@@ -69,26 +69,15 @@ The used ```Dialog``` is ```modal``` which guartes that only one keyboard can be
 
 Keyboard Compoment uses MuiTheme information to calculate it's width.  (as of version 1.1.0 keyboard key's size can be changed) 
 
+# Key Support
 
-# Key Support (as of v1.0.2)
-
-- Backspace
-- Enter
-- Escape
-- CapsLock
-- Keyboard (simulates Keyboard Layout Switcher)
-- Any Single Char Key
-- Spacing (Blank spot)
-
-# Key Support (as of v1.2.0)
-
-- Spacebar (Spacebar key width can be controlled by the number of spaces used for the key see [Extended Keyboard for an example](https://github.com/NoHomey/react-material-ui-keyboard#extended-keyboard))
+For supported keys read [KEYSUPPORT](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/KEYSUPPORT.md)
 
 # Included Layouts (as of v1.0.2)
 
 ## Numeric Keyboard
 
-```js
+```js 
 const NumericKeyboard = [
     ['Escape', '', 'Backspace'],
     ['7',      '8',        '9'],
