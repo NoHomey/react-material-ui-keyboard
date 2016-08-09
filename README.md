@@ -67,13 +67,13 @@ and uses ```React.cloneElement``` to clone ```textFiled``` to show keybaord inpu
 
 The used ```Dialog``` is ```modal``` which guartes that only one keyboard can be opened which allows memory and performance optimizations. 
 
-Keyboard Compoment uses MuiTheme information to calculate it's width.  (as of version 1.1.0 keyboard key's size can be changed) 
+Keyboard Compoment uses MuiTheme information to calculate it's width.
 
 # Key Support
 
 For supported keys read [KEYSUPPORT](https://github.com/NoHomey/react-material-ui-keyboard/blob/master/KEYSUPPORT.md)
 
-# Included Layouts (as of v1.0.2)
+# Included Layouts
 
 ## Numeric Keyboard
 
@@ -105,8 +105,6 @@ const AlphaNumericKeyboard = [
 ### With CapsLock On
 
 ![Screenshot](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/screenshots/capsed.png)
-
-# Included Layouts (as of v1.2.0)
 
 ## Extended Keyboard
 
@@ -199,9 +197,7 @@ class Demo extends React.Component {
 
 # Written in Typescript and Typescript Ready! ([check example](https://github.com/NoHomey/react-material-ui-keyboard/blob/master/example/index.tsx))
 
-# As of v1.2.2 d.ts File is included (npm typings support)
-
-# As of v1.2.0 d.ts is possible to use react-material-ui-keyboard in none material-ui project.
+# It is possible to use react-material-ui-keyboard in none material-ui project.
 
 ## Limitations
 
