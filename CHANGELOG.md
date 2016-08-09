@@ -31,7 +31,7 @@
 
 ### Key support
 
- Spacebar (Spacebar key width can be controlled by the number of spaces used for the key
+- Spacebar (Spacebar key width can be controlled by the number of spaces used for the key
 
 ### Keyboard layouts
 
