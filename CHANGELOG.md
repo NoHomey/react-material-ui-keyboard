@@ -2,6 +2,16 @@
 
 ## [v1.0.2](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/1.0.2)
 
+### Key support
+
+- Backspace
+- Enter
+- Escape
+- CapsLock
+- Keyboard (simulates Keyboard Layout Switcher)
+- Any Single Char Key
+- Spacing (Blank spot)
+
 ### Keyboard layouts
 
 - Numeric Keyboard
@@ -18,6 +28,10 @@
 ### Feutures
 
 - react-material-ui-keyboard can be used in none material-ui based projects (peerDependencie of material-ui is required)
+
+### Key support
+
+ Spacebar (Spacebar key width can be controlled by the number of spaces used for the key
 
 ### Keyboard layouts
 
