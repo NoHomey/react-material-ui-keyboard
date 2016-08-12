@@ -78,7 +78,7 @@ export default class Demo extends React.Component<void, DemoState> {
                         open={this.state.open}
                         onRequestClose={this._onRequestClose}
                         onInput={this._onInput}
-                        layout={[ExtendedKeyboard]}
+                        layouts={[ExtendedKeyboard]}
                         keyboardKeyHeight={50}
                         keyboardKeyWidth={100}
                         keyboardKeySymbolSize={36}

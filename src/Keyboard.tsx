@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Dialog from 'material-ui/Dialog';
 import List from 'material-ui/List';
-import SimpleListItem from './SimpleListItem';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { KeyboardKey, KeyboardKeyProps } from './KeyboardKey';
 import { MuiTheme } from 'material-ui/styles';
@@ -25,7 +24,7 @@ export const ExtendedKeyboard: KeyboardLayout = [
 ];
 
 export const NumericKeyboard: KeyboardLayout = [
-    ['Escape', '', 'Backspace'],
+    ['Escape', '-', 'Backspace'],
     ['7',      '8',        '9'],
     ['4',      '5',        '6'],
     ['1',      '2',        '3'],
@@ -46,15 +45,18 @@ export type RequestCloseHandler = () => void;
 
 export type InputHandler = (input: string) => void;
 
-export interface KeyboardProps {
-    textField: React.ReactNode;
+interface KeyboardPropsValues {
     open: boolean;
-    onRequestClose: RequestCloseHandler;
-    onInput: InputHandler;
-    layout: Array<KeyboardLayout>;
+    layouts: Array<KeyboardLayout>;
     keyboardKeyWidth?: number;
     keyboardKeyHeight?: number;
     keyboardKeySymbolSize?: number;
+}
+
+export interface KeyboardProps extends KeyboardPropsValues {
+    textField: React.ReactNode;
+    onRequestClose: RequestCloseHandler;
+    onInput: InputHandler;
 };
 
 export interface KeyboardState {
@@ -62,6 +64,23 @@ export interface KeyboardState {
     layout?: number;
     capsLock?: boolean;
 };
+
+interface KeyboardCompare extends KeyboardPropsValues, KeyboardState {
+
+}
+
+function getKeyboardCompare(props: KeyboardProps, state: KeyboardState): KeyboardCompare {
+    return {
+        open: props.open,
+        layouts: props.layouts,
+        keyboardKeyWidth: props.keyboardKeyWidth,
+        keyboardKeyHeight: props.keyboardKeyHeight,
+        keyboardKeySymbolSize: props.keyboardKeySymbolSize,
+        value: state.value,
+        layout: state.layout,
+        capsLock: state.capsLock
+    };
+}
 
 export interface KeyboardContext {
     muiTheme?: MuiTheme;
@@ -74,14 +93,17 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     private _onKeyDown: React.KeyboardEventHandler;
 
     private _handleKeyboard(key: string): void {
+        const { props, state } = this;
+        const { onInput, onRequestClose, layouts: propsLayout } = props;
+        const { value, capsLock, layout: stateLayout } = state;
         switch(key) {
             case 'Enter': {
-                this.props.onInput(this.state.value);
-                this.props.onRequestClose();
+                onInput(value);
+                onRequestClose();
                 break;
             }
             case 'Backspace': {
-                this.setState({ value: this.state.value.substring(0, this.state.value.length - 1) });
+                this.setState({ value: value.substring(0, value.length - 1) });
                 break;
             }
             case 'Escape': {
@@ -89,18 +111,18 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                 break;
             }
             case 'CapsLock': {
-                this.setState({ capsLock: !this.state.capsLock });
+                this.setState({ capsLock: !capsLock });
                 break;
             }
             case 'Keyboard': {
-                const layout: number = this.state.layout;
-                this.setState({ layout: (layout === this.props.layout.length - 1) ? 0 : layout + 1 });
+                const layout: number = stateLayout;
+                this.setState({ layout: (layout === propsLayout.length - 1) ? 0 : layout + 1 });
             }
             default: {
                 if(key.match(/^\ +$/)) {
                     key = ' ';
                 }
-                this.setState({ value: this.state.value + key});
+                this.setState({ value: value + key});
             }
         }
     }
@@ -122,25 +144,32 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     public shouldComponentUpdate(props: KeyboardProps, state: KeyboardState): boolean {
-        const propsChange: boolean = (this.props.open !== props.open) || (this.props.keyboardKeyWidth !== props.keyboardKeyWidth)
-            || (this.props.keyboardKeyHeight !== props.keyboardKeyHeight) || (this.props.keyboardKeySymbolSize !== props.keyboardKeySymbolSize);
-        const stateChange: boolean = (this.state.value !== state.value) || (this.state.layout !== state.layout) || (this.state.capsLock !== state.capsLock);
-        return propsChange || stateChange;
+        const current: string = JSON.stringify(getKeyboardCompare(props, state));
+        const compare: string = JSON.stringify(getKeyboardCompare(this.props, this.state));
+        return current !== compare;
     }
 
     public render(): JSX.Element {
-        const keyboardTextField: JSX.Element = React.cloneElement(this.props.textField as JSX.Element, {
-            id: "react-material-ui-keyboard-TextField",
-            value: this.state.value,
-            onKeyDown: this._onKeyDown,
-            fullWidth: true,
-            onFocus: undefined,
-            onChange: undefined,
+        const { props, state, context, _onKeyDown } = this;
+        const { textField, layouts, keyboardKeyHeight, keyboardKeyWidth, keyboardKeySymbolSize, open  } = props;
+        const { value, layout: stateLayout, capsLock } = state;
+        const { muiTheme} = context;
+        const textFieldElement: JSX.Element = textField as JSX.Element;
+        let textFieldProps: any = Object.assign({}, textFieldElement.props);
+        ['onChange', 'onFocus', 'onBlur', 'onKey', 'onKeyUp'].forEach((prop: string): void => {
+            if(textFieldProps.hasOwnProperty(prop)) {
+                delete textFieldProps[prop];
+            }
         });
+        const keyboardTextFieldProps: any = Object.assign(textFieldProps, {
+            value: value, 
+            onKeyDown: _onKeyDown,
+            fullWidth: true
+        });
+        const keyboardTextField: JSX.Element = React.cloneElement(textFieldElement, keyboardTextFieldProps);
 
-        const keyboardLayout: KeyboardLayout = KyeboardCapsLock(this.props.layout[this.state.layout], this.state.capsLock);
+        const keyboardLayout: KeyboardLayout = KyeboardCapsLock(layouts[stateLayout], capsLock);
         let keyboardRowLengths: Array<number> = [];
-
         const keyboardRows: Array<React.ReactElement<void>> = keyboardLayout.map((row: Array<string>, rowIndex: number): React.ReactElement<void> => {
             let spacebar: number = 1;
             const keyboardRowKeys: Array<React.ReactElement<KeyboardKeyProps>> = row.map((key: string, keyIndex: number): React.ReactElement<KeyboardKeyProps> => {
@@ -150,39 +179,39 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                 return <KeyboardKey keyboardKey={key} key={Number(`${rowIndex}.${keyIndex}`)} onKeyPress={this._onKeyboard} />;
             });
             keyboardRowLengths.push(row.length + spacebar - 1);
-            return <SimpleListItem key={rowIndex}>{keyboardRowKeys}</SimpleListItem>;
+            return <div key={rowIndex}>{keyboardRowKeys}</div>;
         });
 
         const maxKeyboardRowLength: number = Math.max(...keyboardRowLengths);
 
-        let theme: MuiTheme = this.context.muiTheme ? Object.assign({}, this.context.muiTheme) : getMuiTheme();
+        let theme: MuiTheme = muiTheme ? Object.assign({}, muiTheme) : getMuiTheme();
 
         if(this.props.keyboardKeyHeight) {
-            theme.button.height = this.props.keyboardKeyHeight;
+            theme.button.height = keyboardKeyHeight;
         }
         if(this.props.keyboardKeyWidth) {
-            theme.button.minWidth = this.props.keyboardKeyWidth;
+            theme.button.minWidth = keyboardKeyWidth;
         }
         if(this.props.keyboardKeySymbolSize) {
-            theme.flatButton.fontSize = this.props.keyboardKeySymbolSize;
+            theme.flatButton.fontSize = keyboardKeySymbolSize;
         }
 
         const dialogWidth: number = (maxKeyboardRowLength * theme.button.minWidth) + (2 * theme.baseTheme.spacing.desktopGutter);
-
+        const dialogcontentStyle: React.CSSProperties = { width: dialogWidth, maxWidth: 'none' };
         return (
             <MuiThemeProvider muiTheme={theme}>
                 <div>
                     {this.props.textField}
-                    <Dialog open={this.props.open} modal={true} contentStyle={{ width: dialogWidth, maxWidth: 'none' }}>
+                    <Dialog open={open} modal={true} contentStyle={dialogcontentStyle} autoScrollBodyContent={true}>
                         <List>
-                            <SimpleListItem>
+                            <div>
                                 {keyboardTextField}
-                            </SimpleListItem>
-                            <SimpleListItem>
+                            </div>
+                            <div>
                                 <List>
                                     {keyboardRows}
                                 </List>
-                            </SimpleListItem>
+                            </div>
                         </List>
                     </Dialog>
                 </div>
