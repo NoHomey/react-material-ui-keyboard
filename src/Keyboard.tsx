@@ -87,6 +87,16 @@ export interface KeyboardContext {
 };
 
 export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
+    public static propTypes: Object = {
+        open: React.PropTypes.bool.isRequired,
+        layouts: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.string))).isRequired,
+        keyboardKeyWidth: React.PropTypes.number,
+        keyboardKeyHeight: React.PropTypes.number,
+        keyboardKeySymbolSize: React.PropTypes.number,
+        textField: React.PropTypes.node.isRequired,
+        onRequestClose: React.PropTypes.func.isRequired,
+        onInput: React.PropTypes.func.isRequired
+    };
     public static contextTypes = { muiTheme: React.PropTypes.object };
     public context: KeyboardContext;
     private _onKeyboard: (key: string) => void;
