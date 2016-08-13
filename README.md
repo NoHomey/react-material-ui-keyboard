@@ -32,6 +32,7 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 
 ## Node passed to `textField` Prop must support the following props:
 
+- `id` of type `string` passed down to the `input` element (change `Keyboard.id` if you want to change the `id` value)
 - `value` of type `string`
 - `onKeyDown` of type `function(event: React.KeyboardEvent)`
 - `fullWidth` of type `bool`
