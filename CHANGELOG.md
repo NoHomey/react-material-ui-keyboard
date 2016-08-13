@@ -43,7 +43,7 @@
 
 - Can be used in TypeScript based projects: d.ts file is included (npm typings support)
 
-## [v1.3.2](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/1.3.0)
+## [v1.3.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/1.3.0)
 
 ### Feuters
 
