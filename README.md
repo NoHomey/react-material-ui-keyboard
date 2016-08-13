@@ -16,17 +16,17 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 
 # Properties
 
-| Name                  | Type                 | Default                                      | Description                                     |
-| --------------------- | -------------------- | -------------------------------------------- | ----------------------------------------------- |
-| type                  | *'string' | 'number'* | *'string'*                                   | Type of value prop of textField. |
-| open*                 | *bool*               |                                              | Controls whether the Keyboard is opened or not. |
-| layouts*              | *string[][][]*       |                                              | Keybaord layouts that can be changed when user clicks on 'Keyboard' key. |
-| keyboardKeyWidth      | *number*             | *this.context.muiThemet.button.minWidth*      | Override keyboard key's width. |
-| keyboardKeyHeight     | *number*             | *this.context.muiThemet.button.height*       | Override keyboard key's height. |
-| keyboardKeySymbolSize | *number*             | *this.context.muiThemet.flatButton.fontSize* | Override keyboard key's symbol size. |
-| textField*            | *element*            |                                              | Input field used when keyboard is closed and cloned when it's opened. |
-| onRequestClose*       | *function*           |                                              | Fired when keyboard recives 'Enter' or 'Escape' eighter from onKeyDown listener or keyboar key touch/click event. |
-| onInput*              | *function*           |                                              | Fired when keyboard recives 'Enter' **Signature:** `function(input: string) => void`. |
+| Name                  | Type                   | Default                                      | Descriptio           |
+| --------------------- | ---------------------- | -------------------------------------------- | -------------------- |
+| type                  | *'string' \| 'number'* | *'string'*                                  | Type of value prop of textField. |
+| open*                 | *bool*                 |                                              | Controls whether the Keyboard is opened or not. |
+| layouts*              | *string[][][]*         |                                              | Keybaord layouts that can be changed when user clicks on 'Keyboard' key. |
+| keyboardKeyWidth      | *number*               | *this.context.muiThemet.button.minWidth*      | Override keyboard key's width. |
+| keyboardKeyHeight     | *number*               | *this.context.muiThemet.button.height*       | Override keyboard key's height. |
+| keyboardKeySymbolSize | *number*               | *this.context.muiThemet.flatButton.fontSize* | Override keyboard key's symbol size. |
+| textField*            | *element*              |                                              | Input field used when keyboard is closed and cloned when it's opened.  |
+| onRequestClose*       | *function*             |                                              | Fired when keyboard recives 'Enter' or 'Escape' eighter from onKeyDown listener or keyboar key touch/click event. |
+| onInput*              | *function*             |                                              | Fired when keyboard recives 'Enter' **Signature:** `function(input: string) => void`. |
 
 # Requirements
 
