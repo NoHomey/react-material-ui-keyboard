@@ -177,7 +177,7 @@ class Demo extends React.Component {
 
 # Written in Typescript and Typescript Ready! ([check example](https://github.com/NoHomey/react-material-ui-keyboard/blob/master/example/index.tsx))
 
-# Supports propTypes for reagulat JavaScript users
+# Supports propTypes for regular JavaScript users
 
 # It is possible to use react-material-ui-keyboard in none material-ui project.
 
