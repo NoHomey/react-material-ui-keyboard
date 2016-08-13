@@ -20,7 +20,7 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 | --------------------- | -------------- | -------------------------------------------- | ----------------------------------------------- |
 | open*                 | *bool*         |                                              | Controls whether the Keyboard is opened or not. |
 | layouts*              | *string[][][]* |                                              | Keybaord layouts that can be changed when user clicks on 'Keyboard' key. |
-| keyboardKeyWidth      | *number*       | *this.context.muiThemet.button.minWidt*      | Override keyboard key's width. |
+| keyboardKeyWidth      | *number*       | *this.context.muiThemet.button.minWidth*      | Override keyboard key's width. |
 | keyboardKeyHeight     | *number*       | *this.context.muiThemet.button.height*       | Override keyboard key's height. |
 | keyboardKeySymbolSize | *number*       | *this.context.muiThemet.flatButton.fontSize* | Override keyboard key's symbol size. |
 | textField*            | *element*      |                                              | Input field used when keyboard is closed and cloned when it's opened. |
