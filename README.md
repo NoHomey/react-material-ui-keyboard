@@ -4,7 +4,7 @@ Virtual keyboard for TextFeild when needed.
 
 You controll when to open it which allows cros platform App optimizations and code reusability for diferent platoforms such as Progressive Web Apps, Hybrid Apps, Electron Apps, Mobile Devices, Touch Devices, Desktops, and all other Compatible JavaScript Enviroments.
 
-You have the freedom to choose on which of them to ```open``` the ```Keyboard``` and on which to just use a ```TextField```!
+You have the freedom to choose on which of them to `open` the `Keyboard` and on which to just use a `TextField`!
 
 ![Screenshot](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/screenshots/textField.png)
 
@@ -12,46 +12,17 @@ You have the freedom to choose on which of them to ```open``` the ```Keyboard```
 
 # Install
 
-```npm install react-material-ui-keyboard```
+`npm install react-material-ui-keyboard`
 
-# Usage
+# Properties
 
-```js
-KeyboardProps {
-    textField: React.ReactNode // TextField or Component inheriting the following TextField Props: id, value, onKeyDown, fullWidth, onFocus, onChange;
-    open: boolean // show keyboard or provided textField;
-    onRequestClose: RequestCloseHandler // function(): void;
-    onInput: InputHandler // function(input: string): void;
-    layout: Array<KeyboardLayout>; // Array<Array<Array<string>>>;
-    keyboardKeyWidth?: number; // Optinal Keyboard Key Width
-    keyboardKeyHeight?: number; // Optinal Keyboard Key Height
-    keyboardKeySymbolSize?: number; // Optinal Keyboard Key Symbol Size (fontSize for single char Symbols and svg Size as of size x size for Special Keys
-};
-
-// ...
-<Keyboard
-  textField={
-    <TextField
-      id="text"
-      value={this.state.value}
-      onFocus={this._onFocus}
-      onChange={this._onChange} />
-  }
-  open={this.state.open}
-  onRequestClose={this._onRequestClose}
-  onInput={this._onInput}
-  layout={[AlphaNumericKeyboard]}
-  keyboardKeyHeight={50}
-  keyboardKeyWidth={100}
-  keyboardKeySymbolSize={36}
-/>        
-```
 # Requirements
 
-- textField must be Controlled Element
-- textField must atleast have pointed Props
-- muiTheme must be passed down to the Context
-- textFiled must have id or name if it is an input
+## Node passed to `textField` Prop must support the following props:
+
+- `value` of type `string`
+- `onKeyDown` of type `function(event: React.KeyboardEvent)`
+- `fullWidth` of type `bool`
 
 # Implementation
 
@@ -61,11 +32,10 @@ react-material-ui-keyboard is implemented using the followong Material-Ui Elemen
 - FlatButtton
 - SVG Icons
 - List
-- ListItem (as SimpleListItem)
 
-and uses ```React.cloneElement``` to clone ```textFiled``` to show keybaord input.
+and uses `React.cloneElement` to clone `textFiled` for the kyboard .
 
-The used ```Dialog``` is ```modal``` which guartes that only one keyboard can be opened which allows memory and performance optimizations. 
+The used `Dialog` is `modal` which guartes that only one keyboard can be opened which allows memory and performance optimizations. 
 
 Keyboard Compoment uses MuiTheme information to calculate it's width.
 
@@ -123,17 +93,15 @@ const ExtendedKeyboard = [
 
 # Creating Custom Keyboard Layout
 
-## All single chars suppoted as String can be used as a symbol key!
+- All single chars suppoted as String can be used as a symbol key!
+- Empty strings can be used for blank spaces
+- Use `KeyboardEvent.key` names for all [Special keys] (https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)
 
-## Empty strings can be used for spaces
+**All spacial keys (none Symbol will have an Icon and support at some point)**
 
-## The only requirement is to use KeyboardEvent.key names for all Special keys (https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)
+**Check supported keys!**
 
-## All spacial keys (none Symbol will have an Icon and support at some point)
-
-## Check supported keys!
-
-## If a key you want to use is not supported create an Issue.
+**If a key you want to use is not supported open an Issue.**
 
 # Example
 
