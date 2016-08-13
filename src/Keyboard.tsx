@@ -45,7 +45,7 @@ export type RequestCloseHandler = () => void;
 
 export type InputHandler = (input: string) => void;
 
-interface KeyboardPropsValues {
+export interface KeyboardPropsValues {
     open: boolean;
     layouts: Array<KeyboardLayout>;
     keyboardKeyWidth?: number;
