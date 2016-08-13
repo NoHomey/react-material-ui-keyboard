@@ -53,8 +53,16 @@ interface KeyboardPropsValues {
     keyboardKeySymbolSize?: number;
 }
 
+export interface TextFieldRequiredProps {
+    value: string; 
+    onKeyDown: React.KeyboardEventHandler;
+    fullWidth: boolean;
+}
+
+export type TextFieldElement = React.ReactElement<TextFieldRequiredProps>;
+
 export interface KeyboardProps extends KeyboardPropsValues {
-    textField: React.ReactNode;
+    textField: TextFieldElement;
     onRequestClose: RequestCloseHandler;
     onInput: InputHandler;
 };
@@ -93,7 +101,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         keyboardKeyWidth: React.PropTypes.number,
         keyboardKeyHeight: React.PropTypes.number,
         keyboardKeySymbolSize: React.PropTypes.number,
-        textField: React.PropTypes.node.isRequired,
+        textField: React.PropTypes.element.isRequired,
         onRequestClose: React.PropTypes.func.isRequired,
         onInput: React.PropTypes.func.isRequired
     };
