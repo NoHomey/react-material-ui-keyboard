@@ -60,6 +60,7 @@ export interface KeyboardPropsValues extends KeyboardType {
 }
 
 export interface TextFieldRequiredProps {
+    id: string;
     value: string; 
     onKeyDown: React.KeyboardEventHandler;
     fullWidth: boolean;
@@ -198,7 +199,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const { textField, layouts, keyboardKeyHeight, keyboardKeyWidth, keyboardKeySymbolSize, open  } = props;
         const { layout: stateLayout, capsLock } = state;
         const { muiTheme} = context;
-        const textFieldElement: JSX.Element = textField as JSX.Element;
+        const textFieldElement: TextFieldElement = textField;
         let textFieldProps: any = Object.assign({}, textFieldElement.props);
         ['onChange', 'onFocus', 'onBlur', 'onKey', 'onKeyUp', 'onKeyDown', 'onKeyPress'].forEach((prop: string): void => {
             if(textFieldProps.hasOwnProperty(prop)) {
@@ -212,7 +213,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             fullWidth: true,
             ref: () => { document.getElementById(Keyboard.id).focus(); }
         });
-        const keyboardTextField: JSX.Element = React.cloneElement(textFieldElement, textFieldProps);
+        const keyboardTextField: TextFieldElement = React.cloneElement(textFieldElement, textFieldProps);
         const keyboardLayout: KeyboardLayout = KyeboardCapsLock(layouts[stateLayout], capsLock);
         let keyboardRowLengths: Array<number> = [];
         const keyboardRows: Array<React.ReactElement<void>> = keyboardLayout.map((row: Array<string>, rowIndex: number): React.ReactElement<void> => {
