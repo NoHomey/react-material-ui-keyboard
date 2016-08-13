@@ -16,6 +16,17 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 
 # Properties
 
+| Name                  | Type           | Default                                      | Description                                     |
+| --------------------- | -------------- | -------------------------------------------- | ----------------------------------------------- |
+| open*                 | *bool*         |                                              | Controls whether the Keyboard is opened or not. |
+| layouts*              | *string[][][]* |                                              | Keybaord layouts that can be changed when user clicks on 'Keyboard' key. |
+| keyboardKeyWidth      | *number*       | *this.context.muiThemet.button.minWidt*      | Override keyboard key's width. |
+| keyboardKeyHeight     | *number*       | *this.context.muiThemet.button.height*       | Override keyboard key's height. |
+| keyboardKeySymbolSize | *number*       | *this.context.muiThemet.flatButton.fontSize* | Override keyboard key's symbol size. |
+| textField*            | *element*      |                                              | Input field used when keyboard is closed and cloned when it's opened. |
+| onRequestClose*       | *function*     |                                              | Fired when keyboard recives 'Enter' or 'Escape' eighter from onKeyDown listener or keyboar key touch/click event. |
+| onInput*              | *function*     |                                              | Fired when keyboard recives 'Enter' **Signature:** `function(input: string) => void`. |
+
 # Requirements
 
 ## Node passed to `textField` Prop must support the following props:
@@ -33,7 +44,7 @@ react-material-ui-keyboard is implemented using the followong Material-Ui Elemen
 - SVG Icons
 - List
 
-and uses `React.cloneElement` to clone `textFiled` for the kyboard .
+and uses `React.cloneElement` to clone `textFiled` for the kyboard input field.
 
 The used `Dialog` is `modal` which guartes that only one keyboard can be opened which allows memory and performance optimizations. 
 
@@ -49,7 +60,7 @@ For supported keys read [KEYSUPPORT](https://github.com/NoHomey/react-material-u
 
 ```js 
 const NumericKeyboard = [
-    ['Escape', '', 'Backspace'],
+    ['Escape', '-', 'Backspace'],
     ['7',      '8',        '9'],
     ['4',      '5',        '6'],
     ['1',      '2',        '3'],
@@ -96,6 +107,7 @@ const ExtendedKeyboard = [
 - All single chars suppoted as String can be used as a symbol key!
 - Empty strings can be used for blank spaces
 - Use `KeyboardEvent.key` names for all [Special keys] (https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)
+- Use `'Keyboard'` for key with which user can change keyboard layout 
 
 **All spacial keys (none Symbol will have an Icon and support at some point)**
 
@@ -164,6 +176,8 @@ class Demo extends React.Component {
 ```
 
 # Written in Typescript and Typescript Ready! ([check example](https://github.com/NoHomey/react-material-ui-keyboard/blob/master/example/index.tsx))
+
+# Supports propTypes for reagulat JavaScript users
 
 # It is possible to use react-material-ui-keyboard in none material-ui project.
 
