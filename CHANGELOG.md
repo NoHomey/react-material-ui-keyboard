@@ -43,5 +43,16 @@
 
 - Can be used in TypeScript based projects: d.ts file is included (npm typings support)
 
+## [v1.3.2](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/1.3.0)
+
+### Feuters
+
+- Add support for regular JavaScript users by including propTypes
+
+### Keyboard layouts
+
+- Numeric Keyboard now has `-` instead of blank space.
+
+
 
 
