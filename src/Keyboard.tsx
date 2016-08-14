@@ -80,7 +80,6 @@ export interface KeyboardContext {
 
 export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     public static propTypes: Object = {
-        type: React.PropTypes.oneOf(['string', 'number']),
         open: React.PropTypes.bool.isRequired,
         layouts: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.string))).isRequired,
         keyboardKeyWidth: React.PropTypes.number,
