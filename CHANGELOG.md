@@ -53,6 +53,8 @@
 
 - Numeric Keyboard now has `-` instead of blank space.
 
+## [v1.4.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/1.4.0)
+
 
 
 
