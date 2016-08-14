@@ -18,7 +18,6 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 
 | Name                  | Type                   | Default                                      | Descriptio           |
 | --------------------- | ---------------------- | -------------------------------------------- | -------------------- |
-| type                  | *'string' \| 'number'* | *'string'*                                  | Type of value prop of textField. |
 | open*                 | *bool*                 |                                              | Controls whether the Keyboard is opened or not. |
 | layouts*              | *string[][][]*         |                                              | Keybaord layouts that can be changed when user clicks on 'Keyboard' key. |
 | keyboardKeyWidth      | *number*               | *this.context.muiThemet.button.minWidth*      | Override keyboard key's width. |
@@ -132,6 +131,7 @@ class Demo extends React.Component {
             value: ''
         };
         this._onFocus = this._handleFocus.bind(this);
+        this._onBlur = this._handleBlur.bind(this);
         this._onChange = this._handleChange.bind(this);
         this._onRequestClose = this._handleRequestClose.bind(this);
         this._onInput = this._handleInput.bind(this);
@@ -139,6 +139,10 @@ class Demo extends React.Component {
     
     _handleFocus(event) {
         this.setState({ open: true });
+    }
+    
+    _handleBlur(event) {
+        console.log(`blur ${this.state.value}`);
     }
     
     _handleChange(event) {
@@ -155,10 +159,6 @@ class Demo extends React.Component {
         this.setState({ value: input });
     }
     
-    shouldComponentUpdate(props, state) {
-        return (this.state.open !== state.open) || (this.state.value !== state.value);
-    }
-    
     render() {
       <Keyboard
         textField={
@@ -166,6 +166,7 @@ class Demo extends React.Component {
             id="text"
             value={this.state.value}
             onFocus={this._onFocus}
+            onBlur={this._onBlur}
             onChange={this._onChange} />
         }
         open={this.state.open}
