@@ -58,13 +58,12 @@
 ### Properties
 
 - adding new prop `type` of type `'string' | 'number'` which adds support for `textField` which uses `value` of type `number`
-- 
+
 ## [v1.5.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/1.5.0)
 
 ### Deprecated
 
 - prop `type` added in *v1.4.0* is deprecated due to it's probably never gona be used as `'number'` `TextFieldInput` from material-ui v16.0 uses `value` of type `string` including for `<TextFieldInput type="number" />`
-
 
 ### Bug fixes
 
