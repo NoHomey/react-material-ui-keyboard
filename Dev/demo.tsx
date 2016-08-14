@@ -22,12 +22,18 @@ export interface TextEnterEvent {
 
 export default class Demo extends React.Component<void, DemoState> {
     private _onFocus: React.FocusEventHandler;
+    private _onBlur: React.FocusEventHandler;
     private _onChange: React.FormEventHandler;
     private _onRequestClose: RequestCloseHandler;
     private _onInput: InputHandler;
 
     private _handleFocus(event: React.FocusEvent): void {
+        console.log('focus');
         this.setState({ open: true });
+    }
+
+    private _handleBlur(event: React.FocusEvent): void {
+        console.log(`onBlur ${this.state.value}`);
     }
 
     private _handleChange(event: React.FormEvent): void {
@@ -51,22 +57,22 @@ export default class Demo extends React.Component<void, DemoState> {
             value: ''
         };
         this._onFocus = this._handleFocus.bind(this);
+        this._onBlur = this._handleBlur.bind(this);
         this._onChange = this._handleChange.bind(this);
         this._onRequestClose = this._handleRequestClose.bind(this);
         this._onInput = this._handleInput.bind(this);
     }
 
-    public shouldComponentUpdate(props: void, state: DemoState): boolean {
-        return (this.state.open !== state.open) || (this.state.value !== state.value);
-    }
-
     public render(): JSX.Element {
+        const { state, _onFocus, _onChange, _onRequestClose, _onInput, _onBlur } = this;
+        const { value, open } = state;
         const textField: TextFieldElement = (
             <TextField
-                id="text"
-                value={this.state.value}
-                onFocus={this._onFocus}
-                onChange={this._onChange}
+                id="field"
+                value={value}
+                onFocus={_onFocus}
+                onBlur={_onBlur}
+                onChange={_onChange}
                 floatingLabelText="Click for a Keyboard" />
         );
 
@@ -75,9 +81,9 @@ export default class Demo extends React.Component<void, DemoState> {
                     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500" rel="stylesheet" type="text/css"/>
                     <Keyboard
                         textField={textField}
-                        open={this.state.open}
-                        onRequestClose={this._onRequestClose}
-                        onInput={this._onInput}
+                        open={open}
+                        onRequestClose={_onRequestClose}
+                        onInput={_onInput}
                         layouts={[ExtendedKeyboard]}
                         keyboardKeyHeight={50}
                         keyboardKeyWidth={100}

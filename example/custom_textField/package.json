@@ -13,7 +13,7 @@
     "react-dom": "^15.3.0",
     "react-tap-event-plugin": "^1.0.0",
     "react-material-ui-keyboard": "^1.4.0",
-    "material-ui-number-input": "^1.0.4"
+    "material-ui-number-input": "^2.0.1"
   },
   "devDependencies": {
     "html-webpack-plugin": "^2.22.0",

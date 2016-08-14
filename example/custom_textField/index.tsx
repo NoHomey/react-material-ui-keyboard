@@ -11,7 +11,8 @@ const { div, link } = React.DOM;
 
 interface DemoState {
     open?: boolean;
-    value?: number;
+    value?: string;
+    error?: NumberInputError;
     errorText?: string;
 };
 
@@ -26,7 +27,7 @@ class Demo extends React.Component<void, DemoState> {
         this.setState({ open: true });
     }
 
-    private _handleChange(event: React.FormEvent, value: number): void {
+    private _handleChange(event: React.FormEvent, value: string): void {
         console.log(value);
         this.setState({ value: value });
     }
@@ -35,7 +36,7 @@ class Demo extends React.Component<void, DemoState> {
         this.setState({ open: false });
     }
 
-    private _handleInput(input: number): void {
+    private _handleInput(input: string): void {
         console.log(input);
         this.setState({ value: input });
     }
@@ -68,7 +69,7 @@ class Demo extends React.Component<void, DemoState> {
                 errorText = 'You are tring to enter number greater than 12';
                 break;
         }
-        this.setState({ errorText: errorText });
+        this.setState({ errorText: errorText, error: error });
     }
 
     public constructor(props: void) {
@@ -81,16 +82,21 @@ class Demo extends React.Component<void, DemoState> {
         this._onError = this._handleError.bind(this);
     }
 
-    public shouldComponentUpdate(props: void, state: DemoState): boolean {
-        return (this.state.open !== state.open) || (this.state.value !== state.value);
+    componentDidUpdate(props: void, state: DemoState) {
+        const { error: prevError } = state;
+        const { error, value } = this.state;
+        if((error === 'none') && (prevError !== 'none')) {
+        alert(`${Number(value)} is a valid number`);
+        }
     }
 
     public render(): JSX.Element {
         const { state, _onFocus, _onChange, _onError, } = this;
-        const { value, errorText } = state;
+        const { error, value, errorText } = state;
         const textField: TextFieldElement = (
             <NumberInput
                 id="num"
+                error={error}
                 required
                 value={value}
                 min={-10}
@@ -106,7 +112,6 @@ class Demo extends React.Component<void, DemoState> {
                 <div>
                     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500" rel="stylesheet" type="text/css"/>
                     <Keyboard
-                        type="number"
                         textField={textField}
                         open={this.state.open}
                         onRequestClose={this._onRequestClose}
