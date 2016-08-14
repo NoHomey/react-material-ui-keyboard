@@ -51,7 +51,6 @@ export interface TextFieldRequiredProps {
     id: string;
     value: string; 
     onKeyDown: React.KeyboardEventHandler;
-    onBlur: React.FocusEventHandler;
     fullWidth: boolean;
 }
 
