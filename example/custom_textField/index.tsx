@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NumberInput, NumberInputChangeHandler, NumberInputError, EventValue, NumberInputErrorHandler } from 'material-ui-number-input';
+import { NumberInput, NumberInputChangeHandler, NumberInputError, EventValue, NumberInputErrorHandler, NumberInputValidHandler } from 'material-ui-number-input';
 import { Keyboard, RequestCloseHandler, InputHandler, NumericKeyboard, TextFieldElement } from 'react-material-ui-keyboard';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -12,7 +12,6 @@ const { div, link } = React.DOM;
 interface DemoState {
     open?: boolean;
     value?: string;
-    error?: NumberInputError;
     errorText?: string;
 };
 
@@ -22,6 +21,7 @@ class Demo extends React.Component<void, DemoState> {
     private _onRequestClose: RequestCloseHandler;
     private _onInput: InputHandler;
     private _onError: NumberInputErrorHandler;
+    private _onValid: NumberInputValidHandler;
 
     private _handleFocus(event: React.FocusEvent): void {
         this.setState({ open: true });
@@ -69,42 +69,40 @@ class Demo extends React.Component<void, DemoState> {
                 errorText = 'You are tring to enter number greater than 12';
                 break;
         }
-        this.setState({ errorText: errorText, error: error });
+        this.setState({ errorText: errorText });
+    }
+
+    private _handleValid(value: number): void {
+        console.debug(`valid ${value}`);
     }
 
     public constructor(props: void) {
         super(props);
-        this.state = { open: false };
+        this.state = { open: false,  value: '' };
         this._onFocus = this._handleFocus.bind(this);
         this._onChange = this._handleChange.bind(this);
         this._onRequestClose = this._handleRequestClose.bind(this);
         this._onInput = this._handleInput.bind(this);
         this._onError = this._handleError.bind(this);
-    }
-
-    componentDidUpdate(props: void, state: DemoState) {
-        const { error: prevError } = state;
-        const { error, value } = this.state;
-        if((error === 'none') && (prevError !== 'none')) {
-        alert(`${Number(value)} is a valid number`);
-        }
+        this._onValid = this._handleValid.bind(this);
     }
 
     public render(): JSX.Element {
-        const { state, _onFocus, _onChange, _onError, } = this;
-        const { error, value, errorText } = state;
+        const { state, _onFocus, _onChange, _onError, _onValid } = this;
+        const { value, errorText } = state;
         const textField: TextFieldElement = (
             <NumberInput
                 id="num"
-                error={error}
                 required
                 value={value}
                 min={-10}
                 max={12}
+                useStrategy="ignore"
                 errorText={errorText}
                 onFocus={_onFocus}
                 onChange={_onChange}
                 onError={_onError}
+                onValid={_onValid}
                 floatingLabelText="Click for a Keyboard" />
         );
 
