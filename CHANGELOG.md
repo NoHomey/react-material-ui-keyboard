@@ -63,7 +63,7 @@
 
 ### Deprecated
 
-- prop `type` added in *v1.4.0* is deprecated due to it's probably never gona be used as `'number'` `TextFieldInput` from material-ui v16.0 uses `value` of type `string` including for `<TextFieldInput type="number" />`
+- prop `type` added in *v1.4.0* is deprecated due to it's probably never to be used as `'number'` `TextFieldInput` from material-ui v16.0 uses `value` of type `string` including for `<TextFieldInput type="number" />`
 
 ### Bug fixes
 
