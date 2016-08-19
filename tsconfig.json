@@ -8,7 +8,6 @@
     },
     "files": [
         "typings/index.d.ts",
-        "src/Object_assign.d.ts",
         "src/KeyboardKey.tsx",
         "src/Keyboard.tsx",
         "src/index.tsx",
