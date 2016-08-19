@@ -97,7 +97,7 @@ class Demo extends React.Component<void, DemoState> {
                 value={value}
                 min={-10}
                 max={12}
-                useStrategy="ignore"
+                strategy="ignore"
                 errorText={errorText}
                 onFocus={_onFocus}
                 onChange={_onChange}
