@@ -290,7 +290,7 @@ class Demo extends React.Component {
 }
 ```
 
-# Written in Typescript and Typescript Ready! ([check example](https://github.com/NoHomey/react-material-ui-keyboard/blob/master/example/index.tsx))
+# Written in Typescript and Typescript Ready! ([check examples](https://github.com/NoHomey/react-material-ui-keyboard/blob/master/example))
 
 # Supports propTypes for regular JavaScript users
 
