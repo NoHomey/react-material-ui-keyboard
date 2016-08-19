@@ -69,5 +69,17 @@
 
 - fixing when inputs are `focus`ed and `blur`ed.
 
+## [v1.6.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/1.6.0)
+
+### Deprecated
+
+- `Keyboard.id`
+
+### Implementaion
+
+- Switching from `id`s to `red`s
+- exposing public methods `getTextField` & `getKeyboardField`
+- using polyfilled `Object.assign` in from of `'object-assign'`
+
 
 
