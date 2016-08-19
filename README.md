@@ -177,7 +177,7 @@ class Demo extends React.Component {
         open={this.state.open}
         onRequestClose={this._onRequestClose}
         onInput={this._onInput}
-        layout={[AlphaNumericKeyboard]}
+        layouts={[AlphaNumericKeyboard]}
       />;
     }
 };
