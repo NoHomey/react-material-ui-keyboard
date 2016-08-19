@@ -81,5 +81,7 @@
 - exposing public methods `getTextField` & `getKeyboardField`
 - using polyfilled `Object.assign` in from of `'object-assign'`
 
+## [v2.0.1](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/2.6.1)
 
+Example changes
 
