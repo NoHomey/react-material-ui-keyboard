@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Dialog from 'material-ui/Dialog';
 import List from 'material-ui/List';
+import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { KeyboardKey, KeyboardKeyProps } from './KeyboardKey';
 import { MuiTheme } from 'material-ui/styles';
@@ -48,7 +49,6 @@ export type RequestCloseHandler = () => void;
 export type InputHandler = (input: InputValue) => void;
 
 export interface TextFieldRequiredProps {
-    id: string;
     value: string; 
     onKeyDown: React.KeyboardEventHandler;
     fullWidth: boolean;
@@ -89,15 +89,13 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         onInput: React.PropTypes.func.isRequired
     };
     public static contextTypes: Object = { muiTheme: React.PropTypes.object };
-    public static id: string = 'react-material-ui-keyboard-textField';
 
     public static getSupportedSpecialKeys(): Array<string> {
         return ['Enter', 'Backspace', 'Escape', 'CapsLock', 'Keyboard'];
     }
 
     public context: KeyboardContext;
-    private _id: string;
-    private _input: HTMLElement;
+    private _input: HTMLInputElement;
     private _onKeyboard: (key: string) => void;
     private _onKeyDown: React.KeyboardEventHandler;
     private _preventEvent: (event: FocusEvent) => void;
@@ -178,7 +176,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const { open: prev } = props;
         if(open !== prev) {
             if(open) {
-                this._input = document.getElementById(this._id);
                 this._addListener('focus');
                 this._addListener('blur');
             } else {
@@ -197,22 +194,21 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const { muiTheme} = context;
         const textFieldElement: TextFieldElement = textField;
         let textFieldProps: any = Object.assign({}, textFieldElement.props);
-        const { id } = textFieldProps;
-        this._id = id !== undefined ? id : 'react-material-ui-keyboard-inputField';
         ['onChange', 'onFocus', 'onBlur', 'onKey', 'onKeyUp', 'onKeyDown', 'onKeyPress'].forEach((prop: string): void => {
             if(textFieldProps.hasOwnProperty(prop)) {
                 textFieldProps[prop] = undefined;
             }
         });
         Object.assign(textFieldProps, {
-            id: Keyboard.id,
             value: value, 
             onKeyDown: _onKeyDown,
             fullWidth: true,
-            ref: () => { document.getElementById(Keyboard.id).focus(); }
+            ref: (component: TextField) => { if(component !== null) component.getInputNode().focus(); }
         });
         const keyboardTextField: TextFieldElement = React.cloneElement(textFieldElement, textFieldProps);
-        const inputTextFieldProps: any = Object.assign({}, textFieldElement.props, { id: this._id });
+        const inputTextFieldProps: any = Object.assign({}, textFieldElement.props, {
+            ref: (component: TextField) => { this._input = component !== null ? component.getInputNode() : null; }
+        });
         const inputTextField: TextFieldElement = React.cloneElement(textFieldElement, inputTextFieldProps);
         const keyboardLayout: KeyboardLayout = KyeboardCapsLock(layouts[stateLayout], capsLock);
         let keyboardRowLengths: Array<number> = [];
