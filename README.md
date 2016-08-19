@@ -183,7 +183,7 @@ class Demo extends React.Component {
 };
 ```
 
-# Example using TextField wrapper ('material-ui-number-input')
+# Example using  custom textField
 
 ```js
 import * as React from 'react';
