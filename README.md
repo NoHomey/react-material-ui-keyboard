@@ -31,10 +31,11 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 
 ## Node passed to `textField` Prop must support the following props:
 
-- `id` of type `string` passed down to the `input` element (change `Keyboard.id` if you want to change the `id` value)
 - `value` of type `string`
 - `onKeyDown` of type `function(event: React.KeyboardEvent)`
 - `fullWidth` of type `bool`
+
+## And to implement method `getInputNode` which returns `input` `ref`.
 
 # Implementation
 
@@ -110,11 +111,15 @@ const ExtendedKeyboard = [
 - Use `KeyboardEvent.key` names for all [Special keys] (https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)
 - Use `'Keyboard'` for key with which user can change keyboard layout 
 
-**All spacial keys (none Symbol will have an Icon and support at some point)**
+**All spacial keys (none Symbol will have an Icon and support at some point*)**
 
 **Check supported keys!**
 
 **If a key you want to use is not supported open an Issue.**
+
+# Public methods
+
+`Keyboard` exposes two `public` methods: `getTextField` and `getKeyboardField` with common signature `function() => TextField`. Which both return React `ref`s for passted `textField` and cloned one for the keyboard input. `TextField` is used as common return type because of the requirement of `getInputNode` for getting a `input` `ref` which of v0.16 of material-ui will be replaced with requirement of public member `input`.
 
 # Example
 
@@ -176,6 +181,113 @@ class Demo extends React.Component {
       />;
     }
 };
+```
+
+# Example using TextField wrapper ('material-ui-number-input')
+
+```js
+import * as React from 'react';
+import NumberInput from 'material-ui-number-input';
+import { Keyboard, NumericKeyboard } from 'react-material-ui-keyboard';
+
+class Demo extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { open: false, value: '' };
+        this._onFocus = this._handleFocus.bind(this);
+        this._onChange = this._handleChange.bind(this);
+        this._onRequestClose = this._handleRequestClose.bind(this);
+        this._onInput = this._handleInput.bind(this);
+        this._onError = this._handleError.bind(this);
+        this._onValid = this._handleValid.bind(this);
+    }
+    
+    _handleFocus(event) {
+        this.setState({ open: true });
+    }
+    
+    _handleChange(event, value) {
+        console.log(value);
+        this.setState({ value: value });
+    }
+    
+    _handleRequestClose() {
+        this.setState({ open: false });
+    }
+    
+    _handleInput(input) {
+        console.log(input);
+        this.setState({ value: input });
+    }
+    
+    _handleError(error) {
+        let errorText;
+        switch (error) {
+            case 'required':
+                errorText = 'This field is required';
+                break;
+            case 'invalidSymbol':
+                errorText = 'You are tring to enter none number symbol';
+                break;
+            case 'incompleteNumber':
+                errorText = 'Number is incomplete';
+                break;
+            case 'singleMinus':
+                errorText = 'Minus can be use only for negativity';
+                break;
+            case 'singleFloatingPoint':
+                errorText = 'There is already a floating point';
+                break;
+            case 'singleZero':
+                errorText = 'Floating point is expected';
+                break;
+            case 'min':
+                errorText = 'You are tring to enter number less than -10';
+                break;
+            case 'max':
+                errorText = 'You are tring to enter number greater than 12';
+                break;
+        }
+        this.setState({ errorText: errorText });
+    }
+    
+    _handleValid(value) {
+        console.debug(`valid ${value}`);
+    }
+    
+    render() {
+        const { state, _onFocus, _onChange, _onError, _onValid } = this;
+        const { value, errorText } = state;
+        const textField = (
+            <NumberInput
+                id="num"
+                required
+                value={value}
+                min={-10}
+                max={12}
+                useStrategy="ignore"
+                errorText={errorText}
+                onFocus={_onFocus}
+                onChange={_onChange}
+                onError={_onError}
+                onValid={_onValid}
+                floatingLabelText="Click for a Keyboard" />
+        );
+
+        return (
+            <Keyboard
+                textField={textField}
+                open={this.state.open}
+                onRequestClose={this._onRequestClose}
+                onInput={this._onInput}
+                layouts={[NumericKeyboard]}
+                keyboardKeyHeight={50}
+                keyboardKeyWidth={100}
+                keyboardKeySymbolSize={36}
+            />
+        );
+    }
+}
 ```
 
 # Written in Typescript and Typescript Ready! ([check example](https://github.com/NoHomey/react-material-ui-keyboard/blob/master/example/index.tsx))
