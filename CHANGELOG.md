@@ -69,7 +69,7 @@
 
 - fixing when inputs are `focus`ed and `blur`ed.
 
-## [v1.6.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/1.6.0)
+## [v2.0.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/2.6.0)
 
 ### Deprecated
 
