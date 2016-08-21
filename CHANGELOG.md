@@ -69,7 +69,7 @@
 
 - fixing when inputs are `focus`ed and `blur`ed.
 
-## [v2.0.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/2.6.0)
+## [v2.0.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/2.0.0)
 
 ### Deprecated
 
@@ -81,7 +81,7 @@
 - exposing public methods `getTextField` & `getKeyboardField`
 - using polyfilled `Object.assign` in from of `'object-assign'`
 
-## [v2.0.1](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/2.6.1)
+## [v2.0.1](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/2.0.1)
 
 Example changes
 
