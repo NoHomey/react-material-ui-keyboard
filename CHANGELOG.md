@@ -85,7 +85,7 @@
 
 Example changes
 
-## [v2.0.2](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/2.0.2)
+## [v2.0.3](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/2.0.3)
 
 ### Bug fixes
 
