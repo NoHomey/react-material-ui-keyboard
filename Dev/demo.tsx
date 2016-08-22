@@ -54,13 +54,17 @@ export default class Demo extends React.Component<void, DemoState> {
         super(props);
         this.state = {
             open: false,
-            value: ''
+            value: '12'
         };
         this._onFocus = this._handleFocus.bind(this);
         this._onBlur = this._handleBlur.bind(this);
         this._onChange = this._handleChange.bind(this);
         this._onRequestClose = this._handleRequestClose.bind(this);
         this._onInput = this._handleInput.bind(this);
+    }
+
+    public componentDidMount(): void {
+        setTimeout(() => this.setState({ value: '123456' }), 1000);
     }
 
     public render(): JSX.Element {

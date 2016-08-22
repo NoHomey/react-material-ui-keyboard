@@ -85,3 +85,9 @@
 
 Example changes
 
+## [v2.0.2](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/2.0.2)
+
+### Bug fixes
+
+- enusre Keyboard input field value is always in sync with `textField.props.value`
+

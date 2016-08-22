@@ -133,7 +133,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                 break;
             }
             case 'Backspace': {
-                this.setState({ value: value.substring(0, value.length - 1) });
+                this._setValue(value.substring(0, value.length - 1));
                 break;
             }
             case 'Escape': {
@@ -152,7 +152,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                 if(key.match(/^\ +$/)) {
                     key = ' ';
                 }
-                this.setState({ value: value + key});
+                this._setValue(value + key);
             }
         }
     }
@@ -197,6 +197,24 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         this._onKeyboard = this._handleKeyboard.bind(this);
         this._onKeyDown = this._handleKeyDown.bind(this);
         this._preventEvent = this._handleEvent.bind(this);
+    }
+
+    private _setValue(value: string): void {
+        this.setState({ value: value });
+    }
+
+    private _syncValue(value: string): void {
+        if(value !== this.state.value) {
+            this._setValue(value);
+        }
+    }
+
+    public componentDidMount(): void {
+        this._syncValue(this.getTextField().getInputNode().value);
+    }
+
+    public componentWillReceiveProps(props: KeyboardProps): void {
+        this._syncValue(props.textField.props.value);
     }
 
     public componentDidUpdate(props: KeyboardProps, state: KeyboardState): void {
