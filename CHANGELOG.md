@@ -91,3 +91,13 @@ Example changes
 
 - enusre Keyboard input field value is always in sync with `textField.props.value`
 
+## [v3.0.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/3.0.0)
+
+### Bug fixes
+
+- Fix bug where changing keyboard key size via passing `keyboardKey\*` `prop` changed current `muiTheme`
+
+### Implementaion
+
+- No logner using `context` to size keyboard key instead properties are passed directly to `KeyboardKey`
+

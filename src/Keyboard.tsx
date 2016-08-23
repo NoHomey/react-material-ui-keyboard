@@ -255,6 +255,10 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const inputTextFieldProps: any = ObjectAssign({}, textFieldElement.props, { ref: _refTextField });
         const inputTextField: TextFieldElement = React.cloneElement(textFieldElement, inputTextFieldProps);
         const keyboardLayout: KeyboardLayout = KyeboardCapsLock(layouts[stateLayout], capsLock);
+        const theme: MuiTheme = muiTheme ? muiTheme : getMuiTheme();
+        const keyHeight: number = keyboardKeyHeight !== undefined ? keyboardKeyHeight : theme.button.height;
+        const keyWidth: number = keyboardKeyWidth !== undefined ? keyboardKeyWidth : theme.button.minWidth;
+        const keySymbolSize: number = keyboardKeySymbolSize !== undefined ? keyboardKeySymbolSize : theme.flatButton.fontSize;
         let keyboardRowLengths: Array<number> = [];
         const keyboardRows: Array<React.ReactElement<void>> = keyboardLayout.map((row: Array<string>, rowIndex: number): React.ReactElement<void> => {
             let spacebar: number = 1;
@@ -262,47 +266,42 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                 if(key.match(/^\ +$/)) {
                     spacebar = key.length;
                 }
-                return <KeyboardKey keyboardKey={key} key={Number(`${rowIndex}.${keyIndex}`)} onKeyPress={this._onKeyboard} />;
+                return (
+                    <KeyboardKey
+                        keyboardKey={key}
+                        key={Number(`${rowIndex}.${keyIndex}`)}
+                        onKeyPress={this._onKeyboard}
+                        keyboardKeyHeight={keyHeight}
+                        keyboardKeyWidth={keyWidth}
+                        keyboardKeySymbolSize={keySymbolSize}
+                    />
+                );
             });
             keyboardRowLengths.push(row.length + spacebar - 1);
             return <div key={rowIndex}>{keyboardRowKeys}</div>;
         });
 
         const maxKeyboardRowLength: number = Math.max(...keyboardRowLengths);
-
-        let theme: MuiTheme = muiTheme ? ObjectAssign({}, muiTheme) : getMuiTheme();
-
-        if(this.props.keyboardKeyHeight) {
-            theme.button.height = keyboardKeyHeight;
-        }
-        if(this.props.keyboardKeyWidth) {
-            theme.button.minWidth = keyboardKeyWidth;
-        }
-        if(this.props.keyboardKeySymbolSize) {
-            theme.flatButton.fontSize = keyboardKeySymbolSize;
-        }
-
-        const dialogWidth: number = (maxKeyboardRowLength * theme.button.minWidth) + (2 * theme.baseTheme.spacing.desktopGutter);
+        const dialogWidth: number = (maxKeyboardRowLength * keyWidth) + (2 * theme.baseTheme.spacing.desktopGutter);
         const dialogcontentStyle: React.CSSProperties = { width: dialogWidth, maxWidth: 'none' };
-        return (
-            <MuiThemeProvider muiTheme={theme}>
-                <div>
-                    {inputTextField}
-                    <Dialog open={open} modal={true} contentStyle={dialogcontentStyle} autoScrollBodyContent={true}>
-                        <List>
-                            <div>
-                                {keyboardTextField}
-                            </div>
-                            <div>
-                                <List>
-                                    {keyboardRows}
-                                </List>
-                            </div>
-                        </List>
-                    </Dialog>
-                </div>
-            </MuiThemeProvider>
+        const keyboard: JSX.Element = (
+            <div>
+                {inputTextField}
+                <Dialog open={open} modal={true} contentStyle={dialogcontentStyle} autoScrollBodyContent={true}>
+                    <List>
+                        <div>
+                            {keyboardTextField}
+                        </div>
+                        <div>
+                            <List>
+                                {keyboardRows}
+                            </List>
+                        </div>
+                    </List>
+                </Dialog>
+            </div>
         );
+        return muiTheme ? keyboard : <MuiThemeProvider>{keyboard}</MuiThemeProvider>;
     } 
 };
 

@@ -15,27 +15,20 @@ export type KeyboardKeyPressHandler = (key: string) => void;
 export interface KeyboardKeyProps {
     keyboardKey: string;
     onKeyPress: KeyboardKeyPressHandler;
-};
-
-export interface KeyboardKeyContext {
-    muiTheme: MuiTheme;
-};
-
+    keyboardKeyWidth: number;
+    keyboardKeyHeight: number;
+    keyboardKeySymbolSize: number;
+}
 
 export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
-    public static contextTypes: Object = {
-        muiTheme: React.PropTypes.object.isRequired
-    };
-    public context: KeyboardKeyContext;
     private _onClick: React.MouseEventHandler;
 
     private _handleClick(event: React.MouseEvent): void {
         this.props.onKeyPress(this.props.keyboardKey);
     }
 
-    public constructor(props: KeyboardKeyProps, context: KeyboardKeyContext) {
-        super(props, context);
-        this.context = context;
+    public constructor(props: KeyboardKeyProps) {
+        super(props);
         this._onClick = this._handleClick.bind(this);
     }
 
@@ -44,50 +37,56 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
     }
 
     public render(): JSX.Element {
-        const key: string = this.props.keyboardKey;
+        const { keyboardKey: key, keyboardKeyHeight: height, keyboardKeyWidth: width, keyboardKeySymbolSize: size } = this.props;
+        const notSpacebar: boolean = key.match(/^\ +$/) === null;
         let keyboardKey: JSX.Element;
 
-        if(!key) {
-            return <FlatButton disabled label=" " />;
-        }
-
-        if(key.length === 1) {
-            keyboardKey = <FlatButton label={key} labelStyle={{ textTransform: 'none' }}/>;
-        } else {
-            let icon: JSX.Element;
-            switch(key) {
-                case 'Enter': {
-                    icon = <Enter />;
-                    break;
-                }
-                case 'Backspace': {
-                    icon = <Backspace />;
-                    break;
-                }
-                case 'Escape': {
-                    icon = <Escape />;
-                    break;
-                }
-                case 'CapsLock': {
-                    icon = <CapsLock />;
-                    break;
-                }
-                case 'Keyboard': {
-                    icon = <Keyboard />;
-                    break;
-                }
-            }
-            const size: number = this.context.muiTheme.flatButton.fontSize;
-            const style: React.CSSProperties =  {width: size, height: size};
-            if(!key.match(/^\ +$/)) {
-                keyboardKey = <FlatButton icon={React.cloneElement(icon, { style: style })} />;
+        if(key) {
+            if(key.length === 1) {
+                keyboardKey = <FlatButton label={key} labelStyle={{ textTransform: 'none' }}/>;
             } else {
-                const width: number = this.context.muiTheme.button.minWidth * key.length;
-                keyboardKey = <FlatButton icon={<Spacebar style={style} />} style={{width: width}} />;
+                let icon: JSX.Element;
+                switch(key) {
+                    case 'Enter': {
+                        icon = <Enter />;
+                        break;
+                    }
+                    case 'Backspace': {
+                        icon = <Backspace />;
+                        break;
+                    }
+                    case 'Escape': {
+                        icon = <Escape />;
+                        break;
+                    }
+                    case 'CapsLock': {
+                        icon = <CapsLock />;
+                        break;
+                    }
+                    case 'Keyboard': {
+                        icon = <Keyboard />;
+                        break;
+                    }
+                    default: {
+                        if(!notSpacebar) {
+                            icon = <Spacebar />;
+                            break;
+                        }
+                    }
+                }
+                icon = React.cloneElement(icon, { style: { width: size, height: size } });
+                keyboardKey = <FlatButton icon={icon} />;
             }
+        } else {
+            keyboardKey = <FlatButton disabled label=" " />;
         }
-        
+        const style: React.CSSProperties = {
+            height: height,
+            width: notSpacebar ? width : (width * key.length)
+        }
         return React.cloneElement(keyboardKey, {
+            style: style,
+            labelStyle: { fontSize: size },
             primary: true,
             onClick: this._onClick
         });
