@@ -315,5 +315,5 @@ If you need to change theme eg. gutter, spacing, colors or any other option you 
 3. `npm run typings`
 4. Make changes
 5. `npm start`
-6. open http://localhost:3000
+6. open (http://localhost:3000)
 7. Make a Pull Request
