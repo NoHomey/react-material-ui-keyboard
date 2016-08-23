@@ -21,6 +21,13 @@ export interface KeyboardKeyProps {
 }
 
 export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
+    public static propTypes: Object = {
+        keyboardKey: React.PropTypes.string.isRequired,
+        onKeyPress: React.PropTypes.func.isRequired,
+        keyboardKeyWidth: React.PropTypes.number.isRequired,
+        keyboardKeyHeight: React.PropTypes.number.isRequired,
+        keyboardKeySymbolSize: React.PropTypes.number.isRequired,
+    };
     private _onClick: React.MouseEventHandler;
 
     private _handleClick(event: React.MouseEvent): void {

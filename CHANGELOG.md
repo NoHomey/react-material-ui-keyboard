@@ -95,7 +95,7 @@ Example changes
 
 ### Bug fixes
 
-- Fix bug where changing keyboard key size via passing `keyboardKey\*` `prop` changed current `muiTheme`
+- Fix bug where changing keyboard key size via passing `keyboardKey*` `prop` changed current `muiTheme`
 
 ### Implementaion
 
