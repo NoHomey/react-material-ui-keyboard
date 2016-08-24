@@ -101,3 +101,13 @@ Example changes
 
 - No logner using `context` to size keyboard key instead properties are passed directly to `KeyboardKey`
 
+## [v3.0.1](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/3.0.1)
+
+### Bug fixes
+
+- Fix bug where `KeyboardKey` would not re-render if any of `prop`s introduced in `v3.0.0` changes due to using old version of `shouldComponentUpdate`
+
+### Implementaion
+
+- Droping inmplementation of `shouldComponentUpdate` for `KeyboardKey` 
+

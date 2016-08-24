@@ -6,9 +6,6 @@ import Escape from 'material-ui/svg-icons/action/exit-to-app';
 import Keyboard from 'material-ui/svg-icons/hardware/keyboard';
 import CapsLock from 'material-ui/svg-icons/hardware/keyboard-capslock';
 import Spacebar from 'material-ui/svg-icons/editor/space-bar';
-import { MuiTheme } from 'material-ui/styles';
-
-const { span } = React.DOM;
 
 export type KeyboardKeyPressHandler = (key: string) => void;
 
@@ -37,10 +34,6 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
     public constructor(props: KeyboardKeyProps) {
         super(props);
         this._onClick = this._handleClick.bind(this);
-    }
-
-    public shouldComponentUpdate(props: KeyboardKeyProps, state: void): boolean {
-        return this.props.keyboardKey!== props.keyboardKey;
     }
 
     public render(): JSX.Element {
