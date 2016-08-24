@@ -116,7 +116,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     private _refKeyboardField: TextFieldRef;
     private _keyboardField: TextField;
     private _onKeyboard: (key: string) => void;
-    private _onKeyDown: React.KeyboardEventHandler | NativeKeyboardEventHandler;
+    private _onKeyDown: NativeKeyboardEventHandler;
     private _preventEvent: (event: FocusEvent) => void;
 
     private _handleEvent(event: FocusEvent): void {
@@ -135,7 +135,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     private _actionKeyDownListener(actioner: (event: string, listener: NativeKeyboardEventHandler) => void): void {
-        actioner('keydown', this._onKeyDown as NativeKeyboardEventHandler);
+        actioner('keydown', this._onKeyDown);
     }
 
     private _handleKeyboard(key: string): void {
@@ -173,8 +173,9 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         }
     }
 
-    private _handleKeyDown(event: React.KeyboardEvent | KeyboardEvent): void {
+    private _handleKeyDown(event: KeyboardEvent): void {
         const { key } = event;
+        event.stopImmediatePropagation();
         if((Keyboard.getSupportedSpecialKeys().indexOf(key) !== -1) || (key.match(/^(\ +|.)$/))) {
             event.preventDefault();
             this._handleKeyboard(key);
@@ -252,7 +253,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     public render(): JSX.Element {
-        const { props, state, context, _onKeyDown, _refTextField, _refKeyboardField } = this;
+        const { props, state, context, _refTextField, _refKeyboardField } = this;
         const { textField, layouts, keyboardKeyHeight, keyboardKeyWidth, keyboardKeySymbolSize, open  } = props;
         const { value, layout: stateLayout, capsLock } = state;
         const { muiTheme} = context;
@@ -265,7 +266,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         });
         ObjectAssign(textFieldProps, {
             value: value, 
-            onKeyDown: _onKeyDown,
             fullWidth: true,
             ref: _refKeyboardField
         });

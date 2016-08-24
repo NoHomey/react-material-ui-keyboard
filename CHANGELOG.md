@@ -116,3 +116,13 @@ Example changes
 ### Feuters
 
 - When `open` changes to `true` `Keyboard` will listen for `'keydown'` events on `window` and when `open` changes to `false` listener will be removed.
+
+## [v3.1.1](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/3.1.1)
+
+### Bug fixes
+
+- Fix bug introduced with `v3.1.0` which wouldd call twice `_onKeyDown` if keyboard input field is focused due to listening both on `textField` clone and `window`
+
+### Implementaion
+
+- textField` clone no longer recives `onKeyDown` handler
