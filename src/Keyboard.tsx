@@ -81,7 +81,19 @@ export interface KeyboardContext {
     muiTheme?: MuiTheme;
 };
 
+export type KeyboardWindowEventListener = (event: FocusEvent | KeyboardEvent) => void;
+
+export type NativeKeyboardEventHandler = (event: KeyboardEvent) => void;
+
 export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
+    private static _addListener(event: string, listener: KeyboardWindowEventListener): void {
+        window.addEventListener(event, listener, true);
+    }
+
+    private static _removeListener(event: string, listener: KeyboardWindowEventListener): void {
+         window.removeEventListener(event, listener, true);
+    }
+
     public static propTypes: Object = {
         open: React.PropTypes.bool.isRequired,
         layouts: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.string))).isRequired,
@@ -104,7 +116,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     private _refKeyboardField: TextFieldRef;
     private _keyboardField: TextField;
     private _onKeyboard: (key: string) => void;
-    private _onKeyDown: React.KeyboardEventHandler;
+    private _onKeyDown: React.KeyboardEventHandler | NativeKeyboardEventHandler;
     private _preventEvent: (event: FocusEvent) => void;
 
     private _handleEvent(event: FocusEvent): void {
@@ -114,12 +126,16 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         }
     }
 
-    private _addListener(event: string): void {
-        window.addEventListener(event, this._preventEvent, true);
+    private _addPreventListener(event: string): void {
+        Keyboard._addListener(event, this._preventEvent);
     }
 
-    private _removeListener(event: string): void {
-         window.removeEventListener(event, this._preventEvent, true);
+    private _removePreventListener(event: string): void {
+        Keyboard._removeListener(event, this._preventEvent);
+    }
+
+    private _actionKeyDownListener(actioner: (event: string, listener: NativeKeyboardEventHandler) => void): void {
+        actioner('keydown', this._onKeyDown as NativeKeyboardEventHandler);
     }
 
     private _handleKeyboard(key: string): void {
@@ -157,7 +173,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         }
     }
 
-    private _handleKeyDown(event: React.KeyboardEvent): void {
+    private _handleKeyDown(event: React.KeyboardEvent | KeyboardEvent): void {
         const { key } = event;
         if((Keyboard.getSupportedSpecialKeys().indexOf(key) !== -1) || (key.match(/^(\ +|.)$/))) {
             event.preventDefault();
@@ -222,12 +238,14 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const { open: prev } = props;
         if(open !== prev) {
             if(open) {
-                this._addListener('focus');
-                this._addListener('blur');
+                this._addPreventListener('focus');
+                this._addPreventListener('blur');
+                this._actionKeyDownListener(Keyboard._addListener);
             } else {
                 this._textField.getInputNode().focus();
-                this._removeListener('focus');
-                this._removeListener('blur');
+                this._removePreventListener('focus');
+                this._removePreventListener('blur');
+                this._actionKeyDownListener(Keyboard._removeListener);
                 this._textField.getInputNode().blur();
             }
         }
