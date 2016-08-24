@@ -111,3 +111,8 @@ Example changes
 
 - Droping inmplementation of `shouldComponentUpdate` for `KeyboardKey` 
 
+## [v3.1.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/3.1.0)
+
+### Feuters
+
+- When `open` changes to `true` `Keyboard` will listen for `'keydown'` events on `window` and when `open` changes to `false` listener will be removed.
