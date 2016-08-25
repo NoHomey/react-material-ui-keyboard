@@ -126,3 +126,9 @@ Example changes
 ### Implementaion
 
 - textField` clone no longer recives `onKeyDown` handler
+
+## [v3.1.2](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/3.1.2)
+
+### Bug fixes
+
+- Fixing keyboard key caps locking which got broken in `v3.0.0`

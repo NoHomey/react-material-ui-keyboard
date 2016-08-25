@@ -94,6 +94,10 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
          window.removeEventListener(event, listener, true);
     }
 
+    public static getSupportedSpecialKeys(): Array<string> {
+        return ['Enter', 'Backspace', 'Escape', 'CapsLock', 'Keyboard'];
+    }
+
     public static propTypes: Object = {
         open: React.PropTypes.bool.isRequired,
         layouts: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.string))).isRequired,
@@ -105,11 +109,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         onInput: React.PropTypes.func.isRequired
     };
     public static contextTypes: Object = { muiTheme: React.PropTypes.object };
-
-    public static getSupportedSpecialKeys(): Array<string> {
-        return ['Enter', 'Backspace', 'Escape', 'CapsLock', 'Keyboard'];
-    }
-
     public context: KeyboardContext;
     private _textField: TextField;
     private _refTextField: TextFieldRef;
@@ -119,10 +118,13 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     private _onKeyDown: NativeKeyboardEventHandler;
     private _preventEvent: (event: FocusEvent) => void;
 
-    private _handleEvent(event: FocusEvent): void {
-        if(event.target === this._textField.getInputNode()) {
-            event.stopPropagation();
-            event.stopImmediatePropagation();
+    private _setValue(value: string): void {
+        this.setState({ value: value });
+    }
+
+    private _syncValue(value: string): void {
+        if(value !== this.state.value) {
+            this._setValue(value);
         }
     }
 
@@ -136,6 +138,13 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
 
     private _actionKeyDownListener(actioner: (event: string, listener: NativeKeyboardEventHandler) => void): void {
         actioner('keydown', this._onKeyDown);
+    }
+
+    private _handleEvent(event: FocusEvent): void {
+        if(event.target === this._textField.getInputNode()) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+        }
     }
 
     private _handleKeyboard(key: string): void {
@@ -214,16 +223,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         this._onKeyboard = this._handleKeyboard.bind(this);
         this._onKeyDown = this._handleKeyDown.bind(this);
         this._preventEvent = this._handleEvent.bind(this);
-    }
-
-    private _setValue(value: string): void {
-        this.setState({ value: value });
-    }
-
-    private _syncValue(value: string): void {
-        if(value !== this.state.value) {
-            this._setValue(value);
-        }
     }
 
     public componentDidMount(): void {

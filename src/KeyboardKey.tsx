@@ -86,7 +86,7 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
         }
         return React.cloneElement(keyboardKey, {
             style: style,
-            labelStyle: { fontSize: size },
+            labelStyle: { fontSize: size, textTransform: 'none' },
             primary: true,
             onClick: this._onClick
         });
