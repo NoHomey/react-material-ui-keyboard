@@ -132,3 +132,9 @@ Example changes
 ### Bug fixes
 
 - Fixing keyboard key caps locking which got broken in `v3.0.0`
+
+## [v3.1.3](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/3.1.3)
+
+### Implementaion
+
+- Replacing `List`s with plain old `div`s. `List` is a wrapper container build from `div` and just adds more overheap to `render`ing. It waas initially used in conjuction with `ListItem`, which is no longer used since `v2.0.0`

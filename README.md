@@ -48,7 +48,6 @@ react-material-ui-keyboard is implemented using the followong Material-Ui Elemen
 - Dialog
 - FlatButtton
 - SVG Icons
-- List
 
 and uses `React.cloneElement` to clone `textFiled` for the kyboard input field.
 

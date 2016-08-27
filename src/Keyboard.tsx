@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Dialog from 'material-ui/Dialog';
-import List from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { KeyboardKey, KeyboardKeyProps } from './KeyboardKey';
@@ -305,16 +304,16 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             <div>
                 {inputTextField}
                 <Dialog open={open} modal={true} contentStyle={dialogcontentStyle} autoScrollBodyContent={true}>
-                    <List>
+                    <div>
                         <div>
                             {keyboardTextField}
                         </div>
                         <div>
-                            <List>
+                            <div>
                                 {keyboardRows}
-                            </List>
+                            </div>
                         </div>
-                    </List>
+                    </div>
                 </Dialog>
             </div>
         );
