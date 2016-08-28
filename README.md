@@ -184,7 +184,7 @@ class Demo extends React.Component {
     }
     
     _handleFocus(event) {
-        if((this.state.value.length / 2) === 0) {
+        if((this.state.value.length % 2) === 0) {
             this.setState({ open: true });
         }
     }

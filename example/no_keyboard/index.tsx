@@ -22,6 +22,7 @@ interface TextEnterEvent {
 }
 
 class Demo extends React.Component<void, DemoState> {
+    private static _emptyFunction: () => void = () => {}
     private _onChange: React.FormEventHandler;
 
     private _handleChange(event: React.FormEvent): void {
@@ -53,7 +54,7 @@ class Demo extends React.Component<void, DemoState> {
                     <Keyboard
                         textField={textField}
                         open={false}
-                        onInput={_emptyFunction}
+                        onInput={Demo._emptyFunction}
                         layouts={[ExtendedKeyboard]}
                      />
                 </div>

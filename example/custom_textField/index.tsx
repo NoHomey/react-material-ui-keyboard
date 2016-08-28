@@ -24,7 +24,7 @@ class Demo extends React.Component<void, DemoState> {
     private _onValid: NumberInputValidHandler;
 
     private _handleFocus(event: React.FocusEvent): void {
-        if((this.state.value.length / 2) === 0) {
+        if((this.state.value.length % 2) === 0) {
             this.setState({ open: true });
         }
     }
@@ -68,7 +68,7 @@ class Demo extends React.Component<void, DemoState> {
                 errorText = 'You are tring to enter number less than -10';
                  break;
             case 'max':
-                errorText = 'You are tring to enter number greater than 12';
+                errorText = 'You are tring to enter number greater than 120';
                 break;
         }
         this.setState({ errorText: errorText });
@@ -98,7 +98,7 @@ class Demo extends React.Component<void, DemoState> {
                 required
                 value={value}
                 min={-10}
-                max={12}
+                max={120}
                 strategy="ignore"
                 errorText={errorText}
                 onFocus={_onFocus}

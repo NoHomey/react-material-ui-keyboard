@@ -144,4 +144,4 @@ Example changes
 ### Properties
 
 - New prop `automatic` added. Which should remove the boilerplate of opening a keyboard when `textField.props.onFocus` is tiggered and closing it when `props.onRequestClose` is fired
-- Props `open` and `onRequestClose` are now optional due to adding of the new `automatic` `prop`.
+- Props `open` and `onRequestClose` are now optional due to adding of the new `automatic` `prop`
