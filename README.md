@@ -24,7 +24,7 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 | --------------------- | ---------------------- | -------------------------------------------- | -------------------- |
 | automatic             | *bool*                 |                                              | If true, keyboard will automaticlly: open when textField gets focused and close instead of firing onRequestClose. |
 | open                  | *bool*                 |                                              | Controls whether the Keyboard is opened or not. |
-| nativeVirtualKeyboard | *bool*                 |                                              | If `true` and active is not true, the native virtual keyboard will not be prevented on textField. |
+| nativeVirtualKeyboard | *bool*                 |                                              | If true and automatic is not true, the native virtual keyboard will not be prevented on textField. |
 | layouts*              | *string[][][]*         |                                              | Keybaord layouts that can be changed when user clicks on 'Keyboard' key. |
 | keyboardKeyWidth      | *number*               | *this.context.muiThemet.button.minWidth*     | Override keyboard key's width. |
 | keyboardKeyHeight     | *number*               | *this.context.muiThemet.button.height*       | Override keyboard key's height. |
