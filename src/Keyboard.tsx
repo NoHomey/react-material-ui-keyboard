@@ -313,17 +313,30 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         }
         const inputTextField: TextFieldElement = React.cloneElement(textFieldElement, inputTextFieldProps);
         const keyboardLayout: KeyboardLayout = KyeboardCapsLock(layouts[stateLayout], capsLock);
-        const theme: MuiTheme = muiTheme ? muiTheme : getMuiTheme();
-        const keyHeight: number = keyboardKeyHeight !== undefined ? keyboardKeyHeight : theme.button.height;
-        const keyWidth: number = keyboardKeyWidth !== undefined ? keyboardKeyWidth : theme.button.minWidth;
-        const keySymbolSize: number = keyboardKeySymbolSize !== undefined ? keyboardKeySymbolSize : theme.flatButton.fontSize;
-        let keyboardRowLengths: Array<number> = [];
-        const keyboardRows: Array<KeyboardRow> = keyboardLayout.map((row: Array<string>, rowIndex: number): KeyboardRow => {
+        const keyboardRowLengths: Array<number> = keyboardLayout.map((row: Array<string>): number => {
             let spacebar: number = 1;
-            const keyboardRowKeys: Array<KeyboardRowKey> = row.map((key: string, keyIndex: number): KeyboardRowKey => {
+            row.forEach((key: string): void => {
                 if(key.match(/^\ +$/)) {
                     spacebar = key.length;
                 }
+            });
+            return row.length + spacebar - 1;
+        });
+        const maxKeyboardRowLength: number = Math.max(...keyboardRowLengths);
+        const theme: MuiTheme = muiTheme ? muiTheme : getMuiTheme();
+        let keyHeight: number = keyboardKeyHeight !== undefined ? keyboardKeyHeight : theme.button.height;
+        let keyWidth: number = keyboardKeyWidth !== undefined ? keyboardKeyWidth : theme.button.minWidth;
+        let keySymbolSize: number = keyboardKeySymbolSize !== undefined ? keyboardKeySymbolSize : theme.flatButton.fontSize;
+        const dialogGutter: number = 2 * theme.baseTheme.spacing.desktopGutter;
+        let dialogWidth: number = (maxKeyboardRowLength * keyWidth) + dialogGutter;
+        const { innerHeight, innerWidth } = window;
+        if(dialogWidth > innerWidth) {
+            dialogWidth = innerWidth;
+            keyWidth = (innerWidth - dialogGutter) / maxKeyboardRowLength;
+        }
+        const dialogcontentStyle: React.CSSProperties = { width: dialogWidth, maxWidth: innerWidth };
+        const keyboardRows: Array<KeyboardRow> = keyboardLayout.map((row: Array<string>, rowIndex: number): KeyboardRow => {
+            const keyboardRowKeys: Array<KeyboardRowKey> = row.map((key: string, keyIndex: number): KeyboardRowKey => {
                 return (
                     <KeyboardKey
                         keyboardKey={key}
@@ -335,14 +348,8 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                     />
                 );
             });
-            keyboardRowLengths.push(row.length + spacebar - 1);
             return <div key={rowIndex}>{keyboardRowKeys}</div>;
         });
-
-        const maxKeyboardRowLength: number = Math.max(...keyboardRowLengths);
-        const dialogGutter: number = 2 * theme.baseTheme.spacing.desktopGutter;
-        const dialogWidth: number = (maxKeyboardRowLength * keyWidth) + dialogGutter;
-        const dialogcontentStyle: React.CSSProperties = { width: dialogWidth, maxWidth: 'none' };
         const keyboard: JSX.Element = (
             <div>
                 {inputTextField}
