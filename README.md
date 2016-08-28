@@ -29,7 +29,7 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 | keyboardKeyHeight     | *number*               | *this.context.muiThemet.button.height*       | Override keyboard key's height. |
 | keyboardKeySymbolSize | *number*               | *this.context.muiThemet.flatButton.fontSize* | Override keyboard key's symbol size. |
 | textField*            | *element*              |                                              | Input field used when keyboard is closed and cloned when it's opened.  |
-| onRequestClose        | *function*             |                                              | Fired when keyboard recives 'Enter' or 'Escape' eighter from onKeyDown listener or keyboar key touch/click event. |
+| onRequestClose        | *function*             |                                              | Fired when keyboard recives 'Enter' or 'Escape' eighter from onKeyDown listener or keyboard key touch/click event. |
 | onInput*              | *function*             |                                              | Fired when keyboard recives 'Enter' **Signature:** `function(input: string) => void`. |
 
 Props marked with \* are required.
@@ -144,7 +144,6 @@ class Demo extends React.Component {
         this._onInput = this._handleInput.bind(this);
     }
 
-    
     _handleInput(input) {
         this.setState({ value: input });
     }
