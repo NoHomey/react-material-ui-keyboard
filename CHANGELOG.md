@@ -159,3 +159,9 @@ Example updates
 Note: `readOnly` is always `true` on the cloned `textField` used for input when keyboard is opened
 
 Note: `readOnly` is setted to `true` on `textField` when `active` is also `true`
+
+## [v4.1.1](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/4.1.1)
+
+### Bug fixes
+
+- Fixing a bug which falsely synced keyboard input value with `textField.props.value` each time a `componentWillReciveProps` is called. Now values are synced only when `textField.props.value` did really changed. Bug was introduced with `v2.0.3`

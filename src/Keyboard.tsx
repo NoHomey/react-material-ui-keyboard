@@ -260,7 +260,11 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     public componentWillReceiveProps(props: KeyboardProps): void {
-        this._syncValue(props.textField.props.value);
+        const { value: textFieldValue } = this.props.textField.props;
+        const { value: nextTextFieldValue } = props.textField.props;
+        if(textFieldValue !== nextTextFieldValue) {
+            this._syncValue(nextTextFieldValue);
+        }
     }
 
     public componentDidUpdate(props: KeyboardProps, state: KeyboardState): void {

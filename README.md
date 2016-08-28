@@ -245,6 +245,10 @@ class Demo extends React.Component {
     _handleValid(value) {
         console.debug(`valid ${value}`);
     }
+
+    componentDidMount() {
+        setTimeout(() => this.setState({ value: '89' }), 1000);
+    }
     
     render() {
         const { state, _onFocus, _onChange, _onError, _onValid } = this;
@@ -256,7 +260,7 @@ class Demo extends React.Component {
                 value={value}
                 min={-10}
                 max={12}
-                strategy="ignore"
+                strategy="warn"
                 errorText={errorText}
                 onFocus={_onFocus}
                 onChange={_onChange}

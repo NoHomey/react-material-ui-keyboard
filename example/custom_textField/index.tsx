@@ -93,6 +93,10 @@ class Demo extends React.Component<void, DemoState> {
         this._onValid = this._handleValid.bind(this);
     }
 
+    public componentDidMount(): void {
+        setTimeout(() => this.setState({ value: '89' }), 1000);
+    }
+
     public render(): JSX.Element {
         const { state, _onFocus, _onChange, _onError, _onValid } = this;
         const { value, errorText } = state;
@@ -103,7 +107,7 @@ class Demo extends React.Component<void, DemoState> {
                 value={value}
                 min={-10}
                 max={120}
-                strategy="ignore"
+                strategy="warn"
                 errorText={errorText}
                 onFocus={_onFocus}
                 onChange={_onChange}
