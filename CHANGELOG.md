@@ -157,4 +157,5 @@ Example updates
 - New prop `nativeVirtualKeyboard` added. Which controlls when to prevent the native vertual keyboard on `textField` by setting `readOnly`.
 
 Note: `readOnly` is always `true` on the cloned `textField` used for input when keyboard is opened
+
 Note: `readOnly` is setted to `true` on `textField` when `active` is also `true`
