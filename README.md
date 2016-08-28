@@ -24,6 +24,7 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 | --------------------- | ---------------------- | -------------------------------------------- | -------------------- |
 | automatic             | *bool*                 |                                              | If true, keyboard will automaticlly: open when textField gets focused and close instead of firing onRequestClose. |
 | open                  | *bool*                 |                                              | Controls whether the Keyboard is opened or not. |
+| nativeVirtualKeyboard | *bool*                 |                                              | If `true` and active is not true, the native virtual keyboard will not be prevented on textField. |
 | layouts*              | *string[][][]*         |                                              | Keybaord layouts that can be changed when user clicks on 'Keyboard' key. |
 | keyboardKeyWidth      | *number*               | *this.context.muiThemet.button.minWidth*     | Override keyboard key's width. |
 | keyboardKeyHeight     | *number*               | *this.context.muiThemet.button.height*       | Override keyboard key's height. |
@@ -38,9 +39,12 @@ Props marked with \* are required.
 
 ## Node passed to `textField` Prop must support the following props:
 
-- `value` of type `string`
-- `onKeyDown` of type `function(event: React.KeyboardEvent)`
+- `value`\* of type `string`
+- `onKeyDown`\* of type `function(event: React.KeyboardEvent)`
 - `fullWidth` of type `bool`
+- `readOnly`\* of type `bool`
+
+Props marked with \* must be passed down to the native `input` element.
 
 ## And to implement method `getInputNode` which returns `input` `ref`.
 
@@ -164,7 +168,7 @@ class Demo extends React.Component {
 };
 ```
 
-# Example using custom textField and controlling when to open the keyboard
+# Example using custom textField and controlling when to open the keyboard and when to prevent the native virtual keyboard
 
 ```js
 import * as React from 'react';
@@ -183,8 +187,12 @@ class Demo extends React.Component {
         this._onValid = this._handleValid.bind(this);
     }
     
+    _canOpenKeyboard() {
+        return (this.state.value.length % 2) === 0;
+    }
+
     _handleFocus(event) {
-        if((this.state.value.length % 2) === 0) {
+        if(this._canOpenKeyboard()) {
             this.setState({ open: true });
         }
     }
@@ -259,6 +267,7 @@ class Demo extends React.Component {
 
         return (
             <Keyboard
+                nativeVirtualKeyboard={!this._canOpenKeyboard()}
                 textField={textField}
                 open={this.state.open}
                 onRequestClose={this._onRequestClose}

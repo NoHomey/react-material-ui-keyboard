@@ -12,7 +12,7 @@
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-tap-event-plugin": "^1.0.0",
-    "react-material-ui-keyboard": "^4.0.1"
+    "react-material-ui-keyboard": "^4.1.0"
   },
   "devDependencies": {
     "html-webpack-plugin": "^2.22.0",

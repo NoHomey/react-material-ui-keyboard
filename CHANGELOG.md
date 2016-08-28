@@ -149,3 +149,9 @@ Example changes
 ## [v4.0.1](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/4.0.1)
 
 Example updates
+
+## [v4.1.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/4.1.0)
+
+### Properties
+
+- New prop `nativeVirtualKeyboard` added. Which controlls when to prevent the native vertual keyboard on `textField` by setting `readOnly`. Note: `readOnly` is always `true` on the cloned `textField` used for input when keyboard is opened`

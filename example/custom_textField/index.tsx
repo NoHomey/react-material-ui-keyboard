@@ -23,8 +23,12 @@ class Demo extends React.Component<void, DemoState> {
     private _onError: NumberInputErrorHandler;
     private _onValid: NumberInputValidHandler;
 
+    private _canOpenKeyboard(): boolean {
+        return (this.state.value.length % 2) === 0;
+    }
+
     private _handleFocus(event: React.FocusEvent): void {
-        if((this.state.value.length % 2) === 0) {
+        if(this._canOpenKeyboard()) {
             this.setState({ open: true });
         }
     }
@@ -112,6 +116,7 @@ class Demo extends React.Component<void, DemoState> {
                 <div>
                     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500" rel="stylesheet" type="text/css"/>
                     <Keyboard
+                        nativeVirtualKeyboard={!this._canOpenKeyboard()}
                         textField={textField}
                         open={this.state.open}
                         onRequestClose={this._onRequestClose}
