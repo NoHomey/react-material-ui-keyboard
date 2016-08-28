@@ -22,7 +22,6 @@ interface TextEnterEvent {
 }
 
 class Demo extends React.Component<void, DemoState> {
-    private static _emptyFunction: () => void = () => { };
     private _onChange: React.FormEventHandler;
 
     private _handleChange(event: React.FormEvent): void {
@@ -40,7 +39,6 @@ class Demo extends React.Component<void, DemoState> {
     public render(): JSX.Element {
         const { state, _onChange } = this;
         const { value } = state;
-        const { _emptyFunction } = Demo;
         const textField: TextFieldElement = (
             <TextField
                 id="field"
@@ -55,7 +53,6 @@ class Demo extends React.Component<void, DemoState> {
                     <Keyboard
                         textField={textField}
                         open={false}
-                        onRequestClose={_emptyFunction}
                         onInput={_emptyFunction}
                         layouts={[ExtendedKeyboard]}
                      />

@@ -138,3 +138,10 @@ Example changes
 ### Implementaion
 
 - Replacing `List`s with plain old `div`s. `List` is a wrapper container build from `div` and just adds more overheap to `render`ing. It waas initially used in conjuction with `ListItem`, which is no longer used since `v2.0.0`
+
+## [v4.0.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/4.0.0)
+
+### Properties
+
+- New prop `automatic` added. Which should remove the boilerplate of opening a keyboard when `textField.props.onFocus` is tiggered and closing it when `props.onRequestClose` is fired
+- Props `open` and `onRequestClose` are now optional due to adding of the new `automatic` `prop`.

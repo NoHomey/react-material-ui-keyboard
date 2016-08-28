@@ -22,14 +22,17 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 
 | Name                  | Type                   | Default                                      | Descriptio           |
 | --------------------- | ---------------------- | -------------------------------------------- | -------------------- |
-| open*                 | *bool*                 |                                              | Controls whether the Keyboard is opened or not. |
+| automatic             | *bool*                 |                                              | If true, keyboard will automaticlly: open when textField gets focused and close instead of firing onRequestClose. |
+| open                  | *bool*                 |                                              | Controls whether the Keyboard is opened or not. |
 | layouts*              | *string[][][]*         |                                              | Keybaord layouts that can be changed when user clicks on 'Keyboard' key. |
-| keyboardKeyWidth      | *number*               | *this.context.muiThemet.button.minWidth*      | Override keyboard key's width. |
+| keyboardKeyWidth      | *number*               | *this.context.muiThemet.button.minWidth*     | Override keyboard key's width. |
 | keyboardKeyHeight     | *number*               | *this.context.muiThemet.button.height*       | Override keyboard key's height. |
 | keyboardKeySymbolSize | *number*               | *this.context.muiThemet.flatButton.fontSize* | Override keyboard key's symbol size. |
 | textField*            | *element*              |                                              | Input field used when keyboard is closed and cloned when it's opened.  |
-| onRequestClose*       | *function*             |                                              | Fired when keyboard recives 'Enter' or 'Escape' eighter from onKeyDown listener or keyboar key touch/click event. |
+| onRequestClose        | *function*             |                                              | Fired when keyboard recives 'Enter' or 'Escape' eighter from onKeyDown listener or keyboar key touch/click event. |
 | onInput*              | *function*             |                                              | Fired when keyboard recives 'Enter' **Signature:** `function(input: string) => void`. |
+
+Props marked with \* are required.
 
 # Requirements
 
@@ -138,30 +141,9 @@ class Demo extends React.Component {
             open: false,
             value: ''
         };
-        this._onFocus = this._handleFocus.bind(this);
-        this._onBlur = this._handleBlur.bind(this);
-        this._onChange = this._handleChange.bind(this);
-        this._onRequestClose = this._handleRequestClose.bind(this);
         this._onInput = this._handleInput.bind(this);
     }
-    
-    _handleFocus(event) {
-        this.setState({ open: true });
-    }
-    
-    _handleBlur(event) {
-        console.log(`blur ${this.state.value}`);
-    }
-    
-    _handleChange(event) {
-        const textEnterEvent = event;
-        const value = textEnterEvent.target.value;
-        this.setState({ value: value });
-    }
-    
-    _handleRequestClose() {
-        this.setState({ open: false });
-    }
+
     
     _handleInput(input) {
         this.setState({ value: input });
@@ -173,12 +155,9 @@ class Demo extends React.Component {
           <TextField
             id="text"
             value={this.state.value}
-            onFocus={this._onFocus}
-            onBlur={this._onBlur}
-            onChange={this._onChange} />
+          />
         }
-        open={this.state.open}
-        onRequestClose={this._onRequestClose}
+        automatic
         onInput={this._onInput}
         layouts={[AlphaNumericKeyboard]}
       />;
@@ -186,7 +165,7 @@ class Demo extends React.Component {
 };
 ```
 
-# Example using  custom textField
+# Example using custom textField and controlling when to open the keyboard
 
 ```js
 import * as React from 'react';
@@ -196,7 +175,7 @@ import { Keyboard, NumericKeyboard } from 'react-material-ui-keyboard';
 class Demo extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { open: false, value: '' };
+        this.state = { open: false, value: '2' };
         this._onFocus = this._handleFocus.bind(this);
         this._onChange = this._handleChange.bind(this);
         this._onRequestClose = this._handleRequestClose.bind(this);
@@ -206,7 +185,9 @@ class Demo extends React.Component {
     }
     
     _handleFocus(event) {
-        this.setState({ open: true });
+        if((this.state.value.length / 2) === 0) {
+            this.setState({ open: true });
+        }
     }
     
     _handleChange(event, value) {

@@ -24,7 +24,9 @@ class Demo extends React.Component<void, DemoState> {
     private _onValid: NumberInputValidHandler;
 
     private _handleFocus(event: React.FocusEvent): void {
-        this.setState({ open: true });
+        if((this.state.value.length / 2) === 0) {
+            this.setState({ open: true });
+        }
     }
 
     private _handleChange(event: React.FormEvent, value: string): void {
