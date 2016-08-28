@@ -145,3 +145,7 @@ Example changes
 
 - New prop `automatic` added. Which should remove the boilerplate of opening a keyboard when `textField.props.onFocus` is tiggered and closing it when `props.onRequestClose` is fired
 - Props `open` and `onRequestClose` are now optional due to adding of the new `automatic` `prop`
+
+## [v4.0.1](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/4.0.1)
+
+Example updates
