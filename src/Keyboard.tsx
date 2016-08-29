@@ -80,7 +80,7 @@ export interface KeyboardProps {
     keyboardKeySymbolSize?: number;
     textField: TextFieldElement;
     onRequestClose?: RequestCloseHandler;
-    onInput: InputHandler;
+    onInput?: InputHandler;
 };
 
 export interface KeyboardState {
@@ -127,7 +127,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         keyboardKeySymbolSize: React.PropTypes.number,
         textField: React.PropTypes.element.isRequired,
         onRequestClose: React.PropTypes.func,
-        onInput: React.PropTypes.func.isRequired
+        onInput: React.PropTypes.func
     };
     public static contextTypes: Object = { muiTheme: React.PropTypes.object };
     public static automaitcOpenPredicate: AutomaitcOpenPredicate = allwaysTruePredicate;
@@ -189,7 +189,9 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const { value, capsLock, layout: stateLayout } = state;
         switch(key) {
             case 'Enter': {
-                onInput(value);
+                if(onInput !== undefined) {
+                    onInput(value);
+                }
                 this._requestClose();
                 break;
             }

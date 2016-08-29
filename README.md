@@ -26,12 +26,12 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 | open                  | *bool*                 |                                              | Controls whether the Keyboard is opened or not. |
 | nativeVirtualKeyboard | *bool*                 |                                              | If true and automatic is not true, the native virtual keyboard will not be prevented on textField. |
 | layouts*              | *string[][][]*         |                                              | Keybaord layouts that can be changed when user clicks on 'Keyboard' key. |
-| keyboardKeyWidth      | *number*               | *this.context.muiThemet.button.minWidth*     | Override keyboard key's width. |
-| keyboardKeyHeight     | *number*               | *this.context.muiThemet.button.height*       | Override keyboard key's height. |
-| keyboardKeySymbolSize | *number*               | *this.context.muiThemet.flatButton.fontSize* | Override keyboard key's symbol size. |
+| keyboardKeyWidth      | *number*               | *this.context.muiThemet.button.minWidth*     | Override keyboard key's max width. |
+| keyboardKeyHeight     | *number*               | *this.context.muiThemet.button.height*       | Override keyboard key's max height. |
+| keyboardKeySymbolSize | *number*               | *this.context.muiThemet.flatButton.fontSize* | Override keyboard key's max symbol size. |
 | textField*            | *element*              |                                              | Input field used when keyboard is closed and cloned when it's opened.  |
 | onRequestClose        | *function*             |                                              | Fired when keyboard recives 'Enter' or 'Escape' eighter from onKeyDown listener or keyboard key touch/click event. |
-| onInput*              | *function*             |                                              | Fired when keyboard recives 'Enter' **Signature:** `function(input: string) => void`. |
+| onInput               | *function*             |                                              | Fired when keyboard recives 'Enter' **Signature:** `function(input: string) => void`. |
 
 Props marked with \* are required.
 
@@ -58,9 +58,9 @@ react-material-ui-keyboard is implemented using the followong Material-Ui Elemen
 
 and uses `React.cloneElement` to clone `textFiled` for the kyboard input field.
 
-The used `Dialog` is `modal` which guartes that only one keyboard can be opened which allows memory and performance optimizations. 
+The used `Dialog` is `modal` which guaranties that only one keyboard can be opened which allows memory and performance optimizations. 
 
-Keyboard Compoment uses MuiTheme information to calculate it's width.
+Keyboard Compoment uses `MuiTheme`, `props`, `window.innerWidth` and `window.innerHeight` information to calculate it's size and keyboard keys size (width x height) to ensure it always fits best on screen chech [GALLERY](https://github.com/NoHomey/react-material-ui-keyboard/blob/master/GALLERY.md).
 
 # Key Support
 
