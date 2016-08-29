@@ -183,3 +183,9 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 ### Changes 
 
 - `readOnly` is assigned to the result of invoking `Keyboard.automaitcOpenPredicate` on `textField` when `active` is`true`
+
+## [v5.0.1](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/5.0.1)
+
+### Bug fixes
+
+- Fixing a bug which would set `Dialog` `dialogContentStyle` prop with `height`: `NaN` for custom `textFields` which dose not support `row` `prop`

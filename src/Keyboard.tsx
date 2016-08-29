@@ -359,7 +359,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const { desktopGutter, desktopKeylineIncrement } = theme.baseTheme.spacing;
         const dialogGutter: number = 2 * desktopGutter;
         const { rows, floatingLabelText } = inputTextFieldProps;
-        const textFieldHeight: number = ((rows - 1) * 24) + (floatingLabelText ? 72 : 48);
+        const textFieldHeight: number = (rows ? ((rows - 1) * 24) : 0) + (floatingLabelText ? 72 : 48);
         let transformTop: number = desktopKeylineIncrement;
         let dialogWidth: number = (maxKeyboardRowLength * keyWidth) + dialogGutter;
         let dialogHeight: number = (keyboardRowLength * keyHeight) + textFieldHeight + dialogGutter;
