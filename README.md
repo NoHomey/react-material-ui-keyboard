@@ -60,7 +60,7 @@ and uses `React.cloneElement` to clone `textFiled` for the kyboard input field.
 
 The used `Dialog` is `modal` which guaranties that only one keyboard can be opened which allows memory and performance optimizations. 
 
-Keyboard Compoment uses `MuiTheme`, `props`, `window.innerWidth` and `window.innerHeight` information to calculate it's size and keyboard keys size (width x height) to ensure it always fits best on screen chech [GALLERY](https://github.com/NoHomey/react-material-ui-keyboard/blob/master/GALLERY.md).
+`Keyboard` Compoment uses `MuiTheme`, `props`, `window.innerWidth` and `window.innerHeight` information to calculate it's size and keyboard keys size (width x height) to ensure it always fits best on screen chech [GALLERY](https://github.com/NoHomey/react-material-ui-keyboard/blob/master/GALLERY.md).
 
 # Key Support
 
