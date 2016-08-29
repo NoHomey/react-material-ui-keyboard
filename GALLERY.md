@@ -2,7 +2,7 @@
 
 - keyboardKeyHeight={50}
 - keyboardKeyWidth={100}
-- keyboardKeySymbolSize={36})
+- keyboardKeySymbolSize={36}
 
 ## Screen 1200x600
 
