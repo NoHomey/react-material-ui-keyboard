@@ -329,7 +329,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             }
         });
         ObjectAssign(keyboardFieldProps, {
-            readOnly: automaitcOpenPredicted,
+            readOnly: true,
             value: value, 
             fullWidth: true,
             ref: _refKeyboardField
