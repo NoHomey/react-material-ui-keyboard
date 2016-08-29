@@ -55,8 +55,13 @@ export interface TextFieldRequiredProps {
     value: string; 
     onKeyDown: React.KeyboardEventHandler;
     fullWidth: boolean;
+}
+
+export interface TextFieldAccessedProps extends TextFieldRequiredProps {
     onFocus?: React.FocusEventHandler;
     ref?: TextFieldRef;
+    rows?: number;
+    floatingLabelText?: string;
 }
 
 export type TextFieldElement = React.ReactElement<TextFieldRequiredProps>;
@@ -93,6 +98,12 @@ export type KeyboardWindowEventListener = (event: FocusEvent | KeyboardEvent) =>
 
 export type NativeKeyboardEventHandler = (event: KeyboardEvent) => void;
 
+export type AutomaitcOpenPredicate = () => boolean;
+
+function allwaysTruePredicate(): boolean {
+    return true;
+}
+
 export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     private static _addListener(event: string, listener: KeyboardWindowEventListener): void {
         window.addEventListener(event, listener, true);
@@ -119,11 +130,12 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         onInput: React.PropTypes.func.isRequired
     };
     public static contextTypes: Object = { muiTheme: React.PropTypes.object };
+    public static automaitcOpenPredicate: AutomaitcOpenPredicate = allwaysTruePredicate;
     public context: KeyboardContext;
     private _textField: TextField;
     private _refTextField: TextFieldRef;
-    private _refKeyboardField: TextFieldRef;
     private _keyboardField: TextField;
+    private _refKeyboardField: TextFieldRef;
     private _onFocus: React.FocusEventHandler;
     private _onKeyboard: (key: string) => void;
     private _onKeyDown: NativeKeyboardEventHandler;
@@ -172,7 +184,9 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     private _handleFocus(event: React.FocusEvent): void {
-        this._setAutomaitcOpen(true);
+        if(Keyboard.automaitcOpenPredicate()) {
+            this._setAutomaitcOpen(true);
+        }
     }
 
     private _handleKeyboard(key: string): void {
@@ -293,7 +307,8 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const { muiTheme} = context;
         const textFieldElement: TextFieldElement = textField;
         const open: boolean = automatic ? state.open : props.open;
-        const readOnly: boolean = automatic ? true : !Boolean(nativeVirtualKeyboard);
+        const automaitcOpenPredicted: boolean = Keyboard.automaitcOpenPredicate();
+        const readOnly: boolean = automatic ? automaitcOpenPredicted : !Boolean(nativeVirtualKeyboard);
         let keyboardFieldProps: any = ObjectAssign({}, textFieldElement.props);
         ['onChange', 'onFocus', 'onBlur', 'onKey', 'onKeyUp', 'onKeyDown', 'onKeyPress'].forEach((prop: string): void => {
             if(keyboardFieldProps.hasOwnProperty(prop)) {
@@ -301,13 +316,13 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             }
         });
         ObjectAssign(keyboardFieldProps, {
-            readOnly: true,
+            readOnly: automaitcOpenPredicted,
             value: value, 
             fullWidth: true,
             ref: _refKeyboardField
         });
         const keyboardTextField: TextFieldElement = React.cloneElement(textFieldElement, keyboardFieldProps);
-        let inputTextFieldProps: any = ObjectAssign({}, textFieldElement.props, { ref: _refTextField, readOnly: readOnly });
+        let inputTextFieldProps: TextFieldAccessedProps = ObjectAssign({}, textFieldElement.props, { ref: _refTextField, readOnly: readOnly });
         if(automatic) {
             inputTextFieldProps.onFocus = _onFocus;
         }
@@ -323,18 +338,40 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             return row.length + spacebar - 1;
         });
         const maxKeyboardRowLength: number = Math.max(...keyboardRowLengths);
+        const keyboardRowLength: number = keyboardLayout.length;
         const theme: MuiTheme = muiTheme ? muiTheme : getMuiTheme();
         let keyHeight: number = keyboardKeyHeight !== undefined ? keyboardKeyHeight : theme.button.height;
         let keyWidth: number = keyboardKeyWidth !== undefined ? keyboardKeyWidth : theme.button.minWidth;
         let keySymbolSize: number = keyboardKeySymbolSize !== undefined ? keyboardKeySymbolSize : theme.flatButton.fontSize;
         const dialogGutter: number = 2 * theme.baseTheme.spacing.desktopGutter;
+        const { rows, floatingLabelText } = inputTextFieldProps;
+        const textFieldHeight: number = ((rows - 1) * 24) + (floatingLabelText ? 72 : 48);
+        let transformTop: number = theme.spacing.desktopKeylineIncrement;
         let dialogWidth: number = (maxKeyboardRowLength * keyWidth) + dialogGutter;
+        let dialogHeight: number = (keyboardRowLength * keyHeight) + textFieldHeight + dialogGutter;
         const { innerHeight, innerWidth } = window;
+        const maxDialogHeight: number = innerHeight - 16;
+        const dialogSpacingTop: number = maxDialogHeight - dialogHeight;
         if(dialogWidth > innerWidth) {
             dialogWidth = innerWidth;
             keyWidth = (innerWidth - dialogGutter) / maxKeyboardRowLength;
         }
-        const dialogcontentStyle: React.CSSProperties = { width: dialogWidth, maxWidth: innerWidth };
+        if(dialogSpacingTop < transformTop) {
+            if(dialogSpacingTop >= 0) {
+                transformTop = dialogSpacingTop;
+            } else {
+                transformTop = 0;
+                dialogHeight = maxDialogHeight;
+                keyHeight = (dialogHeight - textFieldHeight - dialogGutter) / keyboardRowLength;
+            }
+        }
+        const dialogContentStyle: React.CSSProperties = {
+            width: dialogWidth,
+            maxWidth: innerWidth,
+            height: dialogHeight,
+            maxHeight: maxDialogHeight,
+            transform: `translate(0, ${transformTop}px)`
+        };
         const keyboardRows: Array<KeyboardRow> = keyboardLayout.map((row: Array<string>, rowIndex: number): KeyboardRow => {
             const keyboardRowKeys: Array<KeyboardRowKey> = row.map((key: string, keyIndex: number): KeyboardRowKey => {
                 return (
@@ -353,17 +390,21 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const keyboard: JSX.Element = (
             <div>
                 {inputTextField}
-                <Dialog open={open} modal autoScrollBodyContent contentStyle={dialogcontentStyle} >
-                    <div>
-                        <div>
-                            {keyboardTextField}
-                        </div>
+                <Dialog
+                    open={open}
+                    modal
+                    autoDetectWindowHeight={false}
+                    contentStyle={dialogContentStyle}>
                         <div>
                             <div>
-                                {keyboardRows}
+                                {keyboardTextField}
+                            </div>
+                            <div>
+                                <div>
+                                    {keyboardRows}
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </Dialog>
             </div>
         );

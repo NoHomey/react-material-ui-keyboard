@@ -6,6 +6,7 @@ import Escape from 'material-ui/svg-icons/action/exit-to-app';
 import Keyboard from 'material-ui/svg-icons/hardware/keyboard';
 import CapsLock from 'material-ui/svg-icons/hardware/keyboard-capslock';
 import Spacebar from 'material-ui/svg-icons/editor/space-bar';
+import { TouchTapEventHandler, TouchTapEvent } from 'material-ui';
 
 export type KeyboardKeyPressHandler = (key: string) => void;
 
@@ -25,19 +26,20 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
         keyboardKeyHeight: React.PropTypes.number.isRequired,
         keyboardKeySymbolSize: React.PropTypes.number.isRequired,
     };
-    private _onClick: React.MouseEventHandler;
+    private _onTouchTap: TouchTapEventHandler;
 
-    private _handleClick(event: React.MouseEvent): void {
+    private _handleTouchTap(event: TouchTapEvent): void {
         this.props.onKeyPress(this.props.keyboardKey);
     }
 
     public constructor(props: KeyboardKeyProps) {
         super(props);
-        this._onClick = this._handleClick.bind(this);
+        this._onTouchTap = this._handleTouchTap.bind(this);
     }
 
     public render(): JSX.Element {
-        const { keyboardKey: key, keyboardKeyHeight: height, keyboardKeyWidth: width, keyboardKeySymbolSize: size } = this.props;
+        const { _onTouchTap, props } = this;
+        const { keyboardKey: key, keyboardKeyHeight: height, keyboardKeyWidth: width, keyboardKeySymbolSize: size } = props;
         const notSpacebar: boolean = key.match(/^\ +$/) === null;
         let keyboardKey: JSX.Element;
 
@@ -88,7 +90,7 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
             style: style,
             labelStyle: { fontSize: size, textTransform: 'none' },
             primary: true,
-            onClick: this._onClick
+            onTouchTap: _onTouchTap
         });
     }
 };
