@@ -133,7 +133,7 @@ const ExtendedKeyboard = [
 
 # Public members
 
-`Keyboard` one `public` `static` member which is designed to be overwritten: `automaitcOpenPredicate` it's signature is `function() => boolean`. It is  called when `automatic` is `true` and the attached `onFocus` handler on `textField` gets fired to determinate should keyboard `open` and disable native virtual keyboard by assigning `readOnly` at `textField` in the `render`. Default `automaitcOpenPredicate` behaviour is to always return `true`. You can override it to change when to `automatic`lly open keyboard `onFocus`.
+`Keyboard` has one `public` `static` member which is designed to be overwritten: `automaitcOpenPredicate` it's signature is `function() => boolean`. It is  called when `automatic` is `true` and the attached `onFocus` handler on `textField` gets fired to determinate should keyboard `open` and disable native virtual keyboard by assigning `readOnly` at `textField` in the `render`. Default `automaitcOpenPredicate` behaviour is to always return `true`. You can override it to change when to `automatic`lly open keyboard `onFocus`.
 
 # Example
 
