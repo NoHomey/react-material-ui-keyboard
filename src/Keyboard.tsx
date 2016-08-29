@@ -132,14 +132,15 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     public static contextTypes: Object = { muiTheme: React.PropTypes.object };
     public static automaitcOpenPredicate: AutomaitcOpenPredicate = allwaysTruePredicate;
     public context: KeyboardContext;
+    private _onFocus: React.FocusEventHandler;
+    private _onKeyboard: (key: string) => void;
+    private _onKeyDown: NativeKeyboardEventHandler;
+    private _onResize: (event: UIEvent) => void;
+    private _preventEvent: (event: FocusEvent) => void;
     private _textField: TextField;
     private _refTextField: TextFieldRef;
     private _keyboardField: TextField;
     private _refKeyboardField: TextFieldRef;
-    private _onFocus: React.FocusEventHandler;
-    private _onKeyboard: (key: string) => void;
-    private _onKeyDown: NativeKeyboardEventHandler;
-    private _preventEvent: (event: FocusEvent) => void;
 
     private _setValue(value: string): void {
         this.setState({ value: value });
@@ -174,13 +175,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
 
     private _actionKeyDownListener(actioner: (event: string, listener: NativeKeyboardEventHandler) => void): void {
         actioner('keydown', this._onKeyDown);
-    }
-
-    private _handleEvent(event: FocusEvent): void {
-        if(event.target === this._textField.getInputNode()) {
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-        }
     }
 
     private _handleFocus(event: React.FocusEvent): void {
@@ -233,6 +227,17 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         }
     }
 
+    private _handleEvent(event: FocusEvent): void {
+        if(event.target === this._textField.getInputNode()) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+        }
+    }
+
+    private _handleResize(event: UIEvent): void {
+        this.forceUpdate();
+    }
+
     private _handleTextField(component: TextField): void {
         this._textField = component;
     }
@@ -267,9 +272,11 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         this._onKeyboard = this._handleKeyboard.bind(this);
         this._onKeyDown = this._handleKeyDown.bind(this);
         this._preventEvent = this._handleEvent.bind(this);
+        this._onResize = this._handleResize.bind(this);
     }
 
     public componentDidMount(): void {
+        window.addEventListener('resize', this._onResize, false);
         this._syncValue(this.getTextField().getInputNode().value);
     }
 
@@ -300,8 +307,12 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         }
     }
 
+    public componentWillUnmount() {
+        window.removeEventListener('resize', this._onResize, false);
+    }
+
     public render(): JSX.Element {
-        const { props, state, context, _refTextField, _refKeyboardField, _onFocus, _onKeyboard } = this;
+        const {props, state, context, _refTextField, _refKeyboardField, _onFocus, _onKeyboard } = this;
         const { textField, layouts, keyboardKeyHeight, keyboardKeyWidth, keyboardKeySymbolSize, automatic, nativeVirtualKeyboard } = props;
         const { value, layout: stateLayout, capsLock } = state;
         const { muiTheme} = context;
@@ -343,27 +354,34 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         let keyHeight: number = keyboardKeyHeight !== undefined ? keyboardKeyHeight : theme.button.height;
         let keyWidth: number = keyboardKeyWidth !== undefined ? keyboardKeyWidth : theme.button.minWidth;
         let keySymbolSize: number = keyboardKeySymbolSize !== undefined ? keyboardKeySymbolSize : theme.flatButton.fontSize;
-        const dialogGutter: number = 2 * theme.baseTheme.spacing.desktopGutter;
+        const { desktopGutter, desktopKeylineIncrement } = theme.baseTheme.spacing;
+        const dialogGutter: number = 2 * desktopGutter;
         const { rows, floatingLabelText } = inputTextFieldProps;
         const textFieldHeight: number = ((rows - 1) * 24) + (floatingLabelText ? 72 : 48);
-        let transformTop: number = theme.spacing.desktopKeylineIncrement;
+        let transformTop: number = desktopKeylineIncrement;
         let dialogWidth: number = (maxKeyboardRowLength * keyWidth) + dialogGutter;
         let dialogHeight: number = (keyboardRowLength * keyHeight) + textFieldHeight + dialogGutter;
         const { innerHeight, innerWidth } = window;
         const maxDialogHeight: number = innerHeight - 16;
         const dialogSpacingTop: number = maxDialogHeight - dialogHeight;
-        if(dialogWidth > innerWidth) {
-            dialogWidth = innerWidth;
-            keyWidth = (innerWidth - dialogGutter) / maxKeyboardRowLength;
-        }
-        if(dialogSpacingTop < transformTop) {
-            if(dialogSpacingTop >= 0) {
-                transformTop = dialogSpacingTop;
-            } else {
-                transformTop = 0;
-                dialogHeight = maxDialogHeight;
-                keyHeight = (dialogHeight - textFieldHeight - dialogGutter) / keyboardRowLength;
+        const overwriteWidth: boolean = dialogWidth > innerWidth;
+        const overwriteHeight: boolean = dialogSpacingTop < transformTop;
+        if(overwriteWidth || overwriteHeight) {
+            if(overwriteWidth) {
+                dialogWidth = innerWidth;
+                keyWidth = (innerWidth - dialogGutter) / maxKeyboardRowLength;
             }
+            if(overwriteHeight) {
+                if(dialogSpacingTop >= 0) {
+                    transformTop = dialogSpacingTop;
+                } else {
+                    transformTop = 0;
+                    dialogHeight = maxDialogHeight;
+                    keyHeight = (dialogHeight - textFieldHeight - dialogGutter) / keyboardRowLength;
+                }
+            }
+            const smallerSize: number = keyHeight < keyWidth ? keyHeight : keyWidth;
+            keySymbolSize = smallerSize - (desktopGutter / 2);
         }
         const dialogContentStyle: React.CSSProperties = {
             width: dialogWidth,

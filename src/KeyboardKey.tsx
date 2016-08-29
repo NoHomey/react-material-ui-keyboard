@@ -84,7 +84,8 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
         }
         const style: React.CSSProperties = {
             height: height,
-            width: notSpacebar ? width : (width * key.length)
+            width: notSpacebar ? width : (width * key.length), 
+            minWidth: width
         }
         return React.cloneElement(keyboardKey, {
             style: style,
