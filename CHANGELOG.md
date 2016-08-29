@@ -172,7 +172,7 @@ Note: `readOnly` is setted to `true` on `textField` when `active` is also `true`
 
 - `Keyboard` now resizes on when `window` `'resize'`s
 - `Keyboard` now fits on screen if calculated size based on `keyboardKeyWidth`, `keyboardKeyHeight` & `keyboardKeySymbolSize` `props`s is less than calculated
-- `Keyboard` now exposes new `public` `static` member `automaitcOpenPredicate` which is `function` with signature: `function() => boolean` that is called when `automatic` is `true` and the attached `onFocus` handler on `textField` gets fired to determinate should keyboard `open` and disable native virtual keyboard by assigning `readOnly` at `textField` in the `render`. Default `automaitcOpenPredicate` behaviour is to always return `true` you can override it to change it's behaviour. Member purpose is to reduce even further needed boilerplate when `automatic`lly openning keyboard `onFocus`
+- `Keyboard` now exposes new `public` `static` member `automaitcOpenPredicate` which is `function` with signature: `function() => boolean` that is called when `automatic` is `true` and the attached `onFocus` handler on `textField` gets fired to determinate should keyboard `open` and disable native virtual keyboard by assigning `readOnly` at `textField` in the `render`. Default `automaitcOpenPredicate` behaviour is to always return `true`. You can override it to change when to `automatic`lly open keyboard `onFocus`
 
 Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboard/blob/master/GALLERY.md)
 
