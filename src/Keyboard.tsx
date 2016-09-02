@@ -82,7 +82,9 @@ export interface KeyboardProps {
     textField: TextFieldElement;
     onRequestClose?: RequestCloseHandler;
     onInput?: InputHandler;
-};
+    correctorName?: string;
+    corrector?: Function;
+}
 
 export interface KeyboardState {
     value?: string;
@@ -93,7 +95,7 @@ export interface KeyboardState {
 
 export interface KeyboardContext {
     muiTheme?: MuiTheme;
-};
+}
 
 export type KeyboardWindowEventListener = (event: FocusEvent | KeyboardEvent) => void;
 
@@ -133,7 +135,9 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         keyboardKeySymbolSize: React.PropTypes.number,
         textField: React.PropTypes.element.isRequired,
         onRequestClose: React.PropTypes.func,
-        onInput: React.PropTypes.func
+        onInput: React.PropTypes.func,
+        correctorName: React.PropTypes.string,
+        corrector:  React.PropTypes.func
     };
     public static contextTypes: Object = { muiTheme: React.PropTypes.object };
     public static automaitcOpenPredicate: AutomaitcOpenPredicate = allwaysTruePredicate;
@@ -265,6 +269,10 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         return this._keyboardField;
     }
 
+    public makeCorrection(value: string): void {
+        this.setState({ value: value });
+    }
+
     public constructor(props: KeyboardProps, context: KeyboardContext) {
         super(props, context);
         this.state = {
@@ -320,8 +328,8 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     public render(): JSX.Element {
-        const {props, state, context, _refTextField, _refKeyboardField, _onFocus, _onKeyboard } = this;
-        const { textField, layouts, keyboardKeyHeight, keyboardKeyWidth, keyboardKeySymbolSize, automatic, nativeVirtualKeyboard } = props;
+        const { props, state, context, _refTextField, _refKeyboardField, _onFocus, _onKeyboard } = this;
+        const { textField, layouts, keyboardKeyHeight, keyboardKeyWidth, keyboardKeySymbolSize, automatic, nativeVirtualKeyboard, correctorName, corrector } = props;
         const { value, layout: stateLayout, capsLock } = state;
         const { muiTheme} = context;
         const textFieldElement: TextFieldElement = textField;
@@ -348,8 +356,14 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             style: keyboardFieldStyle,
             ref: _refKeyboardField
         });
+        if(correctorName !== undefined) {
+            keyboardFieldProps[correctorName] = corrector.bind(this);
+        }
         const keyboardTextField: TextFieldElement = React.cloneElement(textFieldElement, keyboardFieldProps);
-        let inputTextFieldProps: TextFieldAccessedProps = ObjectAssign({}, textFieldElement.props, { ref: _refTextField, readOnly: readOnly });
+        let inputTextFieldProps: TextFieldAccessedProps = ObjectAssign({}, textFieldElement.props, {
+            ref: _refTextField,
+            readOnly: readOnly
+        });
         if(automatic) {
             inputTextFieldProps.onFocus = _onFocus;
         }

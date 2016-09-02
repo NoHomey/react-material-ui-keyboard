@@ -32,8 +32,12 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 | textField*            | *element*              |                                              | Input field used when keyboard is closed and cloned when it's opened.  |
 | onRequestClose        | *function*             |                                              | Fired when keyboard recives 'Enter' or 'Escape' eighter from onKeyDown listener or keyboard key touch/click event. |
 | onInput               | *function*             |                                              | Fired when keyboard recives 'Enter' **Signature:** `function(input: string) => void`. |
+| correctorName         | *string*               |                                              | Name of the cloned textField prop to which to bind corrector. |
+| corrector**           | *function*             |                                              | Function which is bound to the the cloned textField at correctorName prop. this is bound to the Keyboard, public method makeCorrection can be used to apply a correction to the keyboard input. |                                                 
 
 Props marked with \* are required.
+
+\*\* corrector is required when correctorName is provided.
 
 # Requirements
 
@@ -129,7 +133,9 @@ const ExtendedKeyboard = [
 
 # Public methods
 
-`Keyboard` exposes two `public` methods: `getTextField` and `getKeyboardField` with common signature `function() => TextField`. Which both return React `ref`s for passted `textField` and cloned one for the keyboard input. `TextField` is used as common return type because of the requirement of `getInputNode` for getting a `input` `ref` which of v0.16 of material-ui will be replaced with requirement of public member `input`.
+`Keyboard` exposes two `public` methods: `getTextField` and `getKeyboardField` with common signature `function() => TextField`. Which both return React `ref`s for passted `textField` and cloned one for the keyboard input. `TextField` is used as common return type because of the requirement of `getInputNode` for getting a `input` `ref` which of `v0.16` of material-ui will be replaced with requirement of public member `input`.
+
+`Keyboard` also exposes method `makeCorrection` which can be used to apply keyboard input value corrections when keyboard is opened or within `correction` handller.
 
 # Public members
 
@@ -214,6 +220,11 @@ class Demo extends React.Component {
         console.log(input);
         this.setState({ value: input });
     }
+
+    _corrector(value) {
+        console.log(`correction ${value}`);
+        this.makeCorrection(value);
+    }
     
     _handleError(error) {
         let errorText;
@@ -255,7 +266,7 @@ class Demo extends React.Component {
     }
     
     render() {
-        const { state, _onFocus, _onChange, _onError, _onValid } = this;
+        const { state, _onFocus, _onChange, _onError, _onValid, _corrector } = this;
         const { value, errorText } = state;
         const textField = (
             <NumberInput
@@ -280,6 +291,8 @@ class Demo extends React.Component {
                 open={this.state.open}
                 onRequestClose={this._onRequestClose}
                 onInput={this._onInput}
+                correctorName="onRequestValue"
+                corrector={_corrector}
                 layouts={[NumericKeyboard]}
                 keyboardKeyHeight={50}
                 keyboardKeyWidth={100}

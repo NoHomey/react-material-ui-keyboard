@@ -16,6 +16,10 @@ interface DemoState {
 };
 
 class Demo extends React.Component<void, DemoState> {
+    private static _corrector(value: string): void {
+        (this as Keyboard).makeCorrection(value);
+    }
+
     private _onFocus: React.FocusEventHandler;
     private _onChange: React.FormEventHandler;
     private _onRequestClose: RequestCloseHandler;
@@ -125,6 +129,8 @@ class Demo extends React.Component<void, DemoState> {
                         open={this.state.open}
                         onRequestClose={this._onRequestClose}
                         onInput={this._onInput}
+                        correctorName="onRequestValue"
+                        corrector={Demo._corrector}
                         layouts={[NumericKeyboard]}
                         keyboardKeyHeight={50}
                         keyboardKeyWidth={100}
