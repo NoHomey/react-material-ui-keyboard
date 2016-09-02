@@ -106,6 +106,11 @@ function allwaysTruePredicate(): boolean {
 }
 
 export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
+    private static _calculatedTextFieldHeight(props: TextFieldAccessedProps): number {
+        const { rows, floatingLabelText } = props;
+        return (rows ? ((rows - 1) * 24) : 0) + (floatingLabelText ? 72 : 48);
+    }
+
     private static _addListener(event: string, listener: KeyboardWindowEventListener): void {
         window.addEventListener(event, listener, true);
     }
@@ -326,7 +331,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const styles: React.CSSProperties = textFieldElement.props.style;
         let keyboardFieldProps: any = ObjectAssign({}, textFieldElement.props);
         let keyboardFieldStyle: any = ObjectAssign({}, styles);
-        ['minWidth', 'width', 'maxWidth', 'minHeight', 'height', 'maxHeight'].forEach((prop: string): void => {
+        ['minWidth', 'width', 'maxWidth'].forEach((prop: string): void => {
             if(keyboardFieldStyle.hasOwnProperty(prop)) {
                 delete keyboardFieldStyle[prop];
             }
@@ -367,8 +372,9 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         let keySymbolSize: number = keyboardKeySymbolSize !== undefined ? keyboardKeySymbolSize : theme.flatButton.fontSize;
         const { desktopGutter, desktopKeylineIncrement } = theme.baseTheme.spacing;
         const dialogGutter: number = 2 * desktopGutter;
-        const { rows, floatingLabelText } = inputTextFieldProps;
-        const textFieldHeight: number = (rows ? ((rows - 1) * 24) : 0) + (floatingLabelText ? 72 : 48);
+        const { minHeight, height, maxHeight } = styles;
+        const styleHeight: number = minHeight ? minHeight : (height ? height : (maxHeight ? maxHeight : 0));
+        const textFieldHeight: number = styleHeight > 0 ? styleHeight : Keyboard._calculatedTextFieldHeight(inputTextFieldProps);
         let transformTop: number = desktopKeylineIncrement;
         let dialogWidth: number = (maxKeyboardRowLength * keyWidth) + dialogGutter;
         let dialogHeight: number = (keyboardRowLength * keyHeight) + textFieldHeight + dialogGutter;
