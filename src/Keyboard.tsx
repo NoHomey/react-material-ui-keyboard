@@ -51,6 +51,7 @@ export type InputHandler = (input: InputValue) => void;
 export type TextFieldRef = (componet: TextField) => void;
 
 export interface TextFieldRequiredProps {
+    style?: React.CSSProperties;
     readOnly: boolean;
     value: string; 
     onKeyDown: React.KeyboardEventHandler;
@@ -322,7 +323,14 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const open: boolean = automatic ? state.open : props.open;
         const automaitcOpenPredicted: boolean = Keyboard.automaitcOpenPredicate();
         const readOnly: boolean = automatic ? automaitcOpenPredicted : !Boolean(nativeVirtualKeyboard);
+        const styles: React.CSSProperties = textFieldElement.props.style;
         let keyboardFieldProps: any = ObjectAssign({}, textFieldElement.props);
+        let keyboardFieldStyle: any = ObjectAssign({}, styles);
+        ['minWidth', 'width', 'maxWidth', 'minHeight', 'height', 'maxHeight'].forEach((prop: string): void => {
+            if(keyboardFieldStyle.hasOwnProperty(prop)) {
+                delete keyboardFieldStyle[prop];
+            }
+        });
         ['onChange', 'onFocus', 'onBlur', 'onKey', 'onKeyUp', 'onKeyDown', 'onKeyPress'].forEach((prop: string): void => {
             if(keyboardFieldProps.hasOwnProperty(prop)) {
                 keyboardFieldProps[prop] = undefined;
@@ -332,6 +340,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             readOnly: true,
             value: value, 
             fullWidth: true,
+            style: keyboardFieldStyle,
             ref: _refKeyboardField
         });
         const keyboardTextField: TextFieldElement = React.cloneElement(textFieldElement, keyboardFieldProps);
@@ -408,7 +417,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             return <div key={rowIndex}>{keyboardRowKeys}</div>;
         });
         const keyboard: JSX.Element = (
-            <div>
+            <div style={styles}>
                 {inputTextField}
                 <Dialog
                     open={open}

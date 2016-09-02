@@ -43,6 +43,7 @@ export default class Demo extends React.Component<void, DemoState> {
             <TextField
                 id="field"
                 value={value}
+                style={{ width: 200 }}
                 floatingLabelText="Click for a Keyboard" />
         );
 
