@@ -195,4 +195,4 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 ### Bug fixes
 
 - Fixing possible styling bugs due to wrapping `textFiled` and `Dialog` in `div`. If `style` `prop` is passed to `textFiled` it will be also passed and to the wrapping `div`
-- Fixing possible styling bugs when `textFiled` is passed a `style` `prop` that would set any of `['minWidth', 'width', 'maxWidth', 'minHeight', 'height', 'maxHeight']`, those styling props are `delete`d on the cloned `textField`, used for kyeboard input, in favour of unified user experiance of `fullWidth` `input`
+- Fixing possible styling bugs when `textFiled` is passed a `style` `prop` that would set any of `['minWidth', 'width', 'maxWidth', 'minHeight', 'height', 'maxHeight']`, those styling props are `delete`d on the cloned `textField`, used for keyboard input, in favour of unified user experiance of `fullWidth` `input`
