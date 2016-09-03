@@ -11,10 +11,9 @@
     "prepublish": "npm run prepublish:rm && npm run prepublish:tsc && npm run prepublish:sed && npm run prepublish:dts",
     "prepublish:rm": "rm -Rf ./d*",
     "prepublish:tsc": "tsc -d -m commonjs  --moduleResolution node -t es5 --jsx react --noImplicitAny --outDir ./dist ./src/index.tsx",
-    "prepublish:sed": "npm run prepublish:sed:typings && npm run prepublish:sed:assign",
+    "prepublish:sed": "npm run prepublish:sed:typings",
     "prepublish:sed:typings": "sed -i '/\\/\\/\\/ <reference path=\".\\/..\\/typings\\/index.d.ts\" \\/>/d' ./dist/index.js",
-    "prepublish:sed:assign": "sed -i '/\\/\\/\\/ <reference path=\".\\/Object_assign.d.ts\" \\/>/d' ./dist/index.js",
-    "prepublish:dts": "echo  \"export * from './Keyboard';\" > ./dist/index.d.ts"
+    "prepublish:dts": "echo  \"import Keyboard from './Keyboard';\nexport * from './Keyboard';\nexport default Keyboard;\" > ./dist/index.d.ts"
   },
   "keywords": [
     "react",

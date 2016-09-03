@@ -213,3 +213,6 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 - `correctionName` is a `string` which is the name of the cloned `textField` `prop` to which to bind `corrector`.
 - `corrector` is a `function`  which is bound to the the cloned `textField` at `correctorName` `prop`. `this` is bound to the `Keyboard`, `public` method `makeCorrection` can be used to apply a correction to the keyboard input. 
 
+## [v6.0.1](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/6.0.1)
+
+- Re-exporting `default` from `'./Keboard'`
