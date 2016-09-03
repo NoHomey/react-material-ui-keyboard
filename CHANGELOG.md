@@ -216,3 +216,7 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 ## [v6.0.1](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/6.0.1)
 
 - Re-exporting `default` from `'./Keboard'`
+
+## [v6.0.2](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/6.0.2)
+
+- Using npm badge for README.md#Install

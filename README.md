@@ -12,7 +12,7 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 
 # Install
 
-`npm install react-material-ui-keyboard`
+[![NPM](https://nodei.co/npm/react-material-ui-keyboard.png?downloads=true&stars=true)](https://nodei.co/npm/react-material-ui-keyboard/)
 
 # Changelog
 
