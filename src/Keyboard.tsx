@@ -125,6 +125,11 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         return ['Enter', 'Backspace', 'Escape', 'CapsLock', 'Keyboard'];
     }
 
+    private static _noStyleHeight: React.CSSProperties = {
+        minHeight: 0,
+        height: 0,
+        maxHeight: 0
+    };
     public static propTypes: Object = {
         nativeVirtualKeyboard: React.PropTypes.bool,
         open: React.PropTypes.bool,
@@ -386,7 +391,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         let keySymbolSize: number = keyboardKeySymbolSize !== undefined ? keyboardKeySymbolSize : theme.flatButton.fontSize;
         const { desktopGutter, desktopKeylineIncrement } = theme.baseTheme.spacing;
         const dialogGutter: number = 2 * desktopGutter;
-        const { minHeight, height, maxHeight } = styles;
+        const { minHeight, height, maxHeight } = (styles ? styles : Keyboard._noStyleHeight);
         const styleHeight: number = minHeight ? minHeight : (height ? height : (maxHeight ? maxHeight : 0));
         const textFieldHeight: number = styleHeight > 0 ? styleHeight : Keyboard._calculatedTextFieldHeight(inputTextFieldProps);
         let transformTop: number = desktopKeylineIncrement;
