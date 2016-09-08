@@ -130,7 +130,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         height: 0,
         maxHeight: 0
     };
-    public static propTypes: Object = {
+    public static propTypes: React.ValidationMap<KeyboardProps> = {
         nativeVirtualKeyboard: React.PropTypes.bool,
         open: React.PropTypes.bool,
         automatic: React.PropTypes.bool,
