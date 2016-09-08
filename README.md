@@ -45,7 +45,6 @@ Props marked with \* are required.
 
 - `value`\* of type `string`
 - `onKeyDown`\* of type `function(event: React.KeyboardEvent)`
-- `fullWidth` of type `bool`
 - `readOnly`\* of type `bool`
 
 Props marked with \* must be passed down to the native `input` element.
