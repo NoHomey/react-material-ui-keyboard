@@ -10,7 +10,7 @@
     "start": "webpack && mv ./demo/index.html ./ && node server.js",
     "prepublish": "npm run prepublish:rm && npm run prepublish:tsc && npm run prepublish:sed && npm run prepublish:dts",
     "prepublish:rm": "rm -Rf ./d*",
-    "prepublish:tsc": "tsc -d -m commonjs  --moduleResolution node -t es5 --jsx react --noImplicitAny --outDir ./dist ./src/index.tsx",
+    "prepublish:tsc": "tsc -d -m commonjs  --moduleResolution node -t es5 --jsx react --noImplicitAny --experimentalDecorators --outDir ./dist ./src/index.tsx",
     "prepublish:sed": "npm run prepublish:sed:typings",
     "prepublish:sed:typings": "sed -i '/\\/\\/\\/ <reference path=\".\\/..\\/typings\\/index.d.ts\" \\/>/d' ./dist/index.js",
     "prepublish:dts": "echo  \"import Keyboard from './Keyboard';\nexport * from './Keyboard';\nexport default Keyboard;\" > ./dist/index.d.ts"
