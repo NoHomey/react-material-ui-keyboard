@@ -20,7 +20,7 @@ export interface KeyboardKeyProps {
 }
 
 export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
-    public static propTypes: Object = {
+    public static propTypes: React.ValidationMap<KeyboardKeyProps> = {
         keyboardKey: React.PropTypes.string.isRequired,
         onKeyPress: React.PropTypes.func.isRequired,
         keyboardKeyWidth: React.PropTypes.number.isRequired,
