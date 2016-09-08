@@ -7,7 +7,6 @@ import { KeyboardKey, KeyboardKeyProps } from './KeyboardKey';
 import { MuiTheme } from 'material-ui/styles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import ObjectAssign = require('object-assign');
-import autobind = require('autobind-decorator');
 
 const { div } = React.DOM;
 
@@ -260,7 +259,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         }
     }
 
-    @autobind
+    @bind
     private _preventEvent(event: FocusEvent): void {
         if(event.target === this._textField.getInputNode()) {
             console.log('preventing')
