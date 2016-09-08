@@ -7,6 +7,7 @@ import { KeyboardKey, KeyboardKeyProps } from './KeyboardKey';
 import { MuiTheme } from 'material-ui/styles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import ObjectAssign = require('object-assign');
+import autobind = require('autobind-decorator');
 
 const { div } = React.DOM;
 
@@ -148,15 +149,8 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     public static contextTypes: Object = { muiTheme: React.PropTypes.object };
     public static automaitcOpenPredicate: AutomaitcOpenPredicate = allwaysTruePredicate;
     public context: KeyboardContext;
-    private _onFocus: React.FocusEventHandler;
-    private _onKeyboard: (key: string) => void;
-    private _onKeyDown: NativeKeyboardEventHandler;
-    private _onResize: (event: UIEvent) => void;
-    private _preventEvent: (event: FocusEvent) => void;
     private _textField: TextField;
-    private _refTextField: TextFieldRef;
     private _keyboardField: TextField;
-    private _refKeyboardField: TextFieldRef;
 
     private _setValue(value: string): void {
         this.setState({ value: value });
@@ -193,13 +187,15 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         actioner('keydown', this._onKeyDown);
     }
 
-    private _handleFocus(event: React.FocusEvent): void {
+    @bind
+    private _onFocus(event: React.FocusEvent): void {
         if(Keyboard.automaitcOpenPredicate()) {
             this._setAutomaitcOpen(true);
         }
     }
 
-    private _handleKeyboard(key: string): void {
+    @bind
+    private _onKeyboard(key: string): void {
         const { props, state } = this;
         const { onInput, layouts: propsLayout } = props;
         const { value, capsLock, layout: stateLayout } = state;
@@ -236,34 +232,40 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         }
     }
 
-    private _handleKeyDown(event: KeyboardEvent): void {
+    @bind
+    private _onKeyDown(event: KeyboardEvent): void {
         const { key } = event;
         event.stopImmediatePropagation();
         if((Keyboard.getSupportedSpecialKeys().indexOf(key) !== -1) || (key.match(/^(\ +|.)$/))) {
             event.preventDefault();
-            this._handleKeyboard(key);
+            this._onKeyboard(key);
         }
     }
 
-    private _handleEvent(event: FocusEvent): void {
-        if(event.target === this._textField.getInputNode()) {
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-        }
-    }
-
-    private _handleResize(event: UIEvent): void {
+    @bind
+    private _onResize(event: UIEvent): void {
         this.forceUpdate();
     }
 
-    private _handleTextField(component: TextField): void {
+    @bind
+    private _refTextField(component: TextField): void {
         this._textField = component;
     }
 
-    private _handleKeyboardField(component: TextField): void {
+    @bind
+    private _refKeyboardField(component: TextField): void {
         this._keyboardField = component;
         if(component !== null) {
             component.getInputNode().focus();
+        }
+    }
+
+    @autobind
+    private _preventEvent(event: FocusEvent): void {
+        if(event.target === this._textField.getInputNode()) {
+            console.log('preventing')
+            event.stopPropagation();
+            event.stopImmediatePropagation();
         }
     }
 
@@ -288,13 +290,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             open: false
         };
         this.context = context;
-        this._refTextField = this._handleTextField.bind(this);
-        this._refKeyboardField = this._handleKeyboardField.bind(this);
-        this._onFocus = this._handleFocus.bind(this);
-        this._onKeyboard = this._handleKeyboard.bind(this);
-        this._onKeyDown = this._handleKeyDown.bind(this);
-        this._preventEvent = this._handleEvent.bind(this);
-        this._onResize = this._handleResize.bind(this);
     }
 
     public componentDidMount(): void {
@@ -315,6 +310,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const open: boolean = automatic ? this.state.open : this.props.open;
         const prev: boolean = automatic ? state.open : props.open;
         if(open !== prev) {
+            console.log(open);
             if(open) {
                 this._addPreventListener('focus');
                 this._addPreventListener('blur');
