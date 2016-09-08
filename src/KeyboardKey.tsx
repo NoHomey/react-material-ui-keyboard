@@ -19,7 +19,27 @@ export interface KeyboardKeyProps {
     keyboardKeySymbolSize: number;
 }
 
+interface SpecialIcons {
+    [index: string]: React.ComponentClass<any>;
+}
+
+namespace constants {
+    export const one: number = 1;
+    export const spacebar: string = ' ';
+    export const none: string = 'none';
+    export const boolTrue: boolean = true;
+}
+
 export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
+    private static specialIcons: SpecialIcons = {
+        'Enter': Enter,
+        'Backspace': Backspace,
+        'Escape': Escape,
+        'CapsLock': CapsLock,
+        'Keyboard': Keyboard,
+        ' ' : Spacebar
+    };
+
     public static propTypes: React.ValidationMap<KeyboardKeyProps> = {
         keyboardKey: React.PropTypes.string.isRequired,
         onKeyPress: React.PropTypes.func.isRequired,
@@ -29,7 +49,7 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
     };
 
     @bind
-    private _onTouchTap(event: TouchTapEvent): void {
+    private onTouchTap(event: TouchTapEvent): void {
         this.props.onKeyPress(this.props.keyboardKey);
     }
 
@@ -38,61 +58,25 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
     }
 
     public render(): JSX.Element {
-        const { _onTouchTap, props } = this;
-        const { keyboardKey: key, keyboardKeyHeight: height, keyboardKeyWidth: width, keyboardKeySymbolSize: size } = props;
-        const notSpacebar: boolean = key.match(/^\ +$/) === null;
-        let keyboardKey: JSX.Element;
-
-        if(key) {
-            if(key.length === 1) {
-                keyboardKey = <FlatButton label={key} labelStyle={{ textTransform: 'none' }}/>;
-            } else {
-                let icon: JSX.Element;
-                switch(key) {
-                    case 'Enter': {
-                        icon = <Enter />;
-                        break;
-                    }
-                    case 'Backspace': {
-                        icon = <Backspace />;
-                        break;
-                    }
-                    case 'Escape': {
-                        icon = <Escape />;
-                        break;
-                    }
-                    case 'CapsLock': {
-                        icon = <CapsLock />;
-                        break;
-                    }
-                    case 'Keyboard': {
-                        icon = <Keyboard />;
-                        break;
-                    }
-                    default: {
-                        if(!notSpacebar) {
-                            icon = <Spacebar />;
-                            break;
-                        }
-                    }
-                }
-                icon = React.cloneElement(icon, { style: { width: size, height: size } });
-                keyboardKey = <FlatButton icon={icon} />;
-            }
+        const { keyboardKey: key, keyboardKeyHeight: height, keyboardKeyWidth: width, keyboardKeySymbolSize: size } = this.props;
+        let flatButtonProps: any = {
+            style: {
+                height: height,
+                width: width, 
+                minWidth: width
+            },
+            primary: constants.boolTrue,
+            onTouchTap: this.onTouchTap
+        };
+        if((key.length <= constants.one) && (key !== constants.spacebar)) {
+            flatButtonProps.label = key.length ? key : constants.spacebar;
+            flatButtonProps.labelStyle = { fontSize: size, textTransform: constants.none };
         } else {
-            keyboardKey = <FlatButton disabled label=" " />;
+            const { specialIcons } =  KeyboardKey;
+            const icon: React.ComponentClass<any> = specialIcons.hasOwnProperty(key) ? specialIcons[key] : null;
+            flatButtonProps.icon = React.createElement(icon, { style: { width: size, height: size } });
         }
-        const style: React.CSSProperties = {
-            height: height,
-            width: notSpacebar ? width : (width * key.length), 
-            minWidth: width
-        }
-        return React.cloneElement(keyboardKey, {
-            style: style,
-            labelStyle: { fontSize: size, textTransform: 'none' },
-            primary: true,
-            onTouchTap: _onTouchTap
-        });
+        return React.createElement(FlatButton,  flatButtonProps);
     }
 };
 

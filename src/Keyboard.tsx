@@ -122,9 +122,10 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     public static getSupportedSpecialKeys(): Array<string> {
-        return ['Enter', 'Backspace', 'Escape', 'CapsLock', 'Keyboard'];
+        return Keyboard._supportedSpecialKeys;
     }
 
+    private static _supportedSpecialKeys: Array<string> = ['Enter', 'Backspace', 'Escape', 'CapsLock', 'Keyboard'];;
     private static _noStyleHeight: React.CSSProperties = {
         minHeight: 0,
         height: 0,
@@ -194,39 +195,22 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
 
     @bind
     private _onKeyboard(key: string): void {
+        const { _supportedSpecialKeys } = Keyboard;
         const { props, state } = this;
         const { onInput, layouts: propsLayout } = props;
-        const { value, capsLock, layout: stateLayout } = state;
+        const { value, capsLock, layout } = state;
         switch(key) {
-            case 'Enter': {
+            case _supportedSpecialKeys[0]: {
                 if(onInput !== undefined) {
                     onInput(value);
                 }
-                this._requestClose();
-                break;
+                return this._requestClose();
             }
-            case 'Backspace': {
-                this._setValue(value.substring(0, value.length - 1));
-                break;
-            }
-            case 'Escape': {
-                this._requestClose();
-                break;
-            }
-            case 'CapsLock': {
-                this.setState({ capsLock: !capsLock });
-                break;
-            }
-            case 'Keyboard': {
-                const layout: number = stateLayout;
-                this.setState({ layout: (layout === propsLayout.length - 1) ? 0 : layout + 1 });
-            }
-            default: {
-                if(key.match(/^\ +$/)) {
-                    key = ' ';
-                }
-                this._setValue(value + key);
-            }
+            case _supportedSpecialKeys[1]: return this._setValue(value.substring(0, value.length - 1));
+            case _supportedSpecialKeys[2]: return this._requestClose();
+            case _supportedSpecialKeys[3]: return this.setState({ capsLock: !capsLock });
+            case _supportedSpecialKeys[4]: return this.setState({ layout: (layout === propsLayout.length - 1) ? 0 : layout + 1 });
+            default: return this._setValue(value + key);
         }
     }
 
@@ -261,7 +245,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     @bind
     private _preventEvent(event: FocusEvent): void {
         if(event.target === this._textField.getInputNode()) {
-            console.log('preventing')
             event.stopPropagation();
             event.stopImmediatePropagation();
         }
@@ -308,7 +291,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const open: boolean = automatic ? this.state.open : this.props.open;
         const prev: boolean = automatic ? state.open : props.open;
         if(open !== prev) {
-            console.log(open);
             if(open) {
                 this._addPreventListener('focus');
                 this._addPreventListener('blur');
@@ -420,13 +402,14 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         };
         const keyboardRows: Array<KeyboardRow> = keyboardLayout.map((row: Array<string>, rowIndex: number): KeyboardRow => {
             const keyboardRowKeys: Array<KeyboardRowKey> = row.map((key: string, keyIndex: number): KeyboardRowKey => {
+                const notSpacebar: boolean = key.match(/^\ +$/) === null;
                 return (
                     <KeyboardKey
-                        keyboardKey={key}
+                        keyboardKey={notSpacebar ? key : ' '}
                         key={Number(`${rowIndex}.${keyIndex}`)}
                         onKeyPress={_onKeyboard}
                         keyboardKeyHeight={keyHeight}
-                        keyboardKeyWidth={keyWidth}
+                        keyboardKeyWidth={keyWidth * (notSpacebar ? 1 : key.length)}
                         keyboardKeySymbolSize={keySymbolSize}
                     />
                 );
