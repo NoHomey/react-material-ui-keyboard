@@ -56,7 +56,6 @@ export interface TextFieldRequiredProps {
     readOnly: boolean;
     value: string; 
     onKeyDown: React.KeyboardEventHandler;
-    fullWidth: boolean;
 }
 
 export interface TextFieldAccessedProps extends TextFieldRequiredProps {
@@ -341,9 +340,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         let keyboardFieldProps: any = ObjectAssign({}, textFieldElement.props);
         let keyboardFieldStyle: any = ObjectAssign({}, styles);
         ['minWidth', 'width', 'maxWidth'].forEach((prop: string): void => {
-            if(keyboardFieldStyle.hasOwnProperty(prop)) {
-                delete keyboardFieldStyle[prop];
-            }
+            keyboardFieldStyle[prop] = '100%';
         });
         ['onChange', 'onFocus', 'onBlur', 'onKey', 'onKeyUp', 'onKeyDown', 'onKeyPress'].forEach((prop: string): void => {
             if(keyboardFieldProps.hasOwnProperty(prop)) {
@@ -353,7 +350,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         ObjectAssign(keyboardFieldProps, {
             readOnly: true,
             value: value, 
-            fullWidth: true,
             style: keyboardFieldStyle,
             ref: _refKeyboardField
         });
