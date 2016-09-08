@@ -50,7 +50,7 @@
     "webpack-hot-middleware": "^2.12.2"
   },
   "dependencies": {
-    "bind-decorator": "^1.0.2",
+    "bind-decorator": "^1.0.3",
     "object-assign": "^4.1.0"
   }
 }
