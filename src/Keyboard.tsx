@@ -1,4 +1,5 @@
 import * as React from 'react';
+import bind from 'bind-decorator';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

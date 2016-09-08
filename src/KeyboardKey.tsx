@@ -1,4 +1,5 @@
 import * as React from 'react';
+import bind from 'bind-decorator';
 import FlatButton from 'material-ui/FlatButton';
 import Backspace from 'material-ui/svg-icons/content/backspace';
 import Enter from 'material-ui/svg-icons/hardware/keyboard-return';
