@@ -57,6 +57,26 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
         super(props);
     }
 
+    public shouldComponentUpdate(props: KeyboardKeyProps, state: void): boolean {
+        if(this.props.keyboardKey !== props.keyboardKey) {
+            return true;
+        }
+        if(this.props.keyboardKeyHeight !== props.keyboardKeyHeight) {
+            return true;
+        }
+        if(this.props.keyboardKeySymbolSize !== props.keyboardKeySymbolSize) {
+            return true;
+        }
+        if(this.props.keyboardKeyWidth !== props.keyboardKeyWidth) {
+            return true;
+        }
+        if(this.props.onKeyPress !== props.onKeyPress) {
+            return true;
+        }
+        
+        return false;
+    }
+
     public render(): JSX.Element {
         const { keyboardKey: key, keyboardKeyHeight: height, keyboardKeyWidth: width, keyboardKeySymbolSize: size } = this.props;
         let flatButtonProps: any = {
