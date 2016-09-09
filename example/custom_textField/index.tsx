@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { NumberInput, NumberInputChangeHandler, NumberInputError, EventValue, NumberInputErrorHandler, NumberInputValidHandler } from 'material-ui-number-input';
-import { Keyboard, RequestCloseHandler, InputHandler, NumericKeyboard, TextFieldElement } from 'react-material-ui-keyboard';
+import { Keyboard, RequestCloseHandler, InputHandler, numericKeyboard } from 'react-material-ui-keyboard';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { MuiTheme } from 'material-ui/styles';
@@ -104,7 +104,7 @@ class Demo extends React.Component<void, DemoState> {
     public render(): JSX.Element {
         const { state, _onFocus, _onChange, _onError, _onValid } = this;
         const { value, errorText } = state;
-        const textField: TextFieldElement = (
+        const textField: JSX.Element = (
             <NumberInput
                 id="num"
                 required
@@ -131,7 +131,7 @@ class Demo extends React.Component<void, DemoState> {
                         onInput={this._onInput}
                         correctorName="onRequestValue"
                         corrector={Demo._corrector}
-                        layouts={[NumericKeyboard]}
+                        layouts={[numericKeyboard]}
                         keyboardKeyHeight={50}
                         keyboardKeyWidth={100}
                         keyboardKeySymbolSize={36}

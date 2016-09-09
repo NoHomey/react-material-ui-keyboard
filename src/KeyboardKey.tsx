@@ -28,6 +28,7 @@ namespace constants {
     export const spacebar: string = ' ';
     export const none: string = 'none';
     export const boolTrue: boolean = true;
+    export const boolFalse: boolean = false;
 }
 
 export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
@@ -59,22 +60,22 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
 
     public shouldComponentUpdate(props: KeyboardKeyProps, state: void): boolean {
         if(this.props.keyboardKey !== props.keyboardKey) {
-            return true;
+            return constants.boolTrue;
         }
         if(this.props.keyboardKeyHeight !== props.keyboardKeyHeight) {
-            return true;
+            return constants.boolTrue;
         }
         if(this.props.keyboardKeySymbolSize !== props.keyboardKeySymbolSize) {
-            return true;
+            return constants.boolTrue;
         }
         if(this.props.keyboardKeyWidth !== props.keyboardKeyWidth) {
-            return true;
+            return constants.boolTrue;
         }
         if(this.props.onKeyPress !== props.onKeyPress) {
-            return true;
+            return constants.boolTrue;
         }
         
-        return false;
+        return constants.boolFalse;
     }
 
     public render(): JSX.Element {
