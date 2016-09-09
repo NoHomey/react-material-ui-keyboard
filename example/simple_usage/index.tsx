@@ -1,6 +1,6 @@
 import * as React from 'react';
 import TextField from 'material-ui/TextField';
-import { Keyboard, RequestCloseHandler, InputHandler, ExtendedKeyboard, TextFieldElement } from 'react-material-ui-keyboard';
+import { Keyboard, RequestCloseHandler, InputHandler, extendedKeyboard } from 'react-material-ui-keyboard';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { MuiTheme } from 'material-ui/styles';
@@ -37,7 +37,7 @@ class Demo extends React.Component<void, DemoState> {
     public render(): JSX.Element {
         const { state, _onInput } = this;
         const { value } = state;
-        const textField: TextFieldElement = (
+        const textField: JSX.Element = (
             <TextField
                 id="field"
                 value={value}
@@ -51,7 +51,7 @@ class Demo extends React.Component<void, DemoState> {
                         automatic
                         textField={textField}
                         onInput={_onInput}
-                        layouts={[ExtendedKeyboard]}
+                        layouts={[extendedKeyboard]}
                      />
                 </div>
         );
