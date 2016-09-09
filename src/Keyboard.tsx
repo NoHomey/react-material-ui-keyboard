@@ -114,13 +114,13 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     private static calculateRowLength (row: Array<string>): number {
-        let spacebar: number = constants.zero;
+        let spacebar: number = constants.one;
         for(let i: number = constants.zero; i < row.length; ++i) {
             if(row[i].match(constants.isSpaceBar)) {
                 spacebar = row[i].length;
             }
         }
-        return row.length + spacebar;
+        return row.length + spacebar - constants.one;
     }
 
     private static calculatedTextFieldHeight(props: TextFieldAccessedProps): number {
@@ -401,15 +401,13 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const { textField, layouts, keyboardKeyHeight, keyboardKeyWidth, keyboardKeySymbolSize, automatic, correctorName, corrector } = props;
         const { value, layout: stateLayout, capsLock } = state;
         const { muiTheme } = context;
-        const open: boolean = automatic ? state.open : props.open;
+        const open: boolean = automatic ? state.open : (props.open ? constants.boolTrue : constants.boolFalse);
         const theme: MuiTheme = muiTheme ? muiTheme : getMuiTheme();
-        const automaitcOpenPredicted: boolean = Keyboard.automaitcOpenPredicate();
-        const readOnly: boolean = automatic ? (open ? open : automaitcOpenPredicted) : (open ? constants.boolTrue : constants.boolFalse);
         const styles: React.CSSProperties = textField.props.style;
         let keyboardFieldProps: any = objectAssign({}, textField.props);
         let inputTextFieldProps: TextFieldAccessedProps = objectAssign({}, textField.props, {
             ref: this.refTextField,
-            readOnly: readOnly
+            readOnly: open
         });
         if(automatic) {
             inputTextFieldProps.onFocus = this.onFocus;
