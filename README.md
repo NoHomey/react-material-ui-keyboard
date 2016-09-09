@@ -24,7 +24,6 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 | --------------------- | ---------------------- | -------------------------------------------- | -------------------- |
 | automatic             | *bool*                 |                                              | If true, keyboard will automaticlly: open when textField gets focused and close instead of firing onRequestClose. |
 | open                  | *bool*                 |                                              | Controls whether the Keyboard is opened or not. |
-| nativeVirtualKeyboard | *bool*                 |                                              | If true and automatic is not true, the native virtual keyboard will not be prevented on textField. |
 | layouts*              | *string[][][]*         |                                              | Keybaord layouts that can be changed when user clicks on 'Keyboard' key. |
 | keyboardKeyWidth      | *number*               | *this.context.muiThemet.button.minWidth*     | Override keyboard key's max width. |
 | keyboardKeyHeight     | *number*               | *this.context.muiThemet.button.height*       | Override keyboard key's max height. |
@@ -112,7 +111,7 @@ const extendedKeyboard = [
     ['q',        'w', 'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
     ['a',        's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
     ['CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '-',  'CapsLock'],
-    ['Escape',   '@', '_',         '     ',         '.',     'Enter']
+    ['Escape',   '@', '',         '     ',         '.',     'Enter']
 ];
 ```
 ### Demonstrating Spacebar and keyboard key size futers
@@ -157,10 +156,10 @@ class Demo extends React.Component {
             open: false,
             value: ''
         };
-        this._onInput = this._handleInput.bind(this);
+        this.onInput = this.handleInput.bind(this);
     }
 
-    _handleInput(input) {
+    handleInput(input) {
         this.setState({ value: input });
     }
     
@@ -173,7 +172,7 @@ class Demo extends React.Component {
           />
         }
         automatic
-        onInput={this._onInput}
+        onInput={this.onInput}
         layouts={[extendedKeyboard]}
       />;
     }
@@ -188,48 +187,48 @@ import NumberInput from 'material-ui-number-input';
 import Keyboard from 'react-material-ui-keyboard';
 import { numericKeyboard } from 'react-material-ui-keyboard/layouts';
 
+function corrector(value) {
+    console.log(`correction ${value}`);
+    this.makeCorrection(value);
+}
+
 class Demo extends React.Component {
     constructor(props) {
         super(props);
         this.state = { open: false, value: '2' };
-        this._onFocus = this._handleFocus.bind(this);
-        this._onChange = this._handleChange.bind(this);
-        this._onRequestClose = this._handleRequestClose.bind(this);
-        this._onInput = this._handleInput.bind(this);
-        this._onError = this._handleError.bind(this);
-        this._onValid = this._handleValid.bind(this);
+        this.onFocus = this.handleFocus.bind(this);
+        this.onChange = this.handleChange.bind(this);
+        this.onRequestClose = this.handleRequestClose.bind(this);
+        this.onInput = this.handleInput.bind(this);
+        this.onError = this.handleError.bind(this);
+        this.onValid = this.handleValid.bind(this);
     }
     
-    _canOpenKeyboard() {
+    canOpenKeyboard() {
         return (this.state.value.length % 2) === 0;
     }
 
-    _handleFocus(event) {
-        if(this._canOpenKeyboard()) {
+    handleFocus(event) {
+        if(this.canOpenKeyboard()) {
             this.setState({ open: true });
         }
     }
     
-    _handleChange(event, value) {
+    handleChange(event, value) {
         console.log(value);
         this.setState({ value: value });
     }
     
-    _handleRequestClose() {
+    handleRequestClose() {
         this.setState({ open: false });
     }
     
-    _handleInput(input) {
+    handleInput(input) {
         console.log(input);
         this.setState({ value: input });
     }
-
-    _corrector(value) {
-        console.log(`correction ${value}`);
-        this.makeCorrection(value);
-    }
     
-    _handleError(error) {
+    handleError(error) {
         let errorText;
         switch (error) {
             case 'required':
@@ -260,7 +259,7 @@ class Demo extends React.Component {
         this.setState({ errorText: errorText });
     }
     
-    _handleValid(value) {
+    handleValid(value) {
         console.debug(`valid ${value}`);
     }
 
@@ -269,7 +268,7 @@ class Demo extends React.Component {
     }
     
     render() {
-        const { state, _onFocus, _onChange, _onError, _onValid, _corrector } = this;
+        const { state, onFocus, onChange, onError, onValid, onInput } = this;
         const { value, errorText } = state;
         const textField = (
             <NumberInput
@@ -280,22 +279,21 @@ class Demo extends React.Component {
                 max={12}
                 strategy="warn"
                 errorText={errorText}
-                onFocus={_onFocus}
-                onChange={_onChange}
-                onError={_onError}
-                onValid={_onValid}
+                onFocus={onFocus}
+                onChange={onChange}
+                onError={onError}
+                onValid={onValid}
                 floatingLabelText="Click for a Keyboard" />
         );
 
         return (
             <Keyboard
-                nativeVirtualKeyboard={!this._canOpenKeyboard()}
                 textField={textField}
                 open={this.state.open}
-                onRequestClose={this._onRequestClose}
-                onInput={this._onInput}
+                onRequestClose={this.onRequestClose}
+                onInput={onInput}
                 correctorName="onRequestValue"
-                corrector={_corrector}
+                corrector={corrector}
                 layouts={[numericKeyboard]}
                 keyboardKeyHeight={50}
                 keyboardKeyWidth={100}

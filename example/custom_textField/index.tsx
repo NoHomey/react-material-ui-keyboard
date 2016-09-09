@@ -125,7 +125,6 @@ class Demo extends React.Component<void, DemoState> {
                 <div>
                     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500" rel="stylesheet" type="text/css"/>
                     <Keyboard
-                        nativeVirtualKeyboard={!this.canOpenKeyboard()}
                         textField={textField}
                         open={this.state.open}
                         onRequestClose={this.onRequestClose}

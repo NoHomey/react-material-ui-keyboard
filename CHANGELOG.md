@@ -243,3 +243,14 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 ### TypeScript
 
 - Fixing `[ts] Cannot find module 'react-material-ui-keyboard/layouts'`
+
+
+## [v6.0.6](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/6.0.6)
+
+### Properties
+
+- `nativeVirtualKeyboard` is now deprecated. Instead `readOnly` is computed based on `automatic` and `open`
+
+### Bug fixes
+
+- Fixing keyboard width computaion. Bug was introduced with `v6.0.4` update
