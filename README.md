@@ -115,7 +115,7 @@ const extendedKeyboard = [
     ['Escape',   '@', '_',         '     ',         '.',     'Enter']
 ];
 ```
-### Demonstrating Spacebar and keyboard key size feuters
+### Demonstrating Spacebar and keyboard key size futers
 
 ![Screenshot](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/screenshots/extended.png)
 
@@ -147,7 +147,7 @@ const extendedKeyboard = [
 ```js
 import * as React from 'react';
 import TextField from 'material-ui/TextField';
-import from 'react-material-ui-keyboard';
+import Keyboard from 'react-material-ui-keyboard';
 import { extendedKeyboard } from 'react-material-ui-keyboard/layouts';
 
 class Demo extends React.Component {
