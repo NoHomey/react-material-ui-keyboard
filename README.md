@@ -147,7 +147,8 @@ const extendedKeyboard = [
 ```js
 import * as React from 'react';
 import TextField from 'material-ui/TextField';
-import { Keyboard, AlphaNumericKeyboard } from 'react-material-ui-keyboard';
+import from 'react-material-ui-keyboard';
+import { extendedKeyboard } from 'react-material-ui-keyboard/layouts';
 
 class Demo extends React.Component {
     constructor(props) {
@@ -173,7 +174,7 @@ class Demo extends React.Component {
         }
         automatic
         onInput={this._onInput}
-        layouts={[AlphaNumericKeyboard]}
+        layouts={[extendedKeyboard]}
       />;
     }
 };
@@ -184,7 +185,8 @@ class Demo extends React.Component {
 ```js
 import * as React from 'react';
 import NumberInput from 'material-ui-number-input';
-import { Keyboard, NumericKeyboard } from 'react-material-ui-keyboard';
+import Keyboard from 'react-material-ui-keyboard';
+import { numericKeyboard } from 'react-material-ui-keyboard/layouts';
 
 class Demo extends React.Component {
     constructor(props) {
@@ -294,7 +296,7 @@ class Demo extends React.Component {
                 onInput={this._onInput}
                 correctorName="onRequestValue"
                 corrector={_corrector}
-                layouts={[NumericKeyboard]}
+                layouts={[numericKeyboard]}
                 keyboardKeyHeight={50}
                 keyboardKeyWidth={100}
                 keyboardKeySymbolSize={36}
