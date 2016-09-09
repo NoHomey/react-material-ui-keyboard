@@ -4,6 +4,7 @@ import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { KeyboardKey, KeyboardKeyProps } from './KeyboardKey';
+import { KeyboardLayout, kyeboardCapsLockLayout } from './layouts';
 import { MuiTheme } from 'material-ui/styles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import objectAssign = require('object-assign');
@@ -11,38 +12,7 @@ import deepEqual = require('deep-equal');
 
 const { div } = React.DOM;
 
-export const alphaNumericKeyboard: KeyboardLayout = [
-    ['1',      '2',        '3', '4', '5', '6', '7', '8', '9',         '0'],
-    ['q',      'w',        'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
-    ['a',      's',        'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
-    ['Escape', 'CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm',     'Enter']
-];
-
-export const extendedKeyboard: KeyboardLayout = [
-    ['1',        '2', '3', '4', '5', '6', '7', '8', '9',         '0'],
-    ['q',        'w', 'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
-    ['a',        's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
-    ['CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '-',  'CapsLock'],
-    ['Escape',   '@', '',         '     ',         '.',     'Enter']
-];
-
-export const numericKeyboard: KeyboardLayout = [
-    ['Escape', '-', 'Backspace'],
-    ['7',      '8',         '9'],
-    ['4',      '5',         '6'],
-    ['1',      '2',         '3'],
-    ['0',      '.',     'Enter']
-];
-
-export type KeyboardLayout = Array<Array<string>>;
-
-export function KyeboardCapsLock(layout: KeyboardLayout, caps: boolean): KeyboardLayout {
-    return layout.map((row: Array<string>): Array<string> => {
-        return row.map((key: string): string => {
-            return (key.length === 1) ? (caps ? key.toUpperCase() : key.toLowerCase()) : key;
-        }); 
-    });
-}
+export { KeyboardLayout };
 
 export type RequestCloseHandler = () => void;
 
@@ -462,7 +432,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         Keyboard.overwriteProps(keyboardFieldProps);
         const inputTextField: TextFieldElement = React.cloneElement(textField, inputTextFieldProps);
         const keyboardTextField: TextFieldElement = React.cloneElement(textField, keyboardFieldProps);
-        const keyboardLayout: KeyboardLayout = KyeboardCapsLock(layouts[stateLayout], capsLock);
+        const keyboardLayout: KeyboardLayout = kyeboardCapsLockLayout(layouts[stateLayout], capsLock);
         const keyboardRowLength: number = keyboardLayout.length;
         const keyboardRowLengths: Array<number> = keyboardLayout.map(Keyboard.calculateRowLength);
         const maxKeyboardRowLength: number = Math.max(...keyboardRowLengths);
