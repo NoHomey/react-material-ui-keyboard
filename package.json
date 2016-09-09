@@ -1,6 +1,6 @@
 {
   "name": "react-material-ui-keyboard",
-  "version": "6.0.4",
+  "version": "6.0.5",
   "description": "Virtual keyboard for TextFeild when needed.",
   "main": "./index.js",
   "typings": "./index.d.ts",
@@ -14,7 +14,7 @@
     "prepublish:sed": "npm run prepublish:sed:typings",
     "prepublish:sed:typings": "sed -i '/\\/\\/\\/ <reference path=\".\\/..\\/typings\\/index.d.ts\" \\/>/d' ./index.js",
     "prepublish:dts": "echo  \"import Keyboard from './Keyboard';\nexport * from './Keyboard';\nexport default Keyboard;\" > ./index.d.ts",
-    "postpublish": "rm ./index* ./layouts* ./Keyboard*" 
+    "postpublish": "rm ./index* ./layouts* ./Keyboard*"
   },
   "keywords": [
     "react",
