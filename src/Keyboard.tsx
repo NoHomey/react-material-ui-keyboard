@@ -6,7 +6,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { KeyboardKey, KeyboardKeyProps } from './KeyboardKey';
 import { MuiTheme } from 'material-ui/styles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import ObjectAssign = require('object-assign');
+import objectAssign = require('object-assign');
+import deepEqual = require('deep-equal');
 
 const { div } = React.DOM;
 
@@ -286,6 +287,64 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         }
     }
 
+    public shouldComponentUpdate(props: KeyboardProps, state: KeyboardState): boolean {
+        const { textField } = props;
+        const { textField: thisTextField } = this.props;
+        if(this.state.value !== state.value) {
+            return true;
+        }
+        if(this.state.open !== state.open) {
+            return true;
+        }
+        if(this.state.capsLock !== state.capsLock) {
+            return true;
+        }
+        if(this.state.layout !== state.layout) {
+            return true;
+        }
+        if(this.props.open !== props.open) {
+            return true;
+        }
+        if(this.props.nativeVirtualKeyboard !== props.nativeVirtualKeyboard) {
+            return true;
+        }
+        if(this.props.keyboardKeyHeight !== props.keyboardKeyHeight) {
+            return true;
+        }
+        if(this.props.keyboardKeySymbolSize !== props.keyboardKeySymbolSize) {
+            return true;
+        }
+        if(this.props.keyboardKeyWidth !== props.keyboardKeyWidth) {
+            return true;
+        }
+        if(this.props.automatic !== props.automatic) {
+            return true;
+        }
+        if(this.props.correctorName !== props.correctorName) {
+            return true;
+        }
+        if(this.props.corrector !== props.corrector) {
+            return true;
+        }
+        if(this.props.onInput !== props.onInput) {
+            return true;
+        }
+        if(this.props.onRequestClose !== props.onRequestClose) {
+            return true;
+        }
+        if(thisTextField.type !== textField.type) {
+            return true;
+        }
+        if(!deepEqual(this.props.layouts, props.layouts, { strict: true })) {
+            return true;
+        }
+        if(!deepEqual(thisTextField.props, textField.props, { strict: true })) {
+            return true;
+        }
+        
+        return false;
+    }
+
     public componentDidUpdate(props: KeyboardProps, state: KeyboardState): void {
         const { automatic } = this.props;
         const open: boolean = automatic ? this.state.open : this.props.open;
@@ -319,8 +378,8 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const automaitcOpenPredicted: boolean = Keyboard.automaitcOpenPredicate();
         const readOnly: boolean = automatic ? automaitcOpenPredicted : !Boolean(nativeVirtualKeyboard);
         const styles: React.CSSProperties = textFieldElement.props.style;
-        let keyboardFieldProps: any = ObjectAssign({}, textFieldElement.props);
-        let keyboardFieldStyle: any = ObjectAssign({}, styles);
+        let keyboardFieldProps: any = objectAssign({}, textFieldElement.props);
+        let keyboardFieldStyle: any = objectAssign({}, styles);
         ['minWidth', 'width', 'maxWidth'].forEach((prop: string): void => {
             keyboardFieldStyle[prop] = '100%';
         });
@@ -329,7 +388,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                 keyboardFieldProps[prop] = undefined;
             }
         });
-        ObjectAssign(keyboardFieldProps, {
+        objectAssign(keyboardFieldProps, {
             readOnly: true,
             value: value, 
             style: keyboardFieldStyle,
@@ -339,7 +398,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             keyboardFieldProps[correctorName] = corrector.bind(this);
         }
         const keyboardTextField: TextFieldElement = React.cloneElement(textFieldElement, keyboardFieldProps);
-        let inputTextFieldProps: TextFieldAccessedProps = ObjectAssign({}, textFieldElement.props, {
+        let inputTextFieldProps: TextFieldAccessedProps = objectAssign({}, textFieldElement.props, {
             ref: _refTextField,
             readOnly: readOnly
         });
