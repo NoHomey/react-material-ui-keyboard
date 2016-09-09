@@ -226,3 +226,10 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 ### Bug fixes
 
 - Fixing bug: `Uncaught TypeError: Cannot read property 'minHeight' of undefined` when no `style`s are passed to `textField`
+
+## [v6.0.4](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/6.0.4)
+
+### Changes
+
+- keyboard layouts are now moved to ``react-material-ui-keyboard/layouts``, in adition their names are in lower camel case now
+- Code is completetly refactored, in addition code is now memory and performance optimizated 
