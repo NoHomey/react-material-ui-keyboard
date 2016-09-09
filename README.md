@@ -71,10 +71,12 @@ For supported keys read [KEYSUPPORT](https://github.com/NoHomey/react-material-u
 
 # Included Layouts
 
-## Numeric Keyboard
+The following keyboard layouts are exported from `'react-material-ui-keyboard/layouts'`
+
+## numericKeyboard
 
 ```js 
-const NumericKeyboard = [
+const numericKeyboard = [
     ['Escape', '-', 'Backspace'],
     ['7',      '8',         '9'],
     ['4',      '5',         '6'],
@@ -85,10 +87,10 @@ const NumericKeyboard = [
 
 ![Screenshot](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/screenshots/numeric.png)
 
-## AlphaNumeric Keyboard
+## alphaNumericKeyboard
 
 ```js
-const AlphaNumericKeyboard = [
+const alphaNumericKeyboard = [
     ['1',      '2',        '3', '4', '5', '6', '7', '8', '9',         '0'],
     ['q',      'w',        'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
     ['a',      's',        'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
@@ -102,10 +104,10 @@ const AlphaNumericKeyboard = [
 
 ![Screenshot](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/screenshots/capsed.png)
 
-## Extended Keyboard
+## extendedKeyboard
 
 ```js
-const ExtendedKeyboard = [
+const extendedKeyboard = [
     ['1',        '2', '3', '4', '5', '6', '7', '8', '9',         '0'],
     ['q',        'w', 'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
     ['a',        's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
