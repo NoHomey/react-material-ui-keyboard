@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { NumberInput, NumberInputChangeHandler, NumberInputError, EventValue, NumberInputErrorHandler, NumberInputValidHandler } from 'material-ui-number-input';
-import { Keyboard, RequestCloseHandler, InputHandler, numericKeyboard } from 'react-material-ui-keyboard';
+import { Keyboard, RequestCloseHandler, InputHandler } from 'react-material-ui-keyboard';
+import { numericKeyboard } from 'react-material-ui-keyboard/layouts';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { MuiTheme } from 'material-ui/styles';
