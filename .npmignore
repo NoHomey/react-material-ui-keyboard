@@ -12,3 +12,5 @@ server.js
 tsconfig.json
 typings.json
 webpack.config.js
+.npmignore
+GALLERY.md
