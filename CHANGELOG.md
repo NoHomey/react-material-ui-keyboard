@@ -232,4 +232,14 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 ### Changes
 
 - keyboard layouts are now moved to ``react-material-ui-keyboard/layouts``, in adition their names are in lower camel case now
-- Code is completetly refactored, in addition code is now memory and performance optimizated 
+- Code is completetly refactored, in addition code is now memory and performance optimizated
+
+### TypeScript
+
+- `Keyboard` and `KeyboardKey` can be used in `call` to `React.createElement` 
+
+## [v6.0.5](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/6.0.5)
+
+### TypeScript
+
+- Fixing `[ts] Cannot find module 'react-material-ui-keyboard/layouts'`
