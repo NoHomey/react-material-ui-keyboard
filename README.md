@@ -2,9 +2,9 @@
 
 Virtual keyboard for TextFeild when needed.
 
-You controll when to open it which allows cros platform App optimizations and code reusability for diferent platoforms such as Progressive Web Apps, Hybrid Apps, Electron Apps, Mobile Devices, Touch Devices, Desktops, and all other Compatible JavaScript Enviroments.
+You controll when to open it which allows cross platform App optimizations and code reusability for diferent platoforms such as Progressive Web Apps, Hybrid Apps, Electron Apps, Touch Devices, Smart TVs, Desktops, and all other Compatible JavaScript Enviroments.
 
-You have the freedom to choose on which of them to `open` the `Keyboard` and on which to just use a `TextField`!
+You have the freedom to choose on which of them to `open` the `Keyboard` and on which to just use a `textField`!
 
 ![Screenshot](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/screenshots/textField.png)
 
@@ -140,9 +140,9 @@ const extendedKeyboard = [
 
 # Public members
 
-`Keyboard` has one `public` `static` member which is designed to be overwritten: `automaitcOpenPredicate` it's signature is `function() => boolean`. It is  called when `automatic` is `true` and the attached `onFocus` handler on `textField` gets fired to determinate should keyboard `open` and disable native virtual keyboard by assigning `readOnly` at `textField` in the `render`. Default `automaitcOpenPredicate` behaviour is to always return `true`. You can override it to change when to `automatic`lly open keyboard `onFocus`.
+`Keyboard` has one `public` `static` member which is designed to be overwritten: `automaitcOpenPredicate` it's signature is `function() => boolean`. It is  called when `automatic` is `true` and the attached `onFocus` handler on `textField` gets fired to determinate should keyboard `open` and disable the native virtual keyboard by assigning `readOnly` at `textField` in the `render`. Default `automaitcOpenPredicate` behaviour is to always return `true`. You can override it to change when to `automatic`lly open keyboard `onFocus`.
 
-# Example
+# Examples
 
 ```js
 import * as React from 'react';
