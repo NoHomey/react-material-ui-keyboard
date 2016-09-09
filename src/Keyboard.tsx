@@ -43,7 +43,6 @@ export type KeyboardRowKey = React.ReactElement<KeyboardKeyProps>;
 export interface KeyboardProps {
     open?: boolean;
     automatic?: boolean;
-    nativeVirtualKeyboard?: boolean;
     layouts: Array<KeyboardLayout>;
     keyboardKeyWidth?: number;
     keyboardKeyHeight?: number;
@@ -150,7 +149,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         maxHeight: constants.zero
     };
     public static propTypes: React.ValidationMap<KeyboardProps> = {
-        nativeVirtualKeyboard: React.PropTypes.bool,
         open: React.PropTypes.bool,
         automatic: React.PropTypes.bool,
         layouts: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.string))).isRequired,
@@ -338,9 +336,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         if(this.props.open !== props.open) {
             return constants.boolTrue;
         }
-        if(this.props.nativeVirtualKeyboard !== props.nativeVirtualKeyboard) {
-            return constants.boolTrue;
-        }
         if(this.props.keyboardKeyHeight !== props.keyboardKeyHeight) {
             return constants.boolTrue;
         }
@@ -403,13 +398,13 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
 
     public render(): JSX.Element {
         const { props, state, context } = this;
-        const { textField, layouts, keyboardKeyHeight, keyboardKeyWidth, keyboardKeySymbolSize, automatic, nativeVirtualKeyboard, correctorName, corrector } = props;
+        const { textField, layouts, keyboardKeyHeight, keyboardKeyWidth, keyboardKeySymbolSize, automatic, correctorName, corrector } = props;
         const { value, layout: stateLayout, capsLock } = state;
         const { muiTheme } = context;
         const open: boolean = automatic ? state.open : props.open;
         const theme: MuiTheme = muiTheme ? muiTheme : getMuiTheme();
         const automaitcOpenPredicted: boolean = Keyboard.automaitcOpenPredicate();
-        const readOnly: boolean = automatic ? automaitcOpenPredicted : !Boolean(nativeVirtualKeyboard);
+        const readOnly: boolean = automatic ? (open ? open : automaitcOpenPredicted) : (open ? constants.boolTrue : constants.boolFalse);
         const styles: React.CSSProperties = textField.props.style;
         let keyboardFieldProps: any = objectAssign({}, textField.props);
         let inputTextFieldProps: TextFieldAccessedProps = objectAssign({}, textField.props, {
@@ -508,14 +503,8 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                     autoDetectWindowHeight={constants.boolFalse}
                     contentStyle={dialogContentStyle}>
                         <div>
-                            <div>
-                                {keyboardTextField}
-                            </div>
-                            <div>
-                                <div>
-                                    {keyboardRows}
-                                </div>
-                            </div>
+                            {keyboardTextField}
+                            {keyboardRows}
                         </div>
                 </Dialog>
             </div>
