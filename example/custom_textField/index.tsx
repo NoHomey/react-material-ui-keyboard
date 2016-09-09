@@ -16,43 +16,43 @@ interface DemoState {
     errorText?: string;
 };
 
+function corrector(value: string): void {
+    (this as Keyboard).makeCorrection(value);
+}
+
 class Demo extends React.Component<void, DemoState> {
-    private static _corrector(value: string): void {
-        (this as Keyboard).makeCorrection(value);
-    }
+    private onFocus: React.FocusEventHandler;
+    private onChange: React.FormEventHandler;
+    private onRequestClose: RequestCloseHandler;
+    private onInput: InputHandler;
+    private onError: NumberInputErrorHandler;
+    private onValid: NumberInputValidHandler;
 
-    private _onFocus: React.FocusEventHandler;
-    private _onChange: React.FormEventHandler;
-    private _onRequestClose: RequestCloseHandler;
-    private _onInput: InputHandler;
-    private _onError: NumberInputErrorHandler;
-    private _onValid: NumberInputValidHandler;
-
-    private _canOpenKeyboard(): boolean {
+    private canOpenKeyboard(): boolean {
         return (this.state.value.length % 2) === 0;
     }
 
-    private _handleFocus(event: React.FocusEvent): void {
-        if(this._canOpenKeyboard()) {
+    private handleFocus(event: React.FocusEvent): void {
+        if(this.canOpenKeyboard()) {
             this.setState({ open: true });
         }
     }
 
-    private _handleChange(event: React.FormEvent, value: string): void {
+    private handleChange(event: React.FormEvent, value: string): void {
         console.log(value);
         this.setState({ value: value });
     }
 
-    private _handleRequestClose(): void {
+    private handleRequestClose(): void {
         this.setState({ open: false });
     }
 
-    private _handleInput(input: string): void {
+    private handleInput(input: string): void {
         console.log(input);
         this.setState({ value: input });
     }
 
-    private _handleError(error: NumberInputError): void {
+    private handleError(error: NumberInputError): void {
         let errorText: string;
         switch(error) {
             case 'required':
@@ -83,19 +83,19 @@ class Demo extends React.Component<void, DemoState> {
         this.setState({ errorText: errorText });
     }
 
-    private _handleValid(value: number): void {
+    private handleValid(value: number): void {
         console.debug(`valid ${value}`);
     }
 
     public constructor(props: void) {
         super(props);
         this.state = { open: false,  value: '' };
-        this._onFocus = this._handleFocus.bind(this);
-        this._onChange = this._handleChange.bind(this);
-        this._onRequestClose = this._handleRequestClose.bind(this);
-        this._onInput = this._handleInput.bind(this);
-        this._onError = this._handleError.bind(this);
-        this._onValid = this._handleValid.bind(this);
+        this.onFocus = this.handleFocus.bind(this);
+        this.onChange = this.handleChange.bind(this);
+        this.onRequestClose = this.handleRequestClose.bind(this);
+        this.onInput = this.handleInput.bind(this);
+        this.onError = this.handleError.bind(this);
+        this.onValid = this.handleValid.bind(this);
     }
 
     public componentDidMount(): void {
@@ -103,7 +103,7 @@ class Demo extends React.Component<void, DemoState> {
     }
 
     public render(): JSX.Element {
-        const { state, _onFocus, _onChange, _onError, _onValid } = this;
+        const { state, onFocus, onChange, onError, onValid } = this;
         const { value, errorText } = state;
         const textField: JSX.Element = (
             <NumberInput
@@ -114,10 +114,10 @@ class Demo extends React.Component<void, DemoState> {
                 max={120}
                 strategy="warn"
                 errorText={errorText}
-                onFocus={_onFocus}
-                onChange={_onChange}
-                onError={_onError}
-                onValid={_onValid}
+                onFocus={onFocus}
+                onChange={onChange}
+                onError={onError}
+                onValid={onValid}
                 floatingLabelText="Click for a Keyboard" />
         );
 
@@ -125,13 +125,13 @@ class Demo extends React.Component<void, DemoState> {
                 <div>
                     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500" rel="stylesheet" type="text/css"/>
                     <Keyboard
-                        nativeVirtualKeyboard={!this._canOpenKeyboard()}
+                        nativeVirtualKeyboard={!this.canOpenKeyboard()}
                         textField={textField}
                         open={this.state.open}
-                        onRequestClose={this._onRequestClose}
-                        onInput={this._onInput}
+                        onRequestClose={this.onRequestClose}
+                        onInput={this.onInput}
                         correctorName="onRequestValue"
-                        corrector={Demo._corrector}
+                        corrector={corrector}
                         layouts={[numericKeyboard]}
                         keyboardKeyHeight={50}
                         keyboardKeyWidth={100}
