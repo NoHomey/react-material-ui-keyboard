@@ -30,6 +30,8 @@ export interface TextFieldAccessedProps extends TextFieldRequiredProps {
 
 export type TextFieldElement = React.ReactElement<TextFieldRequiredProps>;
 
+export type CreatableTextField = React.ComponentClass<TextFieldRequiredProps> | React.StatelessComponent<TextFieldRequiredProps>;
+
 export type KeyboardRow = React.ReactElement<void>;
 
 export type KeyboardRowKey = React.ReactElement<KeyboardKeyProps>;
@@ -356,7 +358,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         }
         Keyboard.overwriteProps(keyboardFieldProps);
         const inputTextField: TextFieldElement = React.cloneElement(textField, inputTextFieldProps);
-        const keyboardTextField: TextFieldElement = React.cloneElement(textField, keyboardFieldProps);
+        const keyboardTextField: TextFieldElement = React.createElement(textField.type as CreatableTextField, keyboardFieldProps);
         const keyboardLayout: KeyboardLayout = kyeboardCapsLockLayout(layouts[stateLayout], capsLock);
         const keyboardRowLength: number = keyboardLayout.length;
         const keyboardRowLengths: Array<number> = keyboardLayout.map(Keyboard.calculateRowLength);
