@@ -40,15 +40,14 @@ Props marked with \* are required.
 
 # Requirements
 
+## `textField` must be a controlled input
+
 ## Node passed to `textField` Prop must support the following props:
 
 - `value`\* of type `string`
-- `onKeyDown`\* of type `function(event: React.KeyboardEvent)`
 - `readOnly`\* of type `bool`
 
 Props marked with \* must be passed down to the native `input` element.
-
-## And to implement method `getInputNode` which returns `input` `ref`.
 
 # Implementation
 
@@ -133,9 +132,7 @@ const extendedKeyboard = [
 
 # Public methods
 
-`Keyboard` exposes two `public` methods: `getTextField` and `getKeyboardField` with common signature `function() => TextField`. Which both return React `ref`s for passted `textField` and cloned one for the keyboard input. `TextField` is used as common return type because of the requirement of `getInputNode` for getting a `input` `ref` which of `v0.16` of material-ui will be replaced with requirement of public member `input`.
-
-`Keyboard` also exposes method `makeCorrection` which can be used to apply keyboard input value corrections when keyboard is opened or within `correction` handller.
+`Keyboard` exposes `public` method `makeCorrection` which can be used to apply keyboard input value corrections when keyboard is opened or within `correction` handller.
 
 # Public members
 
