@@ -6,13 +6,10 @@
         "jsx": "react",
         "noImplicitAny": true,
         "experimentalDecorators": true,
-        "declaration": true,
-        "outDir": "./"
+        "declaration": true
     },
     "files": [
-        "src/index.tsx"
-    ],
-    "includes": [
+        "src/index.tsx",
         "typings/index.d.ts",
         "src/KeyboardKey.tsx",
         "src/Keyboard.tsx",

@@ -10,26 +10,20 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import objectAssign = require('object-assign');
 import deepEqual = require('deep-equal');
 
-const { div } = React.DOM;
-
 export { KeyboardLayout };
 
 export type RequestCloseHandler = () => void;
 
 export type InputHandler = (input: string) => void;
 
-export type TextFieldRef = (componet: TextField) => void;
-
 export interface TextFieldRequiredProps {
     style?: React.CSSProperties;
     readOnly: boolean;
     value: string; 
-    onKeyDown: React.KeyboardEventHandler;
+    onFocus?: React.FocusEventHandler;
 }
 
 export interface TextFieldAccessedProps extends TextFieldRequiredProps {
-    onFocus?: React.FocusEventHandler;
-    ref?: TextFieldRef;
     rows?: number;
     floatingLabelText?: string;
 }
@@ -65,10 +59,6 @@ export interface KeyboardContext {
     muiTheme?: MuiTheme;
 }
 
-export type KeyboardWindowEventListener = (event: FocusEvent | KeyboardEvent) => void;
-
-export type NativeKeyboardEventHandler = (event: KeyboardEvent) => void;
-
 export type AutomaitcOpenPredicate = () => boolean;
 
 namespace constants {
@@ -86,8 +76,7 @@ namespace constants {
     export const space: string = ' ';
     export const keydown: string = 'keydown';
     export const resize: string = 'resize';
-    export const focus: string = 'focus';
-    export const blur: string = 'blur';
+    export const input: string = 'input';
     export const fullWidth: string = '100%';
     export const typeofString: string = 'string';
     export const typeofNumber: string = 'number';
@@ -107,6 +96,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const { overwrittenProps } = Keyboard;
         let prop: string;
         for(let i: number = constants.zero; i < overwrittenProps.length; ++i) {
+            prop = overwrittenProps[i];
             if(props.hasOwnProperty(prop)) {
                 props[prop] = undefined;
             }
@@ -127,14 +117,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const { rows, floatingLabelText } = props;
         const normalHeight: number = floatingLabelText ? constants.seventyTwo : constants.fourtyEight;
         return (rows ? ((rows - constants.one) * constants.twentyFour) : constants.zero) + normalHeight;
-    }
-
-    private static addListener(event: string, listener: KeyboardWindowEventListener): void {
-        window.addEventListener(event, listener, constants.boolTrue);
-    }
-
-    private static removeListener(event: string, listener: KeyboardWindowEventListener): void {
-         window.removeEventListener(event, listener, constants.boolTrue);
     }
 
     public static getSupportedSpecialKeys(): Array<string> {
@@ -165,8 +147,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     public static automaitcOpenPredicate: AutomaitcOpenPredicate = allwaysTruePredicate;
     public context: KeyboardContext;
     private corrector: Function;
-    private textField: TextField;
-    private keyboardField: TextField;
 
     private setValue(value: string): void {
         this.setState({ value: value });
@@ -189,18 +169,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         } else if(onRequestClose) {
             onRequestClose();
         }
-    }
-
-    private addPreventListener(event: string): void {
-        Keyboard.addListener(event, this.preventEvent);
-    }
-
-    private removePreventListener(event: string): void {
-        Keyboard.removeListener(event, this.preventEvent);
-    }
-
-    private actionKeyDownListener(actioner: (event: string, listener: NativeKeyboardEventHandler) => void): void {
-        actioner(constants.keydown, this.onKeyDown);
     }
 
     @bind
@@ -249,35 +217,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         this.forceUpdate();
     }
 
-    @bind
-    private refTextField(component: TextField): void {
-        this.textField = component;
-    }
-
-    @bind
-    private refKeyboardField(component: TextField): void {
-        this.keyboardField = component;
-        if(component !== null) {
-            component.getInputNode().focus();
-        }
-    }
-
-    @bind
-    private preventEvent(event: FocusEvent): void {
-        if(event.target === this.textField.getInputNode()) {
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-        }
-    }
-
-    public getTextField(): TextField {
-        return this.textField;
-    }
-
-    public getKeyboardField(): TextField {
-        return this.keyboardField;
-    }
-
     public makeCorrection(value: string): void {
         this.setValue(value);
     }
@@ -303,7 +242,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
 
     public componentDidMount(): void {
         window.addEventListener(constants.resize, this.onResize, constants.boolFalse);
-        this.syncValue(this.getTextField().getInputNode().value);
+        this.syncValue(this.props.textField.props.value);
     }
 
     public componentWillReceiveProps(props: KeyboardProps): void {
@@ -379,15 +318,12 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const prev: boolean = automatic ? state.open : props.open;
         if(open !== prev) {
             if(open) {
-                this.addPreventListener(constants.focus);
-                this.addPreventListener(constants.blur);
-                this.actionKeyDownListener(Keyboard.addListener);
+                if(document.activeElement.tagName.toLowerCase() === constants.input) {
+                    (document.activeElement as HTMLInputElement).blur();
+                }
+                window.addEventListener(constants.keydown, this.onKeyDown, constants.boolTrue);
             } else {
-                this.textField.getInputNode().focus();
-                this.removePreventListener(constants.focus);
-                this.removePreventListener(constants.blur);
-                this.actionKeyDownListener(Keyboard.removeListener);
-                this.textField.getInputNode().blur();
+                window.removeEventListener(constants.keydown, this.onKeyDown, constants.boolTrue);
             }
         }
     }
@@ -405,20 +341,16 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const theme: MuiTheme = muiTheme ? muiTheme : getMuiTheme();
         const styles: React.CSSProperties = textField.props.style;
         let keyboardFieldProps: any = objectAssign({}, textField.props);
-        let inputTextFieldProps: TextFieldAccessedProps = objectAssign({}, textField.props, {
-            ref: this.refTextField,
-            readOnly: open
-        });
-        if(automatic) {
-            inputTextFieldProps.onFocus = this.onFocus;
-        }
+        let inputTextFieldProps: TextFieldAccessedProps = objectAssign({}, textField.props, { readOnly: open });
+        if(automatic || open) {
+            inputTextFieldProps.onFocus = automatic ? this.onFocus : null;
+        } 
         keyboardFieldProps.style = objectAssign({}, styles);
         keyboardFieldProps.style.minWidth = constants.fullWidth;
         keyboardFieldProps.style.width = constants.fullWidth;
         keyboardFieldProps.style.maxWidth = constants.fullWidth;
         keyboardFieldProps.readOnly = constants.boolTrue;
         keyboardFieldProps.value = value;
-        keyboardFieldProps.ref = this.refKeyboardField;
         if(typeof correctorName === constants.typeofString) {
             keyboardFieldProps[correctorName] = this.corrector;
         }
