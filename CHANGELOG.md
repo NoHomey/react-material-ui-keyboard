@@ -244,7 +244,6 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 
 - Fixing `[ts] Cannot find module 'react-material-ui-keyboard/layouts'`
 
-
 ## [v6.0.6](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/6.0.6)
 
 ### Properties
@@ -254,3 +253,18 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 ### Bug fixes
 
 - Fixing keyboard width computaion. Bug was introduced with `v6.0.4` update
+
+## [v6.1.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/6.1.0)
+
+### Depreacted
+
+- Usage of `ref`s is deprecated: The need of `ref`s was because of controlling when `input`s gets `focus`ed and `blur`ed, which is no more required, instead `document.activeElement.tagName.toLowerCase()` is checked is it `'input'` when `open` becomes `true` and if it is the `activeElement` is `blur()`ed
+- `public` methods: `getTextField` and `getKeyboardField` are both removed
+
+### Bug fixes
+
+- If any of the following `prop`s is passed to `textField` it will be overwritten for the keyboard input
+
+### Changes
+
+- Instad of doing twice `React.cloneElement(textField, someMergedProps)` `React.cloneElement` is called for the input and `React.createElement(textField.type, keyboardFieldProps`) for the keyboard input field
