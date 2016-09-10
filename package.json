@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "typings": "typings install",
-    "start": "webpack && mv ./demo/index.html ./ && node ./server.js",
+    "start": "webpack && mv ./demo/index.html . && mv ./demo/main.js . && rm -R ./demo/* && mv ./main.js ./demo && node ./server.js",
     "prepublish": "npm run prepublish:tsc && npm run prepublish:sed && npm run prepublish:dts",
     "prepublish:tsc": "tsc && rm Dev/*.js Dev/*.d.ts && mv ./src/*.js . && mv ./src/*.d.ts .",
     "prepublish:sed": "npm run prepublish:sed:typings",
