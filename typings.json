@@ -6,6 +6,8 @@
     "react-tap-event-plugin": "registry:dt/react-tap-event-plugin",
     "material-ui": "registry:dt/material-ui",
     "object-assign": "registry:dt/object-assign",
-    "deep-equal": "registry:dt/deep-equal"
+    "deep-equal": "registry:dt/deep-equal",
+    "jest": "registry:dt/jest",
+    "enzyme": "registry:dt/enzyme"
   }
 }
