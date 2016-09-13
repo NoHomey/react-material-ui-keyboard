@@ -9,7 +9,7 @@ module.exports = {
     ],
 
     output: {
-        path: path.join(__dirname, "demo"),
+        path: __dirname,
         filename: "[name].js",
         publicPath: ''
     },

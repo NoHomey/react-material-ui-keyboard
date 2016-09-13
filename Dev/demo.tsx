@@ -55,6 +55,8 @@ export default class Demo extends React.Component<void, DemoState> {
                         automatic
                         textField={textField}
                         onInput={_onInput}
+                        keyboardKeyHeight={60}
+                        keyboardKeySymbolSize={22}
                         layouts={[extendedKeyboard]}
                      />
                 </div>

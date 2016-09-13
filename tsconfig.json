@@ -5,14 +5,16 @@
         "target": "es5",
         "jsx": "react",
         "noImplicitAny": true,
-        "experimentalDecorators": true,
-        "declaration": true
+        "experimentalDecorators": true
     },
     "files": [
         "src/index.tsx",
         "typings/index.d.ts",
         "src/KeyboardKey.tsx",
         "src/Keyboard.tsx",
+        "__tests__/index.spec.ts",
+        "__tests__/layouts.spec.ts",
+        "__tests__/KeyboardKey.spec.tsx",
         "Dev/demo.tsx",
         "Dev/index.tsx"
     ],

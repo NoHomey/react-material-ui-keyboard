@@ -1,0 +1,16 @@
+--- 
+engines: 
+  fixme: 
+    enabled: true
+exclude_paths: 
+  - LICENSE
+  - "*.md"
+  - "*.json"
+  - "*.js"
+  - Dev/*
+  - example/*
+  - screenshots/*
+  - __*/*
+ratings: 
+  paths: 
+    - src/*
