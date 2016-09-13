@@ -42,4 +42,12 @@ main.js
 __*/*.js
 Dev/*.js
 src/*.js
+index.js
+Keyboard.js
+KeyboardKey.js
+layouts.js
+*.map
+*.d.ts
+coverage
+lcov.info
 .vscode
