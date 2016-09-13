@@ -1,4 +1,3 @@
-demo
 example
 node_modules
 src
@@ -8,6 +7,7 @@ typings
 .git
 .vscode
 index.html
+main.js
 server.js
 tsconfig.json
 typings.json

@@ -7,9 +7,9 @@
   "scripts": {
     "test": "tsc && jest --verbose",
     "typings": "typings install",
-    "start": "webpack && mv ./demo/index.html . && mv ./demo/main.js . && rm -R ./demo/* && mv ./main.js ./demo && node ./server.js",
+    "start": "webpack && node ./server.js",
     "npm": "tsc -d -p . && mv ./src/*.js . && mv ./src/*.d.ts .",
-    "clean": "rm -f ./index* ./layouts* ./Keyboard* ./__tests__/*.js ./src/*.js"
+    "clean": "rm -f ./index* ./layouts* ./Keyboard* ./__tests__/*.js ./src/*.js ./Dev/*.js"
   },
   "keywords": [
     "react",
@@ -43,13 +43,13 @@
     "react-tap-event-plugin": "^1.0.0",
     "ts-loader": "^0.8.2",
     "typescript": "^1.8.10",
-    "typings": "^1.3.1",
-    "webpack": "^1.13.1",
-    "webpack-dev-middleware": "^1.6.1",
+    "typings": "^1.3.3",
+    "webpack": "^1.13.2",
+    "webpack-dev-middleware": "^1.7.0",
     "webpack-hot-middleware": "^2.12.2"
   },
   "dependencies": {
-    "bind-decorator": "^1.0.3",
+    "bind-decorator": "^1.0.6",
     "deep-equal": "^1.0.1",
     "object-assign": "^4.1.0"
   }

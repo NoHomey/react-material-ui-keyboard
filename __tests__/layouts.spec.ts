@@ -18,13 +18,13 @@ describe('layots', function () {
     });
 
     describe('extendedKeyboard', function () {
-        it('is a keyboard layout extending alphaNumericKeyboard by adding second CapsLock, -, @, Spacebar and . keys', function () {
+        it('is a keyboard layout extending alphaNumericKeyboard by adding second CapsLock, -, @, , #, Spacebar and . keys', function () {
             expect(extendedKeyboard).toEqual([
                 ['1',        '2', '3', '4', '5', '6', '7', '8', '9',         '0'],
                 ['q',        'w', 'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
                 ['a',        's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
                 ['CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '-',  'CapsLock'],
-                ['Escape',   '@', '',         '     ',         '.',     'Enter']
+                ['Escape',   '@', '#',         '     ',         '.',     'Enter']
             ]);
         });
     });

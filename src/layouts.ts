@@ -12,7 +12,7 @@ export const extendedKeyboard: KeyboardLayout = [
     ['q',        'w', 'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
     ['a',        's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
     ['CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '-',  'CapsLock'],
-    ['Escape',   '@', '',         '     ',         '.',     'Enter']
+    ['Escape',   '@', '#',         '     ',         '.',     'Enter']
 ];
 
 export const numericKeyboard: KeyboardLayout = [

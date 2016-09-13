@@ -7,6 +7,7 @@ import Escape from 'material-ui/svg-icons/action/exit-to-app';
 import Keyboard from 'material-ui/svg-icons/hardware/keyboard';
 import CapsLock from 'material-ui/svg-icons/hardware/keyboard-capslock';
 import Spacebar from 'material-ui/svg-icons/editor/space-bar';
+import Warning from 'material-ui/svg-icons/alert/warning';
 import { TouchTapEvent } from 'material-ui';
 
 export type KeyboardKeyPressHandler = (key: string) => void;
@@ -27,6 +28,7 @@ namespace constants {
     export const one: number = 1;
     export const spacebar: string = ' ';
     export const none: string = 'none';
+    export const notFound: string = 'notFound';
     export const boolTrue: boolean = true;
     export const boolFalse: boolean = false;
 }
@@ -38,7 +40,8 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
         'Escape': Escape,
         'CapsLock': CapsLock,
         'Keyboard': Keyboard,
-        ' ' : Spacebar
+        ' ' : Spacebar,
+        'notFound': Warning
     };
 
     public static propTypes: React.ValidationMap<KeyboardKeyProps> = {
@@ -90,11 +93,16 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
             onTouchTap: this.onTouchTap
         };
         if((key.length <= constants.one) && (key !== constants.spacebar)) {
-            flatButtonProps.label = key.length ? key : constants.spacebar;
+            if(key.length) {
+                flatButtonProps.label = key;
+            } else {
+                flatButtonProps.disabled = constants.boolTrue;
+                flatButtonProps.label = constants.spacebar;
+            }
             flatButtonProps.labelStyle = { fontSize: size, textTransform: constants.none };
         } else {
             const { specialIcons } =  KeyboardKey;
-            const icon: React.ComponentClass<any> = specialIcons.hasOwnProperty(key) ? specialIcons[key] : null;
+            const icon: React.ComponentClass<any> = specialIcons[specialIcons.hasOwnProperty(key) ? key : constants.notFound];
             flatButtonProps.icon = React.createElement(icon, { style: { width: size, height: size } });
         }
         return React.createElement(FlatButton,  flatButtonProps);
