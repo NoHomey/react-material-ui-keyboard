@@ -2,6 +2,13 @@
 
 Virtual keyboard for TextFeild when needed.
 
+[![npm version](https://badge.fury.io/js/react-material-ui-keyboard.svg)](https://badge.fury.io/js/react-material-ui-keyboard)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/NoHomey/react-material-ui-keyboard)
+[![Build Status](https://semaphoreci.com/api/v1/nohomey/react-material-ui-keyboard/branches/master/badge.svg)](https://semaphoreci.com/nohomey/react-material-ui-keyboard)
+[![Code Climate](https://codeclimate.com/github/NoHomey/react-material-ui-keyboard/badges/gpa.svg)](https://codeclimate.com/github/NoHomey/react-material-ui-keyboard)
+[![Test Coverage](https://codeclimate.com/github/NoHomey/react-material-ui-keyboard/badges/coverage.svg)](https://codeclimate.com/github/NoHomey/react-material-ui-keyboard/coverage)
+[![Issue Count](https://codeclimate.com/github/NoHomey/react-material-ui-keyboard/badges/issue_count.svg)](https://codeclimate.com/github/NoHomey/react-material-ui-keyboard)
+
 You controll when to open it which allows cross platform App optimizations and code reusability for diferent platoforms such as Progressive Web Apps, Hybrid Apps, Electron Apps, Touch Devices, Smart TVs, Desktops, and all other Compatible JavaScript Enviroments.
 
 You have the freedom to choose on which of them to `open` the `Keyboard` and on which to just use a `textField`!
