@@ -7,6 +7,7 @@ import { KeyboardKey, KeyboardKeyProps } from './KeyboardKey';
 import { KeyboardLayout, kyeboardCapsLockLayout } from './layouts';
 import { MuiTheme } from 'material-ui/styles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import EventListenerService from 'event-listener-service';
 import objectAssign = require('object-assign');
 import deepEqual = require('deep-equal');
 
@@ -92,6 +93,11 @@ namespace constants {
 function allwaysTruePredicate(): boolean {
     return constants.boolTrue;
 }
+
+EventListenerService.setImplementation({
+    addListener: window.addEventListener.bind(window),
+    removeListener: window.removeEventListener.bind(window)
+});
 
 export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     private static overwriteProps(props: any): void {
@@ -243,7 +249,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     public componentDidMount(): void {
-        window.addEventListener(constants.resize, this.onResize, constants.boolFalse);
+        EventListenerService.addListener(constants.resize, this.onResize, constants.boolFalse);
         this.syncValue(this.props.textField.props.value);
     }
 
@@ -323,15 +329,15 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                 if(document.activeElement.tagName.toLowerCase() === constants.input) {
                     (document.activeElement as HTMLInputElement).blur();
                 }
-                window.addEventListener(constants.keydown, this.onKeyDown, constants.boolTrue);
+                EventListenerService.addListener(constants.keydown, this.onKeyDown, constants.boolTrue);
             } else {
-                window.removeEventListener(constants.keydown, this.onKeyDown, constants.boolTrue);
+                EventListenerService.removeListener(constants.keydown, this.onKeyDown, constants.boolTrue);
             }
         }
     }
 
-    public componentWillUnmount() {
-        window.removeEventListener(constants.resize, this.onResize, constants.boolFalse);
+    public componentWillUnmount(): void {
+        EventListenerService.removeListener(constants.resize, this.onResize, constants.boolFalse);
     }
 
     public render(): JSX.Element {

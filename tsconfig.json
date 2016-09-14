@@ -15,6 +15,7 @@
         "__tests__/index.spec.ts",
         "__tests__/layouts.spec.ts",
         "__tests__/KeyboardKey.spec.tsx",
+        "__tests__/Keyboard.spec.tsx",
         "Dev/demo.tsx",
         "Dev/index.tsx"
     ],
