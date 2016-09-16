@@ -150,6 +150,7 @@ describe('Keyboard', () => {
                 const corrector1: jest.Mock<(value: string) => void> = jest.fn<(value: string) => void>();
                 const corrector2: jest.Mock<(value: string) => void> = jest.fn<(value: string) => void>();
                 wrapper.setProps({
+                    automatic: true,
                     textField: textField,
                     layouts: layouts,
                     correctorName: 'onRequestChange',
@@ -158,6 +159,7 @@ describe('Keyboard', () => {
                 wrapper.find(TextField).last().simulate('RequestChange', 'correct1');
                 expect(corrector1).toBeCalledWith('correct1');
                 wrapper.setProps({
+                    automatic: true,
                     textField: textField,
                     layouts: layouts,
                     correctorName: 'onRequestChange',
@@ -177,11 +179,11 @@ describe('Keyboard', () => {
                     stopPropagation: jest.fn(),
                     preventDefault: jest.fn()
                 };
-                wrapper.setProps({ textField: textField, layouts: layouts, onInput: onInput1 });
+                wrapper.setProps({ automatic: true, textField: textField, layouts: layouts, onInput: onInput1 });
                 wrapper.setState({ open: true });
                 EventListenerService.emit('keydown', keydownEvent);
                 expect(onInput1).toBeCalledWith('new');
-                wrapper.setProps({ textField: textField, layouts: layouts, onInput: onInput2 });
+                wrapper.setProps({ automatic: true, textField: textField, layouts: layouts, onInput: onInput2 });
                 wrapper.setState({ open: true, value: 'old' });
                 EventListenerService.emit('keydown', keydownEvent);
                 expect(onInput1).not.toBeCalledWith('old');
@@ -201,10 +203,29 @@ describe('Keyboard', () => {
                 EventListenerService.emit('keydown', keydownEvent);
                 expect(onRequestClose1).toBeCalled();
                 onRequestClose1.mockClear();
-                wrapper.setProps({ textField: textField, layouts: layouts, onRequestClose: onRequestClose2 });
+                wrapper.setProps({ textField: textField, layouts: layouts, onRequestClose: onRequestClose2, automatic: false, open: true });
                 EventListenerService.emit('keydown', keydownEvent);
                 expect(onRequestClose1).not.toBeCalled();
                 expect(onRequestClose2).toBeCalled();
+            });
+
+            it('should re-render when textField.type changes', () => {
+                expect(wrapper.find(TextField).length >= 2).toBe(true);
+                wrapper.setProps({ automatic: true, layouts: layouts, textField: <input value="new" /> });
+                expect(wrapper.find(TextField).length).toBe(0);
+                expect(wrapper.find('input').length >= 2).toBe(true);
+            });
+
+            it('should re-render when props.layouts changes', () => {
+                expect(wrapper.find({ keyboardKey: 'a' }).length).toBe(1);
+                wrapper.setProps({ automatic: true, textField: textField, layouts: [numericKeyboard] });
+                expect(wrapper.find({ keyboardKey: 'a' }).length).toBe(0);
+            });
+
+            it('should re-render when textField.props changes', () => {
+                expect(wrapper.find(TextField).first().prop('value')).toBe('new');
+                wrapper.setProps({ automatic: true, layouts: layouts, textField: <TextField value="old" />});
+                expect(wrapper.find(TextField).first().prop('value')).toBe('old');
             });
         });
 
