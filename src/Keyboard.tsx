@@ -315,13 +315,9 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     public componentWillReceiveProps(props: KeyboardProps): void {
-        const { textField, corrector } = props;
-        const { value } = textField.props;
-        if(this.props.textField.props.value !== value) {
-            this.syncValue(value);
-        }
-        if(this.props.corrector !== corrector) {
-            this.corrector = corrector.bind(this);
+        this.syncValue(props.textField.props.value);
+        if(this.props.corrector !== props.corrector) {
+            this.corrector = props.corrector.bind(this);
         }
     }
 

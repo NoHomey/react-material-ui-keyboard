@@ -128,6 +128,7 @@ describe('Keyboard', () => {
             it('should re-render when props.correctorName changes', () => {
                 const corrector: jest.Mock<(value: string) => void> = jest.fn<(value: string) => void>();
                 wrapper.setProps({
+                    automatic: true,
                     textField: textField,
                     layouts: layouts,
                     correctorName: 'onRequestChange',
@@ -137,6 +138,7 @@ describe('Keyboard', () => {
                 expect(corrector).toBeCalledWith('old');
                 corrector.mockClear();
                 wrapper.setProps({
+                    automatic: true,
                     textField: textField,
                     layouts: layouts,
                     correctorName: 'onPleaseChange',
@@ -149,13 +151,15 @@ describe('Keyboard', () => {
             it('should re-render when props.corrector changes', () => {
                 const corrector1: jest.Mock<(value: string) => void> = jest.fn<(value: string) => void>();
                 const corrector2: jest.Mock<(value: string) => void> = jest.fn<(value: string) => void>();
-                wrapper.setProps({
-                    automatic: true,
-                    textField: textField,
-                    layouts: layouts,
-                    correctorName: 'onRequestChange',
-                    corrector: corrector1
-                });
+                wrapper = shallow<KeyboardProps, KeyboardState>(
+                    <Keyboard
+                        automatic
+                        textField={textField}
+                        layouts={layouts}
+                        correctorName="onRequestChange"
+                        corrector={corrector1} />
+                    , { lifecycleExperimental: true }
+                );
                 wrapper.find(TextField).last().simulate('RequestChange', 'correct1');
                 expect(corrector1).toBeCalledWith('correct1');
                 wrapper.setProps({
@@ -192,21 +196,19 @@ describe('Keyboard', () => {
 
             it('should re-render when props.onRequestClose', () => {
                 const onRequestClose1:jest.Mock<RequestCloseHandler> = jest.fn<RequestCloseHandler>();
-                const onRequestClose2:jest.Mock<RequestCloseHandler> = jest.fn<RequestCloseHandler>();
                 const keydownEvent: any = {
                     key: 'Escape',
                     stopImmediatePropagation: jest.fn(),
                     stopPropagation: jest.fn(),
                     preventDefault: jest.fn()
                 };
+                wrapper.setProps({ textField: textField, layouts: layouts, automatic: false, open: true });
+                EventListenerService.emit('keydown', keydownEvent);
+                expect(onRequestClose1).not.toBeCalled();
+                onRequestClose1.mockClear();
                 wrapper.setProps({ textField: textField, layouts: layouts, onRequestClose: onRequestClose1, automatic: false, open: true });
                 EventListenerService.emit('keydown', keydownEvent);
                 expect(onRequestClose1).toBeCalled();
-                onRequestClose1.mockClear();
-                wrapper.setProps({ textField: textField, layouts: layouts, onRequestClose: onRequestClose2, automatic: false, open: true });
-                EventListenerService.emit('keydown', keydownEvent);
-                expect(onRequestClose1).not.toBeCalled();
-                expect(onRequestClose2).toBeCalled();
             });
 
             it('should re-render when textField.type changes', () => {
@@ -371,6 +373,27 @@ describe('Keyboard', () => {
                 expect(wrapper.state('value')).toBe('new');
                 (wrapper.instance() as Keyboard).makeCorrection('old');
                 expect(wrapper.state('value')).toBe('old');
+            });
+        });
+
+        describe('when automatic', () => {
+            describe('onFocus', () => {
+                describe('when Keyboard.automaitcOpenPredicate return true', () => {
+                    it('sets state.open to true', () => {
+                        expect(wrapper.state('open')).toBe(false);
+                        wrapper.find(TextField).first().simulate('focus');
+                        expect(wrapper.state('open')).toBe(true);
+                    });
+                });
+
+                describe('when Keyboard.automaitcOpenPredicate return false', () => {
+                    it('sets state.open to true', () => {
+                        Keyboard.automaitcOpenPredicate = () => false;
+                        expect(wrapper.state('open')).toBe(false);
+                        wrapper.find(TextField).first().simulate('focus');
+                        expect(wrapper.state('open')).toBe(false);
+                    });
+                });
             });
         });
     });
