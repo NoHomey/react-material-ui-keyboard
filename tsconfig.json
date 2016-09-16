@@ -11,6 +11,7 @@
         "src/index.tsx",
         "typings/index.d.ts",
         "src/KeyboardKey.tsx",
+        "src/ActiveElement.ts",
         "src/Keyboard.tsx",
         "__tests__/index.spec.ts",
         "__tests__/layouts.spec.ts",

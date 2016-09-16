@@ -8,6 +8,7 @@ import { KeyboardLayout, kyeboardCapsLockLayout } from './layouts';
 import { MuiTheme } from 'material-ui/styles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import EventListenerService from 'event-listener-service';
+import ActiveElement from './ActiveElement';
 import objectAssign = require('object-assign');
 import deepEqual = require('deep-equal');
 
@@ -98,6 +99,9 @@ EventListenerService.setImplementation({
     addListener: window.addEventListener.bind(window),
     removeListener: window.removeEventListener.bind(window)
 });
+
+ActiveElement.isInput = () => document.activeElement.tagName.toLowerCase() === constants.input;
+ActiveElement.blur = () => (document.activeElement as HTMLElement).blur();
 
 export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     private static overwriteProps(props: any): void {
@@ -200,7 +204,8 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                 return this.requestClose();
             case supportedSpecialKeys[constants.one]:
                 return this.setValue(value.substring(constants.zero, value.length - constants.one));
-            case supportedSpecialKeys[constants.two]: return this.requestClose();
+            case supportedSpecialKeys[constants.two]:
+                return this.requestClose();
             case supportedSpecialKeys[constants.three]: return this.setState({ capsLock: !capsLock });
             case supportedSpecialKeys[constants.four]:
                 return this.setState({
@@ -214,6 +219,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     private onKeyDown(event: KeyboardEvent): void {
         const { key } = event;
         event.stopImmediatePropagation();
+        event.stopPropagation();
         if((key.length === constants.one) || (Keyboard.getSupportedSpecialKeys().indexOf(key) !== constants.minusOne)) {
             event.preventDefault();
             this.onKeyboard(key);
@@ -251,18 +257,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     public componentDidMount(): void {
         EventListenerService.addListener(constants.resize, this.onResize, constants.boolFalse);
         this.syncValue(this.props.textField.props.value);
-    }
-
-    public componentWillReceiveProps(props: KeyboardProps): void {
-        const { value: textFieldValue } = this.props.textField.props;
-        const { value: nextTextFieldValue } = props.textField.props;
-        const { corrector } = props;
-        if(textFieldValue !== nextTextFieldValue) {
-            this.syncValue(nextTextFieldValue);
-        }
-        if(this.props.corrector !== corrector) {
-            this.corrector = corrector.bind(this);
-        }
     }
 
     public shouldComponentUpdate(props: KeyboardProps, state: KeyboardState): boolean {
@@ -320,14 +314,25 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         return constants.boolFalse;
     }
 
+    public componentWillReceiveProps(props: KeyboardProps): void {
+        const { textField, corrector } = props;
+        const { value } = textField.props;
+        if(this.props.textField.props.value !== value) {
+            this.syncValue(value);
+        }
+        if(this.props.corrector !== corrector) {
+            this.corrector = corrector.bind(this);
+        }
+    }
+
     public componentDidUpdate(props: KeyboardProps, state: KeyboardState): void {
-        const { automatic } = this.props;
+        const { automatic } = this.props;;
         const open: boolean = automatic ? this.state.open : this.props.open;
         const prev: boolean = automatic ? state.open : props.open;
         if(open !== prev) {
             if(open) {
-                if(document.activeElement.tagName.toLowerCase() === constants.input) {
-                    (document.activeElement as HTMLInputElement).blur();
+                if(ActiveElement.isInput()) {
+                    ActiveElement.blur();
                 }
                 EventListenerService.addListener(constants.keydown, this.onKeyDown, constants.boolTrue);
             } else {
