@@ -115,7 +115,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     private static supportedSpecialKeys: Array<string> = ['Enter', 'Backspace', 'Escape', 'CapsLock', 'Keyboard'];
-    private static overwrittenProps: Array<string> = ['onChange', 'onFocus', 'onBlur', 'onKey', 'onKeyUp', 'onKeyDown', 'onKeyPress'];
+    private static overwrittenProps: Array<string> = ['onChange', 'onFocus', 'onBlur', 'onKeyUp', 'onKeyDown', 'onKeyPress'];
     private static noStyleHeight: React.CSSProperties = {
         minHeight: constants.zero,
         height: constants.zero,
@@ -348,7 +348,8 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         let prop: string;
         for(propIndex = constants.zero; propIndex < overwrittenPropsLength; ++propIndex) {
             prop = overwrittenProps[propIndex];
-            if(props.hasOwnProperty(prop)) {
+            if(keyboardFieldProps.hasOwnProperty(prop)) {
+                console.log(prop);
                 keyboardFieldProps[prop] = undefined;
             }
         }

@@ -31,6 +31,113 @@ describe('Keyboard', () => {
         ActiveElement.blur = blur;
     });
 
+    describe('when rendering', () => {
+        it('undefines onChange prop for keyboard input field', () => {
+            const onChange: () => void = (): void => { };
+            const wrapper: KeyboardShallowWrapper = shallow<KeyboardProps, KeyboardState>(
+                <Keyboard
+                    automatic
+                    textField={<TextField value="" onChange={onChange} />}
+                    layouts={[extendedKeyboard]} />
+                , { lifecycleExperimental: true }
+            );
+            expect(wrapper.find(TextField).first().prop('onChange')).toBe(onChange);
+            expect(wrapper.find(TextField).last().prop('onChange')).toBeUndefined();
+        });
+
+        it('undefines onFocus prop for keyboard input field and overwrites it for input when automatic', () => {
+            const onFocus: () => void = (): void => { };
+            const wrapper: KeyboardShallowWrapper = shallow<KeyboardProps, KeyboardState>(
+                <Keyboard
+                    automatic
+                    textField={<TextField value="" onFocus={onFocus} />}
+                    layouts={[extendedKeyboard]} />
+                , { lifecycleExperimental: true }
+            );
+            expect(wrapper.find(TextField).first().prop('onFocus')).not.toBe(onFocus);
+            expect(typeof wrapper.find(TextField).first().prop('onFocus')).toBe('function');
+            expect(wrapper.find(TextField).last().prop('onFocus')).toBeUndefined();
+        });
+
+        it('undefines onFocus prop for keyboard input field and nulls it for input when not automatic and opened', () => {
+            const onFocus: () => void = (): void => { };
+            const wrapper: KeyboardShallowWrapper = shallow<KeyboardProps, KeyboardState>(
+                <Keyboard
+                    open
+                    textField={<TextField value="" onFocus={onFocus} />}
+                    layouts={[extendedKeyboard]} />
+                , { lifecycleExperimental: true }
+            );
+            expect(wrapper.find(TextField).first().prop('onFocus')).not.toBe(onFocus);
+            expect(wrapper.find(TextField).first().prop('onFocus')).toBeNull();
+            expect(wrapper.find(TextField).last().prop('onFocus')).toBeUndefined();
+        });
+
+        it('undefines onFocus prop for keyboard input field', () => {
+            const onFocus: () => void = (): void => { };
+            const wrapper: KeyboardShallowWrapper = shallow<KeyboardProps, KeyboardState>(
+                <Keyboard
+                    textField={<TextField value="" onFocus={onFocus} />}
+                    layouts={[extendedKeyboard]} />
+                , { lifecycleExperimental: true }
+            );
+            expect(wrapper.find(TextField).first().prop('onFocus')).toBe(onFocus);
+            expect(wrapper.find(TextField).last().prop('onFocus')).toBeUndefined();
+        });
+
+        it('undefines onBlur prop for keyboard input field', () => {
+            const onBlur: () => void = (): void => { };
+            const wrapper: KeyboardShallowWrapper = shallow<KeyboardProps, KeyboardState>(
+                <Keyboard
+                    automatic
+                    textField={<TextField value="" onBlur={onBlur} />}
+                    layouts={[extendedKeyboard]} />
+                , { lifecycleExperimental: true }
+            );
+            expect(wrapper.find(TextField).first().prop('onBlur')).toBe(onBlur);
+            expect(wrapper.find(TextField).last().prop('onBlur')).toBeUndefined();
+        });
+
+        it('undefines onKeyUp prop for keyboard input field', () => {
+            const onKeyUp: () => void = (): void => { };
+            const wrapper: KeyboardShallowWrapper = shallow<KeyboardProps, KeyboardState>(
+                <Keyboard
+                    automatic
+                    textField={<input value="" onKeyUp={onKeyUp} />}
+                    layouts={[extendedKeyboard]} />
+                , { lifecycleExperimental: true }
+            );
+            expect(wrapper.find('input').first().prop('onKeyUp')).toBe(onKeyUp);
+            expect(wrapper.find('input').last().prop('onKeyUp')).toBeUndefined();
+        });
+
+        it('undefines onKeyDown prop for keyboard input field', () => {
+            const onKeyDown: () => void = (): void => { };
+            const wrapper: KeyboardShallowWrapper = shallow<KeyboardProps, KeyboardState>(
+                <Keyboard
+                    automatic
+                    textField={<TextField value="" onKeyDown={onKeyDown} />}
+                    layouts={[extendedKeyboard]} />
+                , { lifecycleExperimental: true }
+            );
+            expect(wrapper.find(TextField).first().prop('onKeyDown')).toBe(onKeyDown);
+            expect(wrapper.find(TextField).last().prop('onKeyDown')).toBeUndefined();
+        });
+
+        it('undefines onKeyPress prop for keyboard input field', () => {
+            const onKeyPress: () => void = (): void => { };
+            const wrapper: KeyboardShallowWrapper = shallow<KeyboardProps, KeyboardState>(
+                <Keyboard
+                    automatic
+                    textField={<input value="" onKeyPress={onKeyPress} />}
+                    layouts={[extendedKeyboard]} />
+                , { lifecycleExperimental: true }
+            );
+            expect(wrapper.find('input').first().prop('onKeyPress')).toBe(onKeyPress);
+            expect(wrapper.find('input').last().prop('onKeyPress')).toBeUndefined();
+        });
+    });
+
     describe('once mounted', () => {
         const textField: JSX.Element = <TextField value="new" />;
         const layouts: KeyboardLayout[] = [extendedKeyboard];
@@ -431,6 +538,55 @@ describe('Keyboard', () => {
                     expect(wrapper.find({ keyboardKey: 'A' }).length).toBe(1);
                 });
             });
+
+            describe('when Keyboard key is recived', () => {
+                beforeEach(() => wrapper.setProps({ textField: textField, layouts: [[['a', 'b'], ['Keyboard', 'Enter']], [['a', 'b', 'Keyboard', 'Enter']]]  }))
+
+                it('Changes Keyboard\'s layout', () => {
+                    expect(wrapper.state('layout')).toBe(0);
+                    wrapper.find({ keyboardKey: 'Keyboard' }).first().shallow().simulate('touchTap');
+                    wrapper.update();
+                    expect(wrapper.state('layout')).toBe(1);
+                });
+
+                it('should make circular layout changes', () => {
+                    expect(wrapper.state('layout')).toBe(0);
+                    wrapper.find({ keyboardKey: 'Keyboard' }).first().shallow().simulate('touchTap');
+                    wrapper.update();
+                    expect(wrapper.state('layout')).toBe(1);
+                    wrapper.find({ keyboardKey: 'Keyboard' }).first().shallow().simulate('touchTap');
+                    wrapper.update();
+                    expect(wrapper.state('layout')).toBe(0);
+                });
+            });
+
+            describe('when symbol key is pressed', () => {
+                it('should add character to value', () => {
+                    expect(wrapper.state('value')).toBe('new');
+                    wrapper.find({ keyboardKey: '@' }).first().shallow().simulate('touchTap');
+                    expect(wrapper.state('value')).toBe('new@');
+                    wrapper.find({ keyboardKey: 't' }).first().shallow().simulate('touchTap');
+                    expect(wrapper.state('value')).toBe('new@t');
+                    wrapper.find({ keyboardKey: 's' }).first().shallow().simulate('touchTap');
+                    expect(wrapper.state('value')).toBe('new@ts');
+                    wrapper.find({ keyboardKey: '#' }).first().shallow().simulate('touchTap');
+                    expect(wrapper.state('value')).toBe('new@ts#');
+                    wrapper.find({ keyboardKey: '9' }).first().shallow().simulate('touchTap');
+                    expect(wrapper.state('value')).toBe('new@ts#9');
+                });
+            });
+
+            describe('when not supported Special Key is pressed', () => {
+                it('dose not do anything', () => {
+                    wrapper.setProps({ textField: textField, layouts: [[['TS']]]  });
+                    const props: KeyboardProps = wrapper.props();
+                    const state: KeyboardState = wrapper.state();
+                    wrapper.find({ keyboardKey: 'TS' }).first().shallow().simulate('touchTap');
+                    wrapper.update();
+                    expect(wrapper.props()).toBe(props);
+                    expect(wrapper.state()).toBe(state);
+                });
+            });
         });
 
         describe('onKeyDown', () => {
@@ -514,6 +670,49 @@ describe('Keyboard', () => {
                     wrapper.update();
                     expect(wrapper.find({ keyboardKey: 'a' }).length).toBe(0);
                     expect(wrapper.find({ keyboardKey: 'A' }).length).toBe(1);
+                });
+            });
+
+            describe('when symbol key is pressed', () => {
+                it('should add character to value', () => {
+                    let keydownEvent: any = {
+                        key: '@',
+                        stopImmediatePropagation: jest.fn(),
+                        stopPropagation: jest.fn(),
+                        preventDefault: jest.fn()
+                    };
+                    expect(wrapper.state('value')).toBe('new');
+                    EventListenerService.emit('keydown', keydownEvent);
+                    expect(wrapper.state('value')).toBe('new@');
+                    keydownEvent.key = 't';
+                    EventListenerService.emit('keydown', keydownEvent);
+                    expect(wrapper.state('value')).toBe('new@t');
+                    keydownEvent.key = 's';
+                    EventListenerService.emit('keydown', keydownEvent);
+                    expect(wrapper.state('value')).toBe('new@ts');
+                    keydownEvent.key = '#';
+                    EventListenerService.emit('keydown', keydownEvent);
+                    expect(wrapper.state('value')).toBe('new@ts#');
+                    keydownEvent.key = '9';
+                    EventListenerService.emit('keydown', keydownEvent);
+                    expect(wrapper.state('value')).toBe('new@ts#9');
+                });
+            });
+
+            describe('when not supported Special Key is pressed', () => {
+                it('just stops event propagation', () => {
+                    const keydownEvent: any = {
+                        key: 'TS',
+                        stopImmediatePropagation: jest.fn(),
+                        stopPropagation: jest.fn(),
+                        preventDefault: jest.fn()
+                    };
+                    expect(wrapper.state('value')).toBe('new');
+                    EventListenerService.emit('keydown', keydownEvent);
+                    expect(wrapper.state('value')).toBe('new');
+                    expect(keydownEvent.stopImmediatePropagation).toBeCalled();
+                    expect(keydownEvent.stopPropagation).toBeCalled();
+                    expect(keydownEvent.preventDefault).not.toBeCalled();
                 });
             });
         });

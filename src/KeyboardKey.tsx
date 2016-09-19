@@ -54,7 +54,10 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
 
     @bind
     private onTouchTap(event: TouchTapEvent): void {
-        this.props.onKeyPress(this.props.keyboardKey);
+        const { onKeyPress, keyboardKey } = this.props;
+        if((keyboardKey.length === 1) || KeyboardKey.specialIcons.hasOwnProperty(keyboardKey)) {
+            onKeyPress(keyboardKey);
+        }
     }
 
     public constructor(props: KeyboardKeyProps) {
