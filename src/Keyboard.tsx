@@ -104,27 +104,6 @@ ActiveElement.isInput = () => document.activeElement.tagName.toLowerCase() === c
 ActiveElement.blur = () => (document.activeElement as HTMLElement).blur();
 
 export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
-    private static overwriteProps(props: any): void {
-        const { overwrittenProps } = Keyboard;
-        let prop: string;
-        for(let i: number = constants.zero; i < overwrittenProps.length; ++i) {
-            prop = overwrittenProps[i];
-            if(props.hasOwnProperty(prop)) {
-                props[prop] = undefined;
-            }
-        }
-    }
-
-    private static calculateRowLength (row: Array<string>): number {
-        let spacebar: number = constants.one;
-        for(let i: number = constants.zero; i < row.length; ++i) {
-            if(row[i].match(constants.isSpaceBar)) {
-                spacebar = row[i].length;
-            }
-        }
-        return row.length + spacebar - constants.one;
-    }
-
     private static calculatedTextFieldHeight(props: TextFieldAccessedProps): number {
         const { rows, floatingLabelText } = props;
         const normalHeight: number = floatingLabelText ? constants.seventyTwo : constants.fourtyEight;
@@ -135,7 +114,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         return Keyboard.supportedSpecialKeys;
     }
 
-    private static supportedSpecialKeys: Array<string> = ['Enter', 'Backspace', 'Escape', 'CapsLock', 'Keyboard'];;
+    private static supportedSpecialKeys: Array<string> = ['Enter', 'Backspace', 'Escape', 'CapsLock', 'Keyboard'];
     private static overwrittenProps: Array<string> = ['onChange', 'onFocus', 'onBlur', 'onKey', 'onKeyUp', 'onKeyDown', 'onKeyPress'];
     private static noStyleHeight: React.CSSProperties = {
         minHeight: constants.zero,
@@ -322,7 +301,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     public componentDidUpdate(props: KeyboardProps, state: KeyboardState): void {
-        const { automatic } = this.props;;
+        const { automatic } = this.props;
         const open: boolean = automatic ? this.state.open : this.props.open;
         const prev: boolean = automatic ? state.open : props.open;
         if(open !== prev) {
@@ -363,12 +342,39 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         if(typeof correctorName === constants.typeofString) {
             keyboardFieldProps[correctorName] = this.corrector;
         }
-        Keyboard.overwriteProps(keyboardFieldProps);
+        const { overwrittenProps } = Keyboard;
+        const { length: overwrittenPropsLength } = overwrittenProps;
+        let propIndex: number;
+        let prop: string;
+        for(propIndex = constants.zero; propIndex < overwrittenPropsLength; ++propIndex) {
+            prop = overwrittenProps[propIndex];
+            if(props.hasOwnProperty(prop)) {
+                keyboardFieldProps[prop] = undefined;
+            }
+        }
         const inputTextField: TextFieldElement = React.cloneElement(textField, inputTextFieldProps);
         const keyboardTextField: TextFieldElement = React.createElement(textField.type as CreatableTextField, keyboardFieldProps);
         const keyboardLayout: KeyboardLayout = kyeboardCapsLockLayout(layouts[stateLayout], capsLock);
         const keyboardRowLength: number = keyboardLayout.length;
-        const keyboardRowLengths: Array<number> = keyboardLayout.map(Keyboard.calculateRowLength);
+        const keyboardRowLengths: Array<number> =  [];//keyboardLayout.map(Keyboard.calculateRowLength);
+        let rowIndex: number;
+        let keyIndex: number;
+        let spacebar: number;
+        let rowLength: number;
+        let row: Array<string>;
+        let key: string;
+        for(rowIndex = constants.zero; rowIndex < keyboardRowLength; ++rowIndex) {
+            spacebar = constants.one;
+            row = keyboardLayout[rowIndex];
+            rowLength = row.length;
+            for(keyIndex = constants.zero; keyIndex < rowLength; ++keyIndex) {
+                key = row[keyIndex];
+                if(key.match(constants.isSpaceBar)) {
+                    spacebar = key.length;
+                }
+            }
+            keyboardRowLengths.push(rowLength + spacebar - constants.one);
+        }
         const maxKeyboardRowLength: number = Math.max(...keyboardRowLengths);
         let keyHeight: number = typeof keyboardKeyHeight === constants.typeofNumber ? keyboardKeyHeight : theme.button.height;
         let keyWidth: number = typeof keyboardKeyWidth === constants.typeofNumber ? keyboardKeyWidth : theme.button.minWidth;
@@ -413,12 +419,12 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         let keyboardRows: Array<KeyboardRow> = [];
         let keyboardRowKeys: Array<KeyboardRowKey>;
         let notSpacebar: boolean;
-        let keyIndex: number;
-        let key: string;
-        for(let rowIndex: number = constants.zero; rowIndex < keyboardLayout.length; ++rowIndex) {
+        for(let rowIndex: number = constants.zero; rowIndex < keyboardRowLength; ++rowIndex) {
             keyboardRowKeys = [];
-            for(keyIndex = constants.zero; keyIndex < keyboardLayout[rowIndex].length; ++keyIndex) {
-                key = keyboardLayout[rowIndex][keyIndex];
+            row = keyboardLayout[rowIndex];
+            rowLength = row.length;
+            for(keyIndex = constants.zero; keyIndex < rowLength; ++keyIndex) {
+                key = row[keyIndex];
                 notSpacebar = key.match(constants.isSpaceBar) === null;
                 keyboardRowKeys.push(
                     <KeyboardKey
