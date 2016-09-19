@@ -733,7 +733,7 @@ describe('Keyboard', () => {
             it('decreses Keyboard height if window.innerHeight is less than needed', () => {
                 const { height, maxHeight } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 const { innerHeight: oldHeight } = window;
-                window.innerHeight = innerHeight / 100;
+                window.innerHeight = innerHeight / 100 + 10;
                 EventListenerService.emit('resize');
                 wrapper.update();
                 const { height: newHeight, maxHeight: newMaxHeight } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
