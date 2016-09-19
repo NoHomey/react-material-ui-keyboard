@@ -356,7 +356,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const keyboardTextField: TextFieldElement = React.createElement(textField.type as CreatableTextField, keyboardFieldProps);
         const keyboardLayout: KeyboardLayout = kyeboardCapsLockLayout(layouts[stateLayout], capsLock);
         const keyboardRowLength: number = keyboardLayout.length;
-        const keyboardRowLengths: Array<number> =  [];//keyboardLayout.map(Keyboard.calculateRowLength);
+        const keyboardRowLengths: Array<number> =  [];
         let rowIndex: number;
         let keyIndex: number;
         let spacebar: number;

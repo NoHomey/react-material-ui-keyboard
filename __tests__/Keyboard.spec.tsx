@@ -3,13 +3,17 @@ import * as React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import { KeyboardKey, KeyboardKeyProps } from './../src/KeyboardKey';
 import { extendedKeyboard, numericKeyboard } from './../src/layouts';
 import EventListenerService from 'event-listener-service';
 import ActiveElement from './../src/ActiveElement';
+import * as injectTapEventPlugin from 'react-tap-event-plugin';
 
 type KeyboardShallowWrapper = ShallowWrapper<KeyboardProps, KeyboardState>;
 type Listener = (eventName: string, listener: (event: any) => void, capture: boolean) => void;
+
+injectTapEventPlugin();
 
 describe('Keyboard', () => {
     let addListener: jest.Mock<Listener>;
@@ -365,6 +369,152 @@ describe('Keyboard', () => {
                 expect(args[0]).toBe('resize');
                 expect(typeof args[1]).toBe('function');
                 expect(args[2]).toBe(false);
+            });
+        });
+
+        describe('onKeyboard', () => {
+            beforeEach(() => wrapper.find(TextField).first().simulate('focus'));
+
+            describe('when Enter is recived', () => {
+                let onInput: jest.Mock<InputHandler>;
+
+                beforeEach(() => {
+                    onInput = jest.fn<InputHandler>();
+                    wrapper.setProps({ textField: textField, layouts: layouts, automatic: true, onInput: onInput });
+                });
+
+                it('emits onInput and closes the Keyboard', () => {
+                    expect(wrapper.find(Dialog).prop('open')).toBe(true);
+                    expect(onInput).not.toBeCalled();
+                    wrapper.find({ keyboardKey: 'Enter' }).shallow().simulate('touchTap');
+                    wrapper.update();
+                    expect(onInput).toBeCalled();
+                    expect(onInput).toBeCalledWith('new');
+                    expect(wrapper.find(Dialog).prop('open')).toBe(false);
+                });
+            });
+
+            describe('when Backspace key is recived', () => {
+                it('deletes last character as long as there are characters to be deleted', () => {
+                    expect(wrapper.state('value')).toBe('new');
+                    wrapper.find({ keyboardKey: 'Backspace' }).shallow().simulate('touchTap');
+                    wrapper.update();
+                    expect(wrapper.state('value')).toBe('ne');
+                    wrapper.find({ keyboardKey: 'Backspace' }).shallow().simulate('touchTap');
+                    wrapper.update();
+                    expect(wrapper.state('value')).toBe('n');
+                    wrapper.find({ keyboardKey: 'Backspace' }).shallow().simulate('touchTap');
+                    wrapper.update();
+                    expect(wrapper.state('value')).toBe('');
+                    wrapper.find({ keyboardKey: 'Backspace' }).shallow().simulate('touchTap');
+                    wrapper.update();
+                    expect(wrapper.state('value')).toBe('');
+                });
+            });
+
+            describe('when Escape key is recived', () => {
+                it('closes the Keyboard', () => {
+                    expect(wrapper.find(Dialog).prop('open')).toBe(true);
+                    wrapper.find({ keyboardKey: 'Escape' }).shallow().simulate('touchTap');
+                    wrapper.update();
+                    expect(wrapper.find(Dialog).prop('open')).toBe(false);
+                });
+            });
+
+            describe('when CapsLock key is recived', () => {
+                it('CapsLocks Keyboard', () => {
+                    expect(wrapper.find({ keyboardKey: 'a' }).length).toBe(1);
+                    expect(wrapper.find({ keyboardKey: 'A' }).length).toBe(0);
+                    wrapper.find({ keyboardKey: 'CapsLock' }).first().shallow().simulate('touchTap');
+                    wrapper.update();
+                    expect(wrapper.find({ keyboardKey: 'a' }).length).toBe(0);
+                    expect(wrapper.find({ keyboardKey: 'A' }).length).toBe(1);
+                });
+            });
+        });
+
+        describe('onKeyDown', () => {
+            beforeEach(() => wrapper.find(TextField).first().simulate('focus'));
+
+            describe('when Enter is recived', () => {
+                let onInput: jest.Mock<InputHandler>;
+
+                beforeEach(() => {
+                    onInput = jest.fn<InputHandler>();
+                    wrapper.setProps({ textField: textField, layouts: layouts, automatic: true, onInput: onInput });
+                });
+
+                it('emits onInput and closes the Keyboard when <Enter> is pressed', () => {
+                    const keydownEvent: any = {
+                        key: 'Enter',
+                        stopImmediatePropagation: jest.fn(),
+                        stopPropagation: jest.fn(),
+                        preventDefault: jest.fn()
+                    };
+                    expect(wrapper.find(Dialog).prop('open')).toBe(true);
+                    expect(onInput).not.toBeCalled();
+                    EventListenerService.emit('keydown', keydownEvent);
+                    wrapper.update();
+                    expect(onInput).toBeCalled();
+                    expect(onInput).toBeCalledWith('new');
+                    expect(wrapper.find(Dialog).prop('open')).toBe(false);
+                });
+            });
+
+            describe('when Backspace key is recived', () => {
+               it('deletes last character as long as there are characters to be deleted when <backspace> is pressed', () => {
+                   const keydownEvent: any = {
+                        key: 'Backspace',
+                        stopImmediatePropagation: jest.fn(),
+                        stopPropagation: jest.fn(),
+                        preventDefault: jest.fn()
+                    };
+                    expect(wrapper.state('value')).toBe('new');
+                    EventListenerService.emit('keydown', keydownEvent);
+                    wrapper.update();
+                    expect(wrapper.state('value')).toBe('ne');
+                    EventListenerService.emit('keydown', keydownEvent);
+                    wrapper.update();
+                    expect(wrapper.state('value')).toBe('n');
+                    EventListenerService.emit('keydown', keydownEvent);
+                    wrapper.update();
+                    expect(wrapper.state('value')).toBe('');
+                    EventListenerService.emit('keydown', keydownEvent);
+                    wrapper.update();
+                    expect(wrapper.state('value')).toBe('');
+                });
+            });
+
+            describe('when Escape key is recived', () => {
+                it('closes the Keyboard when <Esc> is pressed', () => {
+                    const keydownEvent: any = {
+                        key: 'Escape',
+                        stopImmediatePropagation: jest.fn(),
+                        stopPropagation: jest.fn(),
+                        preventDefault: jest.fn()
+                    };
+                    expect(wrapper.find(Dialog).prop('open')).toBe(true);
+                    EventListenerService.emit('keydown', keydownEvent);
+                    wrapper.update();
+                    expect(wrapper.find(Dialog).prop('open')).toBe(false);
+                });
+            });
+
+            describe('when CapsLock key is recived', () => {
+                it('CapsLocks Keyboard when <CapsLock> is pressed', () => {
+                    const keydownEvent: any = {
+                        key: 'CapsLock',
+                        stopImmediatePropagation: jest.fn(),
+                        stopPropagation: jest.fn(),
+                        preventDefault: jest.fn()
+                    };
+                    expect(wrapper.find({ keyboardKey: 'a' }).length).toBe(1);
+                    expect(wrapper.find({ keyboardKey: 'A' }).length).toBe(0);
+                    EventListenerService.emit('keydown', keydownEvent);
+                    wrapper.update();
+                    expect(wrapper.find({ keyboardKey: 'a' }).length).toBe(0);
+                    expect(wrapper.find({ keyboardKey: 'A' }).length).toBe(1);
+                });
             });
         });
 
