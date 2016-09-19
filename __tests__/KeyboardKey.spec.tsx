@@ -252,10 +252,11 @@ describe('KeyboardKey', () => {
     });
 
     describe('when shouldComponentUpdate and once touchTap-ed', () => {
-        const onKeyPress: jest.Mock<KeyboardKeyPressHandler> = jest.fn<KeyboardKeyPressHandler>();
+        let onKeyPress: jest.Mock<KeyboardKeyPressHandler>;
         let wrapper: KeyboardKeyWrapper;
         
         beforeEach(() => {
+            onKeyPress = jest.fn<KeyboardKeyPressHandler>();
             wrapper = shallow<KeyboardKeyProps, void>(
                 <KeyboardKey
                     keyboardKey="i"
@@ -267,9 +268,34 @@ describe('KeyboardKey', () => {
         });
 
         describe('when touchTaped', () => {
-            it('calls onKeyPress with keyboardKey', () => {
-                wrapper.simulate('touchTap');
-                expect(onKeyPress).toBeCalledWith('i');
+            describe('when keyboardKey length is 1 or it is a supported special key', () => {
+                it('calls onKeyPress with keyboardKey', () => {
+                    wrapper.simulate('touchTap');
+                    expect(onKeyPress).lastCalledWith('i');
+                    wrapper.setProps({
+                        keyboardKey: 'Enter',
+                        onKeyPress: onKeyPress,
+                        keyboardKeySymbolSize: 16,
+                        keyboardKeyHeight :40,
+                        keyboardKeyWidth: 70
+                    });
+                    wrapper.simulate('touchTap');
+                    expect(onKeyPress).lastCalledWith('Enter');
+                });
+            });
+
+            describe('when keyboardKye is not recognized and supported', () => {
+                it('dose not call onKeyPress', () => {
+                    wrapper.setProps({
+                        keyboardKey: 'TS',
+                        onKeyPress: onKeyPress,
+                        keyboardKeySymbolSize: 16,
+                        keyboardKeyHeight :40,
+                        keyboardKeyWidth: 70
+                    });
+                    wrapper.simulate('touchTap');
+                    expect(onKeyPress).not.toBeCalled();
+                });
             });
         });
 
