@@ -392,7 +392,6 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const dialogSpacingTop: number = maxDialogHeight - dialogHeight;
         const overwriteWidth: boolean = dialogWidth > innerWidth;
         const overwriteHeight: boolean = dialogSpacingTop < transformTop;
-        console.log(dialogHeight, maxDialogHeight, dialogSpacingTop, overwriteHeight)
         if(overwriteWidth || overwriteHeight) {
             if(overwriteWidth) {
                 dialogWidth = innerWidth;
