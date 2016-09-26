@@ -46,6 +46,7 @@ index.js
 Keyboard.js
 KeyboardKey.js
 layouts.js
+ActiveElement.js
 *.map
 *.d.ts
 coverage
