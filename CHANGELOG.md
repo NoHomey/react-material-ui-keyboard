@@ -268,3 +268,11 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 ### Changes
 
 - Instad of doing twice `React.cloneElement(textField, someMergedProps)` `React.cloneElement` is called for the input and `React.createElement(textField.type, keyboardFieldProps`) for the keyboard input field
+
+## [v6.1.1](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/6.1.1)
+
+### New
+
+- `'#'` is added to `extendedKeyboard` layout
+- [warning](https://design.google.com/icons/#ic_warning) icon is used when given special key is not supported
+- Code is now have a 100% code coverage
