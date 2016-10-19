@@ -276,3 +276,13 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 - `'#'` is added to `extendedKeyboard` layout
 - [warning](https://design.google.com/icons/#ic_warning) icon is used when given special key is not supported
 - Code is now have a 100% code coverage
+
+## [v6.1.2](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/6.1.2)
+
+### Bug fixes
+
+- Fixing how `keyboardKeySymbolSize` is calculated when `Keyboard` resizes
+
+### Changes
+
+- Updating project to use `typescript` `2.0.3` and `@types` instead of `typings`
