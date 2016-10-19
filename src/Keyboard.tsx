@@ -1,7 +1,6 @@
 import * as React from 'react';
 import bind from 'bind-decorator';
 import Dialog from 'material-ui/Dialog';
-import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { KeyboardKey, KeyboardKeyProps } from './KeyboardKey';
 import { KeyboardLayout, kyeboardCapsLockLayout } from './layouts';
@@ -22,7 +21,7 @@ export interface TextFieldRequiredProps {
     style?: React.CSSProperties;
     readOnly: boolean;
     value: string; 
-    onFocus?: React.FocusEventHandler;
+    onFocus?: React.FocusEventHandler<string>;
 }
 
 export interface TextFieldAccessedProps extends TextFieldRequiredProps {
@@ -163,7 +162,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     @bind
-    private onFocus(event: React.FocusEvent): void {
+    private onFocus(): void {
         if(Keyboard.automaitcOpenPredicate()) {
             this.setAutomaitcOpen(constants.boolTrue);
         }
@@ -174,7 +173,8 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const { supportedSpecialKeys } = Keyboard;
         const { props, state } = this;
         const { onInput, layouts: propsLayout } = props;
-        const { value, capsLock, layout } = state;
+        const { capsLock, layout } = state;
+        const value: string = state.value!;
         switch(key) {
             case supportedSpecialKeys[constants.zero]:
                 if(onInput) {
@@ -206,7 +206,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     }
 
     @bind
-    private onResize(event: UIEvent): void {
+    private onResize(): void {
         this.forceUpdate();
     }
 
@@ -223,13 +223,12 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             open: constants.boolFalse
         };
         this.context = context;
-        this.corrector = null;
     }
 
     public componentWillMount(): void {
         const { corrector } = this.props;
         if(typeof corrector === constants.typeofFunction) {
-            this.corrector = corrector.bind(this);
+            this.corrector = corrector!.bind(this);
         }
     }
 
@@ -296,14 +295,14 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     public componentWillReceiveProps(props: KeyboardProps): void {
         this.syncValue(props.textField.props.value);
         if(this.props.corrector !== props.corrector) {
-            this.corrector = props.corrector.bind(this);
+            this.corrector = props.corrector!.bind(this);
         }
     }
 
     public componentDidUpdate(props: KeyboardProps, state: KeyboardState): void {
         const { automatic } = this.props;
-        const open: boolean = automatic ? this.state.open : this.props.open;
-        const prev: boolean = automatic ? state.open : props.open;
+        const open: boolean = automatic ? this.state.open! : this.props.open!;
+        const prev: boolean = automatic ? state.open! : props.open!;
         if(open !== prev) {
             if(open) {
                 if(ActiveElement.isInput()) {
@@ -322,16 +321,16 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
 
     public render(): JSX.Element {
         const { props, state, context } = this;
-        const { textField, layouts, keyboardKeyHeight, keyboardKeyWidth, keyboardKeySymbolSize, automatic, correctorName, corrector } = props;
+        const { textField, layouts, keyboardKeyHeight, keyboardKeyWidth, keyboardKeySymbolSize, automatic, correctorName } = props;
         const { value, layout: stateLayout, capsLock } = state;
         const { muiTheme } = context;
-        const open: boolean = automatic ? state.open : (props.open ? constants.boolTrue : constants.boolFalse);
+        const open: boolean = automatic ? state.open! : (props.open ? constants.boolTrue : constants.boolFalse);
         const theme: MuiTheme = muiTheme ? muiTheme : getMuiTheme();
-        const styles: React.CSSProperties = textField.props.style;
+        const styles: React.CSSProperties = textField.props.style!;
         let keyboardFieldProps: any = objectAssign({}, textField.props);
         let inputTextFieldProps: TextFieldAccessedProps = objectAssign({}, textField.props, { readOnly: open });
         if(automatic || open) {
-            inputTextFieldProps.onFocus = automatic ? this.onFocus : null;
+            inputTextFieldProps.onFocus = automatic ? this.onFocus : undefined;
         } 
         keyboardFieldProps.style = objectAssign({}, styles);
         keyboardFieldProps.style.minWidth = constants.fullWidth;
@@ -340,9 +339,9 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         keyboardFieldProps.readOnly = constants.boolTrue;
         keyboardFieldProps.value = value;
         if(typeof correctorName === constants.typeofString) {
-            keyboardFieldProps[correctorName] = this.corrector;
+            keyboardFieldProps[correctorName!] = this.corrector;
         }
-        const { overwrittenProps } = Keyboard;
+        const overwrittenProps: Array<string> = Keyboard.overwrittenProps;
         const { length: overwrittenPropsLength } = overwrittenProps;
         let propIndex: number;
         let prop: string;
@@ -354,7 +353,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         }
         const inputTextField: TextFieldElement = React.cloneElement(textField, inputTextFieldProps);
         const keyboardTextField: TextFieldElement = React.createElement(textField.type as CreatableTextField, keyboardFieldProps);
-        const keyboardLayout: KeyboardLayout = kyeboardCapsLockLayout(layouts[stateLayout], capsLock);
+        const keyboardLayout: KeyboardLayout = kyeboardCapsLockLayout(layouts[stateLayout!], capsLock!);
         const keyboardRowLength: number = keyboardLayout.length;
         const keyboardRowLengths: Array<number> =  [];
         let rowIndex: number;
@@ -376,16 +375,16 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             keyboardRowLengths.push(rowLength + spacebar - constants.one);
         }
         const maxKeyboardRowLength: number = Math.max(...keyboardRowLengths);
-        let keyHeight: number = typeof keyboardKeyHeight === constants.typeofNumber ? keyboardKeyHeight : theme.button.height;
-        let keyWidth: number = typeof keyboardKeyWidth === constants.typeofNumber ? keyboardKeyWidth : theme.button.minWidth;
-        let keySymbolSize: number = typeof keyboardKeySymbolSize === constants.typeofNumber ? keyboardKeySymbolSize : theme.flatButton.fontSize;
-        const { desktopGutter, desktopKeylineIncrement } = theme.baseTheme.spacing;
+        let keyHeight: number = typeof keyboardKeyHeight === constants.typeofNumber ? keyboardKeyHeight! : theme.button!.height!;
+        let keyWidth: number = typeof keyboardKeyWidth === constants.typeofNumber ? keyboardKeyWidth! : theme.button!.minWidth!;
+        let keySymbolSize: number = typeof keyboardKeySymbolSize === constants.typeofNumber ? keyboardKeySymbolSize! : theme.flatButton!.fontSize!;
+        const { desktopGutter, desktopKeylineIncrement } = theme.baseTheme!.spacing!;
         const { innerHeight, innerWidth } = window;
         const { minHeight, height, maxHeight } = (styles ? styles : Keyboard.noStyleHeight);
         const dialogGutter: number = constants.two * desktopGutter;
         const styleHeight: number = minHeight ? minHeight : (height ? height : (maxHeight ? maxHeight : constants.zero));
         const textFieldHeight: number = styleHeight > constants.zero ? styleHeight : Keyboard.calculatedTextFieldHeight(inputTextFieldProps);
-        let transformTop: number = desktopKeylineIncrement;
+        let transformTop: number = desktopKeylineIncrement!;
         let dialogWidth: number = (maxKeyboardRowLength * keyWidth) + dialogGutter;
         let dialogHeight: number = (keyboardRowLength * keyHeight) + textFieldHeight + dialogGutter;
         const maxDialogHeight: number = innerHeight - constants.sixteen;

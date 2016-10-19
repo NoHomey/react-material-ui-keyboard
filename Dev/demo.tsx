@@ -1,12 +1,7 @@
 import * as React from 'react';
 import TextField from 'material-ui/TextField';
-import { Keyboard, RequestCloseHandler, InputHandler } from './../src/index';
+import { Keyboard, InputHandler } from './../src/index';
 import { extendedKeyboard } from './../src/layouts';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { MuiTheme } from 'material-ui/styles';  
-
-const { div, link } = React.DOM;
 
 export interface DemoState {
     value?: string;
@@ -56,7 +51,7 @@ export default class Demo extends React.Component<void, DemoState> {
                         textField={textField}
                         onInput={_onInput}
                         keyboardKeyHeight={60}
-                        keyboardKeySymbolSize={22}
+                        keyboardKeySymbolSize={30}
                         layouts={[extendedKeyboard]}
                      />
                 </div>

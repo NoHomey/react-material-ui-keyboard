@@ -8,6 +8,8 @@ Virtual keyboard for TextFeild when needed.
 [![Code Climate](https://codeclimate.com/github/NoHomey/react-material-ui-keyboard/badges/gpa.svg)](https://codeclimate.com/github/NoHomey/react-material-ui-keyboard)
 [![Test Coverage](https://codeclimate.com/github/NoHomey/react-material-ui-keyboard/badges/coverage.svg)](https://codeclimate.com/github/NoHomey/react-material-ui-keyboard/coverage)
 [![Issue Count](https://codeclimate.com/github/NoHomey/react-material-ui-keyboard/badges/issue_count.svg)](https://codeclimate.com/github/NoHomey/react-material-ui-keyboard)
+![TypeScript](https://img.shields.io/badge/%3C%20%2F%3E-TypeScript-blue.svg)
+![Typings](https://img.shields.io/badge/typings-%E2%9C%93-brightgreen.svg)
 
 You controll when to open it which allows cross platform App optimizations and code reusability for diferent platoforms such as Progressive Web Apps, Hybrid Apps, Electron Apps, Touch Devices, Smart TVs, Desktops, and all other Compatible JavaScript Enviroments.
 
@@ -18,6 +20,12 @@ You have the freedom to choose on which of them to `open` the `Keyboard` and on 
 ![Screenshot](https://raw.githubusercontent.com/NoHomey/react-material-ui-keyboard/master/screenshots/show.png)
 
 # Install
+
+Install with npm:
+
+```bash
+$ npm install react-material-ui-keyboard
+```
 
 [![NPM](https://nodei.co/npm/react-material-ui-keyboard.png?downloads=true&stars=true)](https://nodei.co/npm/react-material-ui-keyboard/)
 
@@ -117,7 +125,7 @@ const extendedKeyboard = [
     ['q',        'w', 'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
     ['a',        's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
     ['CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '-',  'CapsLock'],
-    ['Escape',   '@', '',         '     ',         '.',     'Enter']
+    ['Escape',   '@', '#',         '     ',         '.',     'Enter']
 ];
 ```
 ### Demonstrating Spacebar and keyboard key size futers
@@ -320,14 +328,18 @@ If you need to change theme eg. gutter, spacing, colors or any other option you 
 
 # Testing
 
-## Tests will be added soon
+1. `npm install`
+
+2. `npm test`
 
 # Contributing
 
-1. Fork the repository
-2. `npm install`
-3. `npm run typings`
-4. Make changes
-5. `npm start`
-6. open [localhost:3000](http://localhost:3000)
-7. Make a Pull Request
+1. `npm install`
+
+2. Make changes
+
+3. If necessary add some tests to `__tests__`
+
+4. `npm test`
+
+5. Make a Pull Request

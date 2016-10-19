@@ -1,24 +1,19 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "moduleResolution": "node",
         "target": "es5",
-        "jsx": "react",
         "noImplicitAny": true,
-        "experimentalDecorators": true
+        "strictNullChecks": true,
+        "noImplicitThis": true,
+        "noUnusedParameters": true,
+        "noUnusedLocals": true,
+        "experimentalDecorators": true,
+        "jsx": "react"
     },
-    "files": [
-        "src/index.tsx",
-        "typings/index.d.ts",
-        "src/KeyboardKey.tsx",
-        "src/ActiveElement.ts",
-        "src/Keyboard.tsx",
-        "__tests__/index.spec.ts",
-        "__tests__/layouts.spec.ts",
-        "__tests__/KeyboardKey.spec.tsx",
-        "__tests__/Keyboard.spec.tsx",
-        "Dev/demo.tsx",
-        "Dev/index.tsx"
+    "include": [
+        "src/**/*",
+        "Dev/**/*",
+        "__tests__/**/*"
     ],
     "exclude": [
         "node_modules"

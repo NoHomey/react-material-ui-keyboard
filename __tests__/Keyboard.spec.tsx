@@ -3,7 +3,6 @@ import * as React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import { KeyboardKey, KeyboardKeyProps } from './../src/KeyboardKey';
 import { extendedKeyboard, numericKeyboard } from './../src/layouts';
 import EventListenerService from 'event-listener-service';
@@ -69,7 +68,7 @@ describe('Keyboard', () => {
                 , { lifecycleExperimental: true }
             );
             expect(wrapper.find(TextField).first().prop('onFocus')).not.toBe(onFocus);
-            expect(wrapper.find(TextField).first().prop('onFocus')).toBeNull();
+            expect(wrapper.find(TextField).first().prop('onFocus')).toBeUndefined();
             expect(wrapper.find(TextField).last().prop('onFocus')).toBeUndefined();
         });
 
@@ -750,7 +749,7 @@ describe('Keyboard', () => {
 
         describe('onResize', () => {
             function extractTransformTopHelper(transform: string): number {
-                return Number(transform.match(/translate\(0, (\d+)px\)/)[1]);
+                return Number(transform.match(/translate\(0, (\d+)px\)/)![1]);
             }
 
             beforeEach(() => wrapper.setProps({
@@ -763,46 +762,46 @@ describe('Keyboard', () => {
             it('decreses Keyboard with if window.innerWidth is less than needed', () => {
                 const { width, maxWidth } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 const { innerWidth: oldWidth } = window;
-                window.innerWidth = oldWidth / 10;
+                (window as any).innerWidth =oldWidth / 10;
                 EventListenerService.emit('resize');
                 wrapper.update();
                 const { width: newWidth, maxWidth: newMaxWidth } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 expect(newWidth).toBeLessThan(width);
                 expect(newMaxWidth).toBeLessThan(maxWidth);
-                window.innerWidth = oldWidth;
+                (window as any).innerWidth =oldWidth;
             });
 
             it('decreses Keyboard translate(0, top) if window.innerHeight is less than needed but greater than the need for height resize', () => {
                 const { height, maxHeight, transform } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 const { innerHeight: oldHeight } = window;
-                window.innerHeight = (oldHeight / 2) + 50;
+                (window as any).innerHeight =(oldHeight / 2) + 50;
                 EventListenerService.emit('resize');
                 wrapper.update();
                 const { height: newHeight, maxHeight: newMaxHeight, transform: newTransform } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 expect(newHeight).toEqual(height);
                 expect(newMaxHeight).toBeLessThan(maxHeight);
                 expect(extractTransformTopHelper(newTransform)).toBeLessThan(extractTransformTopHelper(transform));
-                window.innerHeight = oldHeight;
+                (window as any).innerHeight =oldHeight;
             });
 
             it('decreses Keyboard height if window.innerHeight is less than needed and sets transform to translate(0, 0)', () => {
-                const { height, maxHeight, transform } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
+                const { height, maxHeight } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 const { innerHeight: oldHeight } = window;
-                window.innerHeight = oldHeight / 2;
+                (window as any).innerHeight =oldHeight / 2;
                 EventListenerService.emit('resize');
                 wrapper.update();
                 const { height: newHeight, maxHeight: newMaxHeight, transform: newTransform } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 expect(newHeight).toBeLessThan(height);
                 expect(newMaxHeight).toBeLessThan(maxHeight);
                 expect(extractTransformTopHelper(newTransform)).toEqual(0);
-                window.innerHeight = oldHeight;
+                (window as any).innerHeight =oldHeight;
             });
 
             it('decreses Keyboard size if window inners* are less than requested with keyboardKey* props', () => {
-                const { width, maxWidth, height, maxHeight, transform } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
+                const { width, maxWidth, height, maxHeight } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 const { innerHeight: oldHeight, innerWidth: oldWidth } = window;
-                window.innerWidth = oldWidth / 10;
-                window.innerHeight = oldHeight / 10;
+                (window as any).innerWidth =oldWidth / 10;
+                (window as any).innerHeight =oldHeight / 10;
                 EventListenerService.emit('resize');
                 wrapper.update();
                 const { width: newWidth, maxWidth: newMaxWidth, height: newHeight, maxHeight: newMaxHeight, transform: newTransform } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
@@ -811,40 +810,40 @@ describe('Keyboard', () => {
                 expect(newHeight).toBeLessThan(height);
                 expect(newMaxHeight).toBeLessThan(maxHeight);
                 expect(extractTransformTopHelper(newTransform)).toEqual(0);
-                window.innerWidth = oldWidth;
-                window.innerHeight = oldHeight;
+                (window as any).innerWidth =oldWidth;
+                (window as any).innerHeight =oldHeight;
             });
 
             it('it dose not change Keyboard with if window.innerWidth is greater than needed', () => {
                 const { width, maxWidth } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 const { innerWidth: oldWidth } = window;
-                window.innerWidth = oldWidth * 10;
+                (window as any).innerWidth =oldWidth * 10;
                 EventListenerService.emit('resize');
                 wrapper.update();
                 const { width: newWidth, maxWidth: newMaxWidth } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 expect(newWidth).toEqual(width);
                 expect(newMaxWidth).toBeGreaterThan(maxWidth);
-                window.innerWidth = oldWidth;
+                (window as any).innerWidth =oldWidth;
             });
 
             it('it dose not change Keyboard height if window.innerHeight is greater than needed', () => {
                 const { height, maxHeight, transform } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 const { innerHeight: oldHeight } = window;
-                window.innerHeight = oldHeight * 10;
+                (window as any).innerHeight =oldHeight * 10;
                 EventListenerService.emit('resize');
                 wrapper.update();
                 const { height: newHeight, maxHeight: newMaxHeight, transform: newTransform } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 expect(newHeight).toEqual(height);
                 expect(newMaxHeight).toBeGreaterThan(maxHeight);
                 expect(extractTransformTopHelper(newTransform)).toEqual(extractTransformTopHelper(transform));
-                window.innerHeight = oldHeight;
+                (window as any).innerHeight =oldHeight;
             });
 
             it('it dose not change Keyboard size if window inners* are greater than requested with keyboardKey* props', () => {
                 const { width, maxWidth, height, maxHeight, transform } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 const { innerHeight: oldHeight, innerWidth: oldWidth } = window;
-                window.innerWidth = oldWidth * 10;
-                window.innerHeight = oldHeight * 10;
+                (window as any).innerWidth =oldWidth * 10;
+                (window as any).innerHeight =oldHeight * 10;
                 EventListenerService.emit('resize');
                 wrapper.update();
                 const { width: newWidth, maxWidth: newMaxWidth, height: newHeight, maxHeight: newMaxHeight, transform: newTransform } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
@@ -853,8 +852,8 @@ describe('Keyboard', () => {
                 expect(newHeight).toEqual(height);
                 expect(newMaxHeight).toBeGreaterThan(maxHeight);
                 expect(extractTransformTopHelper(newTransform)).toEqual(extractTransformTopHelper(transform));
-                window.innerWidth = oldWidth;
-                window.innerHeight = oldHeight;
+                (window as any).innerWidth =oldWidth;
+                (window as any).innerHeight =oldHeight;
             });
         });
 

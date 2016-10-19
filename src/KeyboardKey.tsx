@@ -8,7 +8,6 @@ import Keyboard from 'material-ui/svg-icons/hardware/keyboard';
 import CapsLock from 'material-ui/svg-icons/hardware/keyboard-capslock';
 import Spacebar from 'material-ui/svg-icons/editor/space-bar';
 import Warning from 'material-ui/svg-icons/alert/warning';
-import { TouchTapEvent } from 'material-ui';
 
 export type KeyboardKeyPressHandler = (key: string) => void;
 
@@ -53,7 +52,7 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
     };
 
     @bind
-    private onTouchTap(event: TouchTapEvent): void {
+    private onTouchTap(): void {
         const { onKeyPress, keyboardKey } = this.props;
         if((keyboardKey.length === 1) || KeyboardKey.specialIcons.hasOwnProperty(keyboardKey)) {
             onKeyPress(keyboardKey);
@@ -64,7 +63,7 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
         super(props);
     }
 
-    public shouldComponentUpdate(props: KeyboardKeyProps, state: void): boolean {
+    public shouldComponentUpdate(props: KeyboardKeyProps): boolean {
         if(this.props.keyboardKey !== props.keyboardKey) {
             return constants.boolTrue;
         }
