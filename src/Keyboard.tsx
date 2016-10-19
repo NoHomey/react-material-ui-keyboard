@@ -405,10 +405,9 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                     keyHeight = (dialogHeight - textFieldHeight - dialogGutter) / keyboardRowLength;
                 }
             }
-            const smallerSize: number = keyHeight < keyWidth ? keyHeight : keyWidth;
-            const smallerSymbolSize: number = smallerSize - (desktopGutter / constants.two);
+            const smallerSymbolSize: number = (keyHeight < keyWidth ? keyHeight : keyWidth) - constants.four;
             if(smallerSymbolSize < keySymbolSize) {
-                keySymbolSize = smallerSize;
+                keySymbolSize = smallerSymbolSize;
             }
         }
         const dialogContentStyle: React.CSSProperties = {
