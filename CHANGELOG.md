@@ -285,4 +285,5 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 
 ### Changes
 
+- Updating project dependencies
 - Updating project to use `typescript` `2.0.3` and `@types` instead of `typings`
