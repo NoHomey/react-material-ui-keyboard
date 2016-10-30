@@ -1,0 +1,27 @@
+{
+  "main": "./demo/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack"
+  },
+  "author": "Ivo Stratev",
+  "license": "MIT",
+  "dependencies": {
+    "material-ui": "^0.16.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-tap-event-plugin": "^1.0.0",
+    "react-material-ui-keyboard": "^6.1.2",
+    "@types/node": "^6.0.46",
+    "@types/react": "^0.14.43",
+    "@types/react-dom": "^0.14.18",
+    "@types/react-tap-event-plugin": "^0.0.30",
+    "@types/material-ui": "^0.16.38"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^2.24.0",
+    "ts-loader": "^0.9.5",
+    "typescript": "^2.0.6",
+    "webpack": "^1.13.3"
+  }
+}

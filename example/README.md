@@ -1,3 +1,7 @@
+# custom_layouts
+
+Demonstrates a Keyboard with all layouts beeing custom and how the `'Keyboard'` key can be used to switch between layouts
+
 # custom_textField
 
 Demonstrates a custom textField element ('material-ui-number-input') a TextField wrapper
