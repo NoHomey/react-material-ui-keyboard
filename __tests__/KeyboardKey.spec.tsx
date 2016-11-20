@@ -10,10 +10,17 @@ import Spacebar from 'material-ui/svg-icons/editor/space-bar';
 import Warning from 'material-ui/svg-icons/alert/warning';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 type KeyboardKeyWrapper = ShallowWrapper<KeyboardKeyProps, void>;
 
 injectTapEventPlugin();
+
+const options: any = {
+    context: {
+        muiTheme: getMuiTheme()
+    }
+};
 
 describe('KeyboardKey', () => {
     describe('when rendering', () => {
@@ -28,7 +35,9 @@ describe('KeyboardKey', () => {
                         onKeyPress={onKeyPress}
                         keyboardKeySymbolSize={20}
                         keyboardKeyHeight={40}
-                        keyboardKeyWidth={70} />
+                        keyboardKeyWidth={70}
+                        disableEffects={false} />,
+                    options
                 );
             });
 
@@ -52,8 +61,52 @@ describe('KeyboardKey', () => {
             it('has keyboardKeyWidth for style.minWidth', () => {
                 expect(wrapper.prop('style').width).toEqual(70);
             });
-        });
 
+            it('has enabled disableFocusRipple, disableKeyboardFocus, disableTouchRipple', () => {
+                expect(wrapper.prop('disableFocusRipple')).toBe(false);
+                expect(wrapper.prop('disableKeyboardFocus')).toBe(false);
+                expect(wrapper.prop('disableTouchRipple')).toBe(false);
+            });
+        });
+        describe('disableEffects', () => {
+            it('has special effects when disableEffects is false', () => {
+                const onKeyPress: jest.Mock<KeyboardKeyPressHandler> = jest.fn<KeyboardKeyPressHandler>();
+                const wrapper: KeyboardKeyWrapper = shallow<KeyboardKeyProps, void>(
+                    <KeyboardKey
+                        keyboardKey=" "
+                        onKeyPress={onKeyPress}
+                        keyboardKeySymbolSize={20}
+                        keyboardKeyHeight={40}
+                        keyboardKeyWidth={70}
+                        disableEffects={false} />,
+                    options
+                );
+
+                expect(wrapper.prop('disableFocusRipple')).toBe(false);
+                expect(wrapper.prop('disableKeyboardFocus')).toBe(false);
+                expect(wrapper.prop('disableTouchRipple')).toBe(false);
+                expect(wrapper.prop('hoverColor')).toBeUndefined();
+            });
+
+            it('has no special effects when disableEffects is true', () => {
+                const onKeyPress: jest.Mock<KeyboardKeyPressHandler> = jest.fn<KeyboardKeyPressHandler>();
+                const wrapper: KeyboardKeyWrapper = shallow<KeyboardKeyProps, void>(
+                    <KeyboardKey
+                        keyboardKey=" "
+                        onKeyPress={onKeyPress}
+                        keyboardKeySymbolSize={20}
+                        keyboardKeyHeight={40}
+                        keyboardKeyWidth={70}
+                        disableEffects />,
+                    options
+                );
+
+                expect(wrapper.prop('disableFocusRipple')).toBe(true);
+                expect(wrapper.prop('disableKeyboardFocus')).toBe(true);
+                expect(wrapper.prop('disableTouchRipple')).toBe(true);
+                expect(wrapper.prop('hoverColor')).toBe(options.context.muiTheme.flatButton.color);
+            });
+        });
         describe('when keyboardKey.length less than or equal to 1 and is not \' \'', () => {
             describe('common for all when keyboardKey.length less than or equal to 1 and is not \' \'', () => {
                 let wrapper: KeyboardKeyWrapper;
@@ -66,7 +119,9 @@ describe('KeyboardKey', () => {
                             onKeyPress={onKeyPress}
                             keyboardKeySymbolSize={20}
                             keyboardKeyHeight={40}
-                            keyboardKeyWidth={70} />
+                            keyboardKeyWidth={70}
+                            disableEffects />,
+                        options
                     );
                 });
 
@@ -88,7 +143,9 @@ describe('KeyboardKey', () => {
                             onKeyPress={onKeyPress}
                             keyboardKeySymbolSize={20}
                             keyboardKeyHeight={40}
-                            keyboardKeyWidth={70} />
+                            keyboardKeyWidth={70}
+                            disableEffects />,
+                        options
                     );
                     expect(wrapper.prop('label')).toBe('f');
                 });
@@ -105,7 +162,9 @@ describe('KeyboardKey', () => {
                             onKeyPress={onKeyPress}
                             keyboardKeySymbolSize={20}
                             keyboardKeyHeight={40}
-                            keyboardKeyWidth={70} />
+                            keyboardKeyWidth={70}
+                            disableEffects />,
+                        options
                     );
                 });
 
@@ -131,7 +190,9 @@ describe('KeyboardKey', () => {
                             onKeyPress={onKeyPress}
                             keyboardKeySymbolSize={20}
                             keyboardKeyHeight={40}
-                            keyboardKeyWidth={70} />
+                            keyboardKeyWidth={70}
+                            disableEffects />,
+                        options
                     );
                 });
 
@@ -153,7 +214,9 @@ describe('KeyboardKey', () => {
                             onKeyPress={onKeyPress}
                             keyboardKeySymbolSize={20}
                             keyboardKeyHeight={40}
-                            keyboardKeyWidth={70} />
+                            keyboardKeyWidth={70}
+                            disableEffects />,
+                        options
                     );
                     expect(wrapper.prop('icon').type).toBe(Enter);
                 });
@@ -168,7 +231,9 @@ describe('KeyboardKey', () => {
                             onKeyPress={onKeyPress}
                             keyboardKeySymbolSize={20}
                             keyboardKeyHeight={40}
-                            keyboardKeyWidth={70} />
+                            keyboardKeyWidth={70}
+                            disableEffects />,
+                        options
                     );
                     expect(wrapper.prop('icon').type).toBe(Backspace);
                 });
@@ -183,7 +248,9 @@ describe('KeyboardKey', () => {
                             onKeyPress={onKeyPress}
                             keyboardKeySymbolSize={20}
                             keyboardKeyHeight={40}
-                            keyboardKeyWidth={70} />
+                            keyboardKeyWidth={70}
+                            disableEffects />,
+                        options
                     );
                     expect(wrapper.prop('icon').type).toBe(Escape);
                 });
@@ -198,7 +265,9 @@ describe('KeyboardKey', () => {
                             onKeyPress={onKeyPress}
                             keyboardKeySymbolSize={20}
                             keyboardKeyHeight={40}
-                            keyboardKeyWidth={70} />
+                            keyboardKeyWidth={70}
+                            disableEffects />,
+                        options
                     );
                     expect(wrapper.prop('icon').type).toBe(CapsLock);
                 });
@@ -213,7 +282,9 @@ describe('KeyboardKey', () => {
                             onKeyPress={onKeyPress}
                             keyboardKeySymbolSize={20}
                             keyboardKeyHeight={40}
-                            keyboardKeyWidth={70} />
+                            keyboardKeyWidth={70}
+                            disableEffects />,
+                        options
                     );
                     expect(wrapper.prop('icon').type).toBe(Keyboard);
                 });
@@ -228,7 +299,9 @@ describe('KeyboardKey', () => {
                             onKeyPress={onKeyPress}
                             keyboardKeySymbolSize={20}
                             keyboardKeyHeight={40}
-                            keyboardKeyWidth={70} />
+                            keyboardKeyWidth={70}
+                            disableEffects />,
+                        options
                     );
                     expect(wrapper.prop('icon').type).toBe(Spacebar);
                 });
@@ -243,7 +316,9 @@ describe('KeyboardKey', () => {
                             onKeyPress={onKeyPress}
                             keyboardKeySymbolSize={20}
                             keyboardKeyHeight={40}
-                            keyboardKeyWidth={70} />
+                            keyboardKeyWidth={70}
+                            disableEffects />,
+                        options
                     );
                     expect(wrapper.prop('icon').type).toBe(Warning);
                 });
@@ -263,7 +338,9 @@ describe('KeyboardKey', () => {
                     onKeyPress={onKeyPress}
                     keyboardKeySymbolSize={16}
                     keyboardKeyHeight={40}
-                    keyboardKeyWidth={70} />
+                    keyboardKeyWidth={70}
+                    disableEffects />,
+                options
             );
         });
 
@@ -277,21 +354,23 @@ describe('KeyboardKey', () => {
                         onKeyPress: onKeyPress,
                         keyboardKeySymbolSize: 16,
                         keyboardKeyHeight :40,
-                        keyboardKeyWidth: 70
+                        keyboardKeyWidth: 70,
+                        disableEffects: false
                     });
                     wrapper.simulate('touchTap');
                     expect(onKeyPress).lastCalledWith('Enter');
                 });
             });
 
-            describe('when keyboardKye is not recognized and supported', () => {
+            describe('when keyboardKey is not recognized and supported', () => {
                 it('dose not call onKeyPress', () => {
                     wrapper.setProps({
                         keyboardKey: 'TS',
                         onKeyPress: onKeyPress,
                         keyboardKeySymbolSize: 16,
                         keyboardKeyHeight :40,
-                        keyboardKeyWidth: 70
+                        keyboardKeyWidth: 70,
+                        disableEffects: false
                     });
                     wrapper.simulate('touchTap');
                     expect(onKeyPress).not.toBeCalled();
@@ -307,7 +386,8 @@ describe('KeyboardKey', () => {
                     onKeyPress: onKeyPress,
                     keyboardKeySymbolSize: 16,
                     keyboardKeyHeight: 40,
-                    keyboardKeyWidth: 70
+                    keyboardKeyWidth: 70,
+                    disableEffects: false
                 });
                 expect(wrapper.prop('label')).toEqual('s');
             });
@@ -321,7 +401,8 @@ describe('KeyboardKey', () => {
                     onKeyPress: changedHandler,
                     keyboardKeySymbolSize: 16,
                     keyboardKeyHeight: 40,
-                    keyboardKeyWidth: 70
+                    keyboardKeyWidth: 70,
+                    disableEffects: false
                 });
                 wrapper.simulate('touchTap');
                 expect(changedHandler).toBeCalledWith('i');
@@ -335,7 +416,8 @@ describe('KeyboardKey', () => {
                     onKeyPress: onKeyPress,
                     keyboardKeySymbolSize: 20,
                     keyboardKeyHeight: 40,
-                    keyboardKeyWidth: 70
+                    keyboardKeyWidth: 70,
+                    disableEffects: false
                 });
                 expect(wrapper.prop('labelStyle').fontSize).toEqual(20);
             });
@@ -347,7 +429,8 @@ describe('KeyboardKey', () => {
                     onKeyPress: onKeyPress,
                     keyboardKeySymbolSize: 16,
                     keyboardKeyHeight: 50,
-                    keyboardKeyWidth: 70
+                    keyboardKeyWidth: 70,
+                    disableEffects: false
                 });
                 expect(wrapper.prop('style').height).toEqual(50);
             });
@@ -359,9 +442,22 @@ describe('KeyboardKey', () => {
                     onKeyPress: onKeyPress,
                     keyboardKeySymbolSize: 16,
                     keyboardKeyHeight: 40,
-                    keyboardKeyWidth: 60
+                    keyboardKeyWidth: 60,
+                    disableEffects: false
                 });
                 expect(wrapper.prop('style').width).toEqual(60);
+            });
+            it('re-renders when disableEffects changes', () => {
+                expect(wrapper.prop('disableFocusRipple')).toBe(true);
+                wrapper.setProps({
+                    keyboardKey: 'i',
+                    onKeyPress: onKeyPress,
+                    keyboardKeySymbolSize: 16,
+                    keyboardKeyHeight: 40,
+                    keyboardKeyWidth: 60,
+                    disableEffects: false
+                });
+                expect(wrapper.prop('disableFocusRipple')).toBe(false);
             });
 
             it('dose not re-renders when no prop has changed', () => {
@@ -371,7 +467,8 @@ describe('KeyboardKey', () => {
                     onKeyPress: onKeyPress,
                     keyboardKeySymbolSize: 16,
                     keyboardKeyHeight: 40,
-                    keyboardKeyWidth: 70
+                    keyboardKeyWidth: 70,
+                    disableEffects: true
                 });
                 expect(wrapper.props()).toBe(props);
             });

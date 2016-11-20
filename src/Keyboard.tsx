@@ -49,6 +49,7 @@ export interface KeyboardProps {
     onInput?: InputHandler;
     correctorName?: string;
     corrector?: Function;
+    disableEffects?: boolean;
 }
 
 export interface KeyboardState {
@@ -131,7 +132,8 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         onRequestClose: React.PropTypes.func,
         onInput: React.PropTypes.func,
         correctorName: React.PropTypes.string,
-        corrector:  React.PropTypes.func
+        corrector:  React.PropTypes.func,
+        disableEffects: React.PropTypes.bool
     };
     public static contextTypes: Object = { muiTheme: React.PropTypes.object };
     public static automaitcOpenPredicate: AutomaitcOpenPredicate = allwaysTruePredicate;
@@ -267,6 +269,9 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         if(this.props.automatic !== props.automatic) {
             return constants.boolTrue;
         }
+        if(this.props.disableEffects !== props.disableEffects) {
+            return constants.boolTrue;
+        }
         if(this.props.correctorName !== props.correctorName) {
             return constants.boolTrue;
         }
@@ -321,7 +326,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
 
     public render(): JSX.Element {
         const { props, state, context } = this;
-        const { textField, layouts, keyboardKeyHeight, keyboardKeyWidth, keyboardKeySymbolSize, automatic, correctorName } = props;
+        const { textField, layouts, keyboardKeyHeight, keyboardKeyWidth, keyboardKeySymbolSize, automatic, correctorName, disableEffects } = props;
         const { value, layout: stateLayout, capsLock } = state;
         const { muiTheme } = context;
         const open: boolean = automatic ? state.open! : (props.open ? constants.boolTrue : constants.boolFalse);
@@ -435,6 +440,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                         keyboardKeyHeight={keyHeight}
                         keyboardKeyWidth={keyWidth * (notSpacebar ? constants.one : key.length)}
                         keyboardKeySymbolSize={keySymbolSize}
+                        disableEffects={disableEffects ? constants.boolTrue : constants.boolFalse}
                     />
                 );
             }

@@ -8,6 +8,7 @@ import Keyboard from 'material-ui/svg-icons/hardware/keyboard';
 import CapsLock from 'material-ui/svg-icons/hardware/keyboard-capslock';
 import Spacebar from 'material-ui/svg-icons/editor/space-bar';
 import Warning from 'material-ui/svg-icons/alert/warning';
+import { MuiTheme } from 'material-ui/styles';
 
 export type KeyboardKeyPressHandler = (key: string) => void;
 
@@ -17,6 +18,11 @@ export interface KeyboardKeyProps {
     keyboardKeyWidth: number;
     keyboardKeyHeight: number;
     keyboardKeySymbolSize: number;
+    disableEffects: boolean;
+}
+
+export interface KeyboardKeyContext {
+    muiTheme: MuiTheme;
 }
 
 interface SpecialIcons {
@@ -50,6 +56,7 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
         keyboardKeyHeight: React.PropTypes.number.isRequired,
         keyboardKeySymbolSize: React.PropTypes.number.isRequired,
     };
+    public static contextTypes: Object = { muiTheme: React.PropTypes.object };
 
     @bind
     private onTouchTap(): void {
@@ -59,8 +66,9 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
         }
     }
 
-    public constructor(props: KeyboardKeyProps) {
+    public constructor(props: KeyboardKeyProps, context: KeyboardKeyContext) {
         super(props);
+        this.context = context;
     }
 
     public shouldComponentUpdate(props: KeyboardKeyProps): boolean {
@@ -79,12 +87,15 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
         if(this.props.onKeyPress !== props.onKeyPress) {
             return constants.boolTrue;
         }
-        
+        if(this.props.disableEffects !== props.disableEffects) {
+            return constants.boolTrue;
+        }
+
         return constants.boolFalse;
     }
 
     public render(): JSX.Element {
-        const { keyboardKey: key, keyboardKeyHeight: height, keyboardKeyWidth: width, keyboardKeySymbolSize: size } = this.props;
+        const { keyboardKey: key, keyboardKeyHeight: height, keyboardKeyWidth: width, keyboardKeySymbolSize: size, disableEffects } = this.props;
         let flatButtonProps: any = {
             style: {
                 height: height,
@@ -92,8 +103,14 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
                 minWidth: width
             },
             primary: constants.boolTrue,
-            onTouchTap: this.onTouchTap
+            onTouchTap: this.onTouchTap,
+            disableFocusRipple: disableEffects,
+            disableKeyboardFocus: disableEffects,
+            disableTouchRipple: disableEffects
         };
+        if(disableEffects) {
+            flatButtonProps.hoverColor = this.context.muiTheme.flatButton.color;
+        }
         if((key.length <= constants.one) && (key !== constants.spacebar)) {
             if(key.length) {
                 flatButtonProps.label = key;

@@ -53,6 +53,7 @@ export default class Demo extends React.Component<void, DemoState> {
                         keyboardKeyHeight={60}
                         keyboardKeySymbolSize={30}
                         layouts={[extendedKeyboard]}
+                        disableEffects
                      />
                 </div>
         );

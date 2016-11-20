@@ -266,6 +266,13 @@ describe('Keyboard', () => {
                 expect(wrapper.find(Dialog).prop('open')).toBe(false);
             });
 
+            it('should re-render when props.disableEffects changes', () => {
+                wrapper.setProps({ textField: textField, layouts: layouts, disableEffects: false });
+                expect(wrapper.find(KeyboardKey).first().prop('disableEffects')).toBe(false);
+                wrapper.setProps({ textField: textField, layouts: layouts, disableEffects: true });
+                expect(wrapper.find(KeyboardKey).first().prop('disableEffects')).toBe(true);
+            });
+
             it('should re-render when props.correctorName changes', () => {
                 const corrector: jest.Mock<(value: string) => void> = jest.fn<(value: string) => void>();
                 wrapper.setProps({
@@ -768,7 +775,7 @@ describe('Keyboard', () => {
                 const { width: newWidth, maxWidth: newMaxWidth } = wrapper.find(Dialog).prop('contentStyle') as React.CSSProperties;
                 expect(newWidth).toBeLessThan(width);
                 expect(newMaxWidth).toBeLessThan(maxWidth);
-                const { keyboardKeySymbolSize } = wrapper.find<KeyboardKeyProps>(KeyboardKey).first().props();
+                const { keyboardKeySymbolSize } = wrapper.find<KeyboardKeyProps>(KeyboardKey as any).first().props();
                 expect(keyboardKeySymbolSize).toBeLessThan(32);
                 expect(keyboardKeySymbolSize).toBeGreaterThan(0);
                 (window as any).innerWidth = oldWidth;
@@ -855,7 +862,7 @@ describe('Keyboard', () => {
                 expect(newHeight).toEqual(height);
                 expect(newMaxHeight).toBeGreaterThan(maxHeight);
                 expect(extractTransformTopHelper(newTransform)).toEqual(extractTransformTopHelper(transform));
-                const { keyboardKeySymbolSize } = wrapper.find<KeyboardKeyProps>(KeyboardKey).first().props();
+                const { keyboardKeySymbolSize } = wrapper.find<KeyboardKeyProps>(KeyboardKey as any).first().props();
                 expect(keyboardKeySymbolSize).toBe(32);
                 (window as any).innerWidth = oldWidth;
                 (window as any).innerHeight = oldHeight;
