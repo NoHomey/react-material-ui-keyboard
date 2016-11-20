@@ -135,7 +135,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         corrector:  React.PropTypes.func,
         disableEffects: React.PropTypes.bool
     };
-    public static contextTypes: Object = { muiTheme: React.PropTypes.object };
+    public static contextTypes: any = { muiTheme: React.PropTypes.object };
     public static automaitcOpenPredicate: AutomaitcOpenPredicate = allwaysTruePredicate;
     public context: KeyboardContext;
     private corrector: Function;

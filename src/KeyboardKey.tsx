@@ -56,7 +56,7 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
         keyboardKeyHeight: React.PropTypes.number.isRequired,
         keyboardKeySymbolSize: React.PropTypes.number.isRequired,
     };
-    public static contextTypes: Object = { muiTheme: React.PropTypes.object };
+    public static contextTypes: any = { muiTheme: React.PropTypes.object };
 
     @bind
     private onTouchTap(): void {
