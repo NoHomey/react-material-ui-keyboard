@@ -39,6 +39,8 @@ namespace constants {
 }
 
 export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
+    public context: KeyboardKeyContext;
+
     private static specialIcons: SpecialIcons = {
         'Enter': Enter,
         'Backspace': Backspace,
@@ -56,7 +58,7 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
         keyboardKeyHeight: React.PropTypes.number.isRequired,
         keyboardKeySymbolSize: React.PropTypes.number.isRequired,
     };
-    public static contextTypes: any = { muiTheme: React.PropTypes.object };
+    public static contextTypes: any = { muiTheme: React.PropTypes.object.isRequired };
 
     @bind
     private onTouchTap(): void {
@@ -109,7 +111,7 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
             disableTouchRipple: disableEffects
         };
         if(disableEffects) {
-            flatButtonProps.hoverColor = this.context.muiTheme.flatButton.color;
+            flatButtonProps.hoverColor = this.context.muiTheme.flatButton!.color;
         }
         if((key.length <= constants.one) && (key !== constants.spacebar)) {
             if(key.length) {
