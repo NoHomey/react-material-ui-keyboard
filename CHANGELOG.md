@@ -287,3 +287,9 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 
 - Updating project dependencies
 - Updating project to use `typescript` `2.0.3` and `@types` instead of `typings`
+
+## [v6.2.0](https://github.com/NoHomey/react-material-ui-keyboard/releases/tag/6.2.0)
+
+### New
+
+`disableEffects` is a new `prop` supported by both `Keyboard` and `KeyboardKey`. When it is set to `true` it dissables `FocusRipple`, `KeyboardFocus`, `TouchRipple` and `hover` effects of the underlinig `button`/s

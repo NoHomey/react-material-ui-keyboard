@@ -35,19 +35,20 @@ $ npm install react-material-ui-keyboard
 
 # Properties
 
-| Name                  | Type                   | Default                                      | Descriptio           |
-| --------------------- | ---------------------- | -------------------------------------------- | -------------------- |
-| automatic             | *bool*                 |                                              | If true, keyboard will automaticlly: open when textField gets focused and close instead of firing onRequestClose. |
-| open                  | *bool*                 |                                              | Controls whether the Keyboard is opened or not. |
-| layouts*              | *string[][][]*         |                                              | Keybaord layouts that can be changed when user clicks on 'Keyboard' key. |
-| keyboardKeyWidth      | *number*               | *this.context.muiThemet.button.minWidth*     | Override keyboard key's max width. |
-| keyboardKeyHeight     | *number*               | *this.context.muiThemet.button.height*       | Override keyboard key's max height. |
-| keyboardKeySymbolSize | *number*               | *this.context.muiThemet.flatButton.fontSize* | Override keyboard key's max symbol size. |
-| textField*            | *element*              |                                              | Input field used when keyboard is closed and cloned when it's opened.  |
-| onRequestClose        | *function*             |                                              | Fired when keyboard recives 'Enter' or 'Escape' eighter from onKeyDown listener or keyboard key touch/click event. |
-| onInput               | *function*             |                                              | Fired when keyboard recives 'Enter' **Signature:** `function(input: string) => void`. |
-| correctorName         | *string*               |                                              | Name of the cloned textField prop to which to bind corrector. |
-| corrector**           | *function*             |                                              | Function which is bound to the the cloned textField at correctorName prop. this is bound to the Keyboard, public method makeCorrection can be used to apply a correction to the keyboard input. |                                                 
+| Name                  | Type           | Default                                      | Description          |
+| --------------------- | ---------------| -------------------------------------------- | -------------------- |
+| automatic             | *bool*         |                                              | If true, keyboard will automaticlly: open when textField gets focused and close instead of firing onRequestClose. |
+| disableEffects        | *bool*         |                                              | If true, disables all effects (ripples, focus, hover) on all `keyboardKey`s |
+| open                  | *bool*         |                                              | Controls whether the Keyboard is opened or not. |
+| layouts*              | *string[][][]* |                                              | Keybaord layouts that can be changed when user clicks on 'Keyboard' key. |
+| keyboardKeyWidth      | *number*       | *this.context.muiThemet.button.minWidth*     | Override keyboard key's max width. |
+| keyboardKeyHeight     | *number*       | *this.context.muiThemet.button.height*       | Override keyboard key's max height. |
+| keyboardKeySymbolSize | *number*       | *this.context.muiThemet.flatButton.fontSize* | Override keyboard key's max symbol size. |
+| textField*            | *element*      |                                              | Input field used when keyboard is closed and cloned when it's opened.  |
+| onRequestClose        | *function*     |                                              | Fired when keyboard recives 'Enter' or 'Escape' eighter from onKeyDown listener or keyboard key touch/click event. |
+| onInput               | *function*     |                                              | Fired when keyboard recives 'Enter' **Signature:** `function(input: string) => void`. |
+| correctorName         | *string*       |                                              | Name of the cloned textField prop to which to bind corrector. |
+| corrector**           | *function*     |                                              | Function which is bound to the the cloned textField at correctorName prop. this is bound to the Keyboard, public method makeCorrection can be used to apply a correction to the keyboard input. |                                                 
 
 Props marked with \* are required.
 
