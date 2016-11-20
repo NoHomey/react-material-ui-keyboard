@@ -292,4 +292,4 @@ Chech for examples [GALLERY](https://github.com/NoHomey/react-material-ui-keyboa
 
 ### New
 
-`disableEffects` is a new `prop` supported by both `Keyboard` and `KeyboardKey`. When it is set to `true` it dissables `FocusRipple`, `KeyboardFocus`, `TouchRipple` and `hover` effects of the underlinig `button`/s
+`disableEffects` is a new `prop` supported by both `Keyboard` and `KeyboardKey`. When it is set to `true` it dissables `FocusRipple`, `KeyboardFocus`, `TouchRipple` and `hover` effects on the underlinig `button`/s
