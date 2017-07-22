@@ -47,6 +47,7 @@ $ npm install react-material-ui-keyboard
 | textField*            | *element*      |                                              | Input field used when keyboard is closed and cloned when it's opened.  |
 | onRequestClose        | *function*     |                                              | Fired when keyboard recives 'Enter' or 'Escape' eighter from onKeyDown listener or keyboard key touch/click event. |
 | onInput               | *function*     |                                              | Fired when keyboard recives 'Enter' **Signature:** `function(input: string) => void`. |
+| onInputValueChange    | *function*     |                                              | Fired when keyboard's input chages value **Signature:** `function(input: string) => void`. |
 | correctorName         | *string*       |                                              | Name of the cloned textField prop to which to bind corrector. |
 | corrector**           | *function*     |                                              | Function which is bound to the the cloned textField at correctorName prop. this is bound to the Keyboard, public method makeCorrection can be used to apply a correction to the keyboard input. |                                                 
 
