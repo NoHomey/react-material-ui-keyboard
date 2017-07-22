@@ -17,15 +17,21 @@ export interface TextEnterEvent {
 
 export default class Demo extends React.Component<{}, DemoState> {
     private _onInput: InputHandler;
+    private _onInputChange: InputHandler;
 
     private _handleInput(input: string): void {
         this.setState({ value: input });
+    }
+
+    private _handleInputChange(value: string): void {
+        console.warn(`change: ${value}`);
     }
 
     public constructor() {
         super();
         this.state = { value: '12' };
         this._onInput = this._handleInput.bind(this);
+        this._onInputChange = this._handleInputChange.bind(this);
     }
 
     public componentDidMount(): void {
@@ -33,7 +39,7 @@ export default class Demo extends React.Component<{}, DemoState> {
     }
 
     public render(): JSX.Element {
-        const { state, _onInput, } = this;
+        const { state, _onInput, _onInputChange } = this;
         const { value } = state;
         const textField: JSX.Element = (
             <TextField
@@ -50,6 +56,7 @@ export default class Demo extends React.Component<{}, DemoState> {
                         automatic
                         textField={textField}
                         onInput={_onInput}
+                        onInputValueChange={_onInputChange}
                         keyboardKeyHeight={60}
                         keyboardKeySymbolSize={30}
                         layouts={[extendedKeyboard]}

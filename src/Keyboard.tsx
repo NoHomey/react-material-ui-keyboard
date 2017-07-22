@@ -48,6 +48,7 @@ export interface KeyboardProps {
     textField: TextFieldElement;
     onRequestClose?: RequestCloseHandler;
     onInput?: InputHandler;
+    onInputValueChange?: InputHandler;
     correctorName?: string;
     corrector?: Function;
     disableEffects?: boolean;
@@ -132,6 +133,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         textField: PropTypes.element.isRequired,
         onRequestClose: PropTypes.func,
         onInput: PropTypes.func,
+        onInputValueChange: PropTypes.func,
         correctorName: PropTypes.string,
         corrector:  PropTypes.func,
         disableEffects: PropTypes.bool
@@ -141,8 +143,17 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
     public context: KeyboardContext;
     private corrector: Function;
 
+    @bind
+    private onInputValueChange(): void {
+        if(typeof this.props.onInputValueChange === constants.typeofFunction) {
+            this.props.onInputValueChange!(this.state.value!);
+        }
+    } 
+
     private setValue(value: string): void {
-        this.setState({ value: value });
+        if(this.state.value !== value) {
+            this.setState({ value: value }, this.onInputValueChange);
+        }
     }
 
     private syncValue(value: string): void {
