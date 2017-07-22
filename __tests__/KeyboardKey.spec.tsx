@@ -14,6 +14,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 type KeyboardKeyWrapper = ShallowWrapper<KeyboardKeyProps, void>;
 
+type IconType = {type: typeof React.Component};
+
 injectTapEventPlugin();
 
 const options: any = {
@@ -51,15 +53,15 @@ describe('KeyboardKey', () => {
             });
 
             it('has keyboardKeyHeight for style.height', () => {
-                expect(wrapper.prop('style').height).toEqual(40);
+                expect((wrapper.prop('style') as React.CSSProperties).height).toEqual(40);
             });
 
             it('has keyboardKeyWidth for style.width', () => {
-                expect(wrapper.prop('style').width).toEqual(70);
+                expect((wrapper.prop('style') as React.CSSProperties).width).toEqual(70);
             });
 
             it('has keyboardKeyWidth for style.minWidth', () => {
-                expect(wrapper.prop('style').width).toEqual(70);
+                expect((wrapper.prop('style') as React.CSSProperties).width).toEqual(70);
             });
 
             it('has enabled disableFocusRipple, disableKeyboardFocus, disableTouchRipple', () => {
@@ -126,11 +128,11 @@ describe('KeyboardKey', () => {
                 });
 
                 it('has keyboardKeySymbolSize for labelStyle.fontSize', () => {
-                    expect(wrapper.prop('labelStyle').fontSize).toBe(20);
+                    expect((wrapper.prop('labelStyle') as React.CSSProperties).fontSize).toBe(20);
                 });
 
                 it('has \'none\' for labelStyle.textTransform', () => {
-                    expect(wrapper.prop('labelStyle').textTransform).toBe('none');
+                    expect((wrapper.prop('labelStyle') as React.CSSProperties).textTransform).toBe('none');
                 });
             });
 
@@ -196,12 +198,14 @@ describe('KeyboardKey', () => {
                     );
                 });
 
+                type IconProps = {props: {style: React.CSSProperties}};
+
                 it('has keyboardKeySymbolSize for icon.props.style.width', () => {
-                    expect(wrapper.prop('icon').props.style.width).toBe(20);
+                    expect((wrapper.prop('icon') as IconProps).props.style.width).toBe(20);
                 });
 
                 it('has keyboardKeySymbolSize for icon.props.style.height', () => {
-                    expect(wrapper.prop('icon').props.style.height).toBe(20);
+                    expect((wrapper.prop('icon') as IconProps).props.style.height).toBe(20);
                 });
             });
 
@@ -218,7 +222,7 @@ describe('KeyboardKey', () => {
                             disableEffects />,
                         options
                     );
-                    expect(wrapper.prop('icon').type).toBe(Enter);
+                    expect((wrapper.prop('icon') as IconType).type).toBe(Enter);
                 });
             });
 
@@ -235,7 +239,7 @@ describe('KeyboardKey', () => {
                             disableEffects />,
                         options
                     );
-                    expect(wrapper.prop('icon').type).toBe(Backspace);
+                    expect((wrapper.prop('icon') as IconType).type).toBe(Backspace);
                 });
             });
 
@@ -252,7 +256,7 @@ describe('KeyboardKey', () => {
                             disableEffects />,
                         options
                     );
-                    expect(wrapper.prop('icon').type).toBe(Escape);
+                    expect((wrapper.prop('icon') as IconType).type).toBe(Escape);
                 });
             });
 
@@ -269,7 +273,7 @@ describe('KeyboardKey', () => {
                             disableEffects />,
                         options
                     );
-                    expect(wrapper.prop('icon').type).toBe(CapsLock);
+                    expect((wrapper.prop('icon') as IconType).type).toBe(CapsLock);
                 });
             });
 
@@ -286,7 +290,7 @@ describe('KeyboardKey', () => {
                             disableEffects />,
                         options
                     );
-                    expect(wrapper.prop('icon').type).toBe(Keyboard);
+                    expect((wrapper.prop('icon') as IconType).type).toBe(Keyboard);
                 });
             });
 
@@ -303,7 +307,7 @@ describe('KeyboardKey', () => {
                             disableEffects />,
                         options
                     );
-                    expect(wrapper.prop('icon').type).toBe(Spacebar);
+                    expect((wrapper.prop('icon') as IconType).type).toBe(Spacebar);
                 });
             });
 
@@ -320,7 +324,7 @@ describe('KeyboardKey', () => {
                             disableEffects />,
                         options
                     );
-                    expect(wrapper.prop('icon').type).toBe(Warning);
+                    expect((wrapper.prop('icon') as IconType).type).toBe(Warning);
                 });
             });
         });
@@ -410,7 +414,7 @@ describe('KeyboardKey', () => {
             });
 
             it('re-renders when keyboardKeySymbolSize changes', () => {
-                expect(wrapper.prop('labelStyle').fontSize).toEqual(16);
+                expect((wrapper.prop('labelStyle') as React.CSSProperties).fontSize).toEqual(16);
                 wrapper.setProps({
                     keyboardKey: 'i',
                     onKeyPress: onKeyPress,
@@ -419,11 +423,11 @@ describe('KeyboardKey', () => {
                     keyboardKeyWidth: 70,
                     disableEffects: false
                 });
-                expect(wrapper.prop('labelStyle').fontSize).toEqual(20);
+                expect((wrapper.prop('labelStyle') as React.CSSProperties).fontSize).toEqual(20);
             });
 
             it('re-renders when keyboardKeyHeight changes', () => {
-                expect(wrapper.prop('style').height).toEqual(40);
+                expect((wrapper.prop('style') as React.CSSProperties).height).toEqual(40);
                 wrapper.setProps({
                     keyboardKey: 'i',
                     onKeyPress: onKeyPress,
@@ -432,11 +436,11 @@ describe('KeyboardKey', () => {
                     keyboardKeyWidth: 70,
                     disableEffects: false
                 });
-                expect(wrapper.prop('style').height).toEqual(50);
+                expect((wrapper.prop('style') as React.CSSProperties).height).toEqual(50);
             });
 
             it('re-renders when keyboardKeyWidth changes', () => {
-                expect(wrapper.prop('style').width).toEqual(70);
+                expect((wrapper.prop('style') as React.CSSProperties).width).toEqual(70);
                 wrapper.setProps({
                     keyboardKey: 'i',
                     onKeyPress: onKeyPress,
@@ -445,7 +449,7 @@ describe('KeyboardKey', () => {
                     keyboardKeyWidth: 60,
                     disableEffects: false
                 });
-                expect(wrapper.prop('style').width).toEqual(60);
+                expect((wrapper.prop('style') as React.CSSProperties).width).toEqual(60);
             });
             it('re-renders when disableEffects changes', () => {
                 expect(wrapper.prop('disableFocusRipple')).toBe(true);

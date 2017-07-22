@@ -8,6 +8,7 @@
         "noUnusedParameters": true,
         "noUnusedLocals": true,
         "experimentalDecorators": true,
+        "lib": ["es5", "es6", "dom"],
         "jsx": "react"
     },
     "include": [

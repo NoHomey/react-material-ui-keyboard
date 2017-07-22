@@ -15,15 +15,15 @@ export interface TextEnterEvent {
     target: TextEnterTarget;
 };
 
-export default class Demo extends React.Component<void, DemoState> {
+export default class Demo extends React.Component<{}, DemoState> {
     private _onInput: InputHandler;
 
     private _handleInput(input: string): void {
         this.setState({ value: input });
     }
 
-    public constructor(props: void) {
-        super(props);
+    public constructor() {
+        super();
         this.state = { value: '12' };
         this._onInput = this._handleInput.bind(this);
     }

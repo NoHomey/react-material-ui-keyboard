@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import bind from 'bind-decorator';
 import Dialog from 'material-ui/Dialog';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -31,7 +32,7 @@ export interface TextFieldAccessedProps extends TextFieldRequiredProps {
 
 export type TextFieldElement = React.ReactElement<TextFieldRequiredProps>;
 
-export type CreatableTextField = React.ComponentClass<TextFieldRequiredProps> | React.StatelessComponent<TextFieldRequiredProps>;
+export type CreatableTextField = React.ComponentClass<TextFieldRequiredProps>;
 
 export type KeyboardRow = React.ReactElement<void>;
 
@@ -122,20 +123,20 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         maxHeight: constants.zero
     };
     public static propTypes: React.ValidationMap<KeyboardProps> = {
-        open: React.PropTypes.bool,
-        automatic: React.PropTypes.bool,
-        layouts: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.string))).isRequired,
-        keyboardKeyWidth: React.PropTypes.number,
-        keyboardKeyHeight: React.PropTypes.number,
-        keyboardKeySymbolSize: React.PropTypes.number,
-        textField: React.PropTypes.element.isRequired,
-        onRequestClose: React.PropTypes.func,
-        onInput: React.PropTypes.func,
-        correctorName: React.PropTypes.string,
-        corrector:  React.PropTypes.func,
-        disableEffects: React.PropTypes.bool
+        open: PropTypes.bool,
+        automatic: PropTypes.bool,
+        layouts: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))).isRequired,
+        keyboardKeyWidth: PropTypes.number,
+        keyboardKeyHeight: PropTypes.number,
+        keyboardKeySymbolSize: PropTypes.number,
+        textField: PropTypes.element.isRequired,
+        onRequestClose: PropTypes.func,
+        onInput: PropTypes.func,
+        correctorName: PropTypes.string,
+        corrector:  PropTypes.func,
+        disableEffects: PropTypes.bool
     };
-    public static contextTypes: any = { muiTheme: React.PropTypes.object };
+    public static contextTypes: any = { muiTheme: PropTypes.object };
     public static automaitcOpenPredicate: AutomaitcOpenPredicate = allwaysTruePredicate;
     public context: KeyboardContext;
     private corrector: Function;
@@ -190,7 +191,9 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             case supportedSpecialKeys[constants.three]: return this.setState({ capsLock: !capsLock });
             case supportedSpecialKeys[constants.four]:
                 return this.setState({
-                    layout: (layout === propsLayout.length - constants.one) ? constants.zero : layout + constants.one
+                    layout:
+                        (layout === (propsLayout.length - constants.one))
+                            ? constants.zero : layout! + constants.one
                 });
             default: return this.setValue(value + key);
         }
@@ -386,7 +389,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const { desktopGutter, desktopKeylineIncrement } = theme.baseTheme!.spacing!;
         const { innerHeight, innerWidth } = window;
         const { minHeight, height, maxHeight } = (styles ? styles : Keyboard.noStyleHeight);
-        const dialogGutter: number = constants.two * desktopGutter;
+        const dialogGutter: number = constants.two * desktopGutter!;
         const styleHeight: number = minHeight ? minHeight : (height ? height : (maxHeight ? maxHeight : constants.zero));
         const textFieldHeight: number = styleHeight > constants.zero ? styleHeight : Keyboard.calculatedTextFieldHeight(inputTextFieldProps);
         let transformTop: number = desktopKeylineIncrement!;

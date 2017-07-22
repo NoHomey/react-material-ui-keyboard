@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import bind from 'bind-decorator';
 import FlatButton from 'material-ui/FlatButton';
 import Backspace from 'material-ui/svg-icons/content/backspace';
@@ -38,7 +39,7 @@ namespace constants {
     export const boolFalse: boolean = false;
 }
 
-export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
+export class KeyboardKey extends React.Component<KeyboardKeyProps> {
     public context: KeyboardKeyContext;
 
     private static specialIcons: SpecialIcons = {
@@ -52,13 +53,13 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps, void> {
     };
 
     public static propTypes: React.ValidationMap<KeyboardKeyProps> = {
-        keyboardKey: React.PropTypes.string.isRequired,
-        onKeyPress: React.PropTypes.func.isRequired,
-        keyboardKeyWidth: React.PropTypes.number.isRequired,
-        keyboardKeyHeight: React.PropTypes.number.isRequired,
-        keyboardKeySymbolSize: React.PropTypes.number.isRequired,
+        keyboardKey: PropTypes.string.isRequired,
+        onKeyPress: PropTypes.func.isRequired,
+        keyboardKeyWidth: PropTypes.number.isRequired,
+        keyboardKeyHeight: PropTypes.number.isRequired,
+        keyboardKeySymbolSize: PropTypes.number.isRequired,
     };
-    public static contextTypes: any = { muiTheme: React.PropTypes.object.isRequired };
+    public static contextTypes: any = { muiTheme: PropTypes.object.isRequired };
 
     @bind
     private onTouchTap(): void {
