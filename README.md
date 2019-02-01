@@ -1,6 +1,6 @@
 # react-material-ui-keyboard
 
-Virtual keyboard for TextFeild when needed.
+Virtual keyboard for TextField when needed.
 
 [![npm version](https://badge.fury.io/js/react-material-ui-keyboard.svg)](https://badge.fury.io/js/react-material-ui-keyboard)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/NoHomey/react-material-ui-keyboard)
