@@ -1,7 +1,7 @@
 {
   "name": "react-material-ui-keyboard",
   "version": "6.2.0",
-  "description": "Virtual keyboard for TextFeild when needed.",
+  "description": "Virtual keyboard for TextField when needed.",
   "main": "index.js",
   "typings": "index.d.ts",
   "scripts": {
